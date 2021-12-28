@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS第三方库-FMDB-模型进行存取(Model) - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS第三方库-FMDB-模型进行存取(Model)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-02-01 10:00" pubdate>
+        2020年2月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS第三方库-FMDB-模型进行存取(Model)</h1>
+            
+            <div class="markdown-body">
+              <p><img src="https://upload-images.jianshu.io/upload_images/3334769-db9208d961eb67c2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="镇楼图"></p>
+<p>写这个Blog的目的是为了记录的学习经历，代码写的不是很好，希望读者理解。<br>日常对数据库的操作，需要设计字段，感觉太繁琐了，想找个简化的方法，就想通过这样进行实现，这也就是一种思考方式。实际实现还是看需求。具体看代码：<br>1、导入FMDB</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">import</span> FMDB<br></code></pre></td></tr></table></figure>
+<p>2、使用单利模式和必要属性</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-keyword">static</span> <span class="hljs-keyword">let</span> defaultManger = WDDataBaseManager()<br>typealias <span class="hljs-function"><span class="hljs-title">successBlock</span> = <span class="hljs-params">()</span> -&gt;</span>Void<br>typealias <span class="hljs-function"><span class="hljs-title">failBlock</span> = <span class="hljs-params">()</span> -&gt;</span>Void<br>private <span class="hljs-keyword">var</span> tableName:<span class="hljs-built_in">String</span>?<br></code></pre></td></tr></table></figure>
+<p>3、懒加载创建数据库（名称我随便取得）</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">lazy</span> var fmdb:FMDatabase = &#123;<br>        <span class="hljs-keyword">let</span> path = <span class="hljs-constructor">NSHomeDirectory()</span>.appending(<span class="hljs-string">&quot;/Documents/testDB.db&quot;</span>)<br>        <span class="hljs-keyword">let</span> db = <span class="hljs-constructor">FMDatabase(<span class="hljs-params">path</span>: <span class="hljs-params">path</span>)</span><br>        return db<br>    &#125;<span class="hljs-literal">()</span><br></code></pre></td></tr></table></figure>
+<p>4、创建表</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">creatTable</span>(<span class="hljs-params">tableName</span>:<span class="hljs-type">String</span>)</span> -&gt; <span class="hljs-type">Void</span> &#123;<br>        fmdb.open()<br>        <span class="hljs-keyword">self</span>.tableName <span class="hljs-operator">=</span> tableName<br>        <span class="hljs-keyword">let</span> creatSql <span class="hljs-operator">=</span> <span class="hljs-string">&quot;create table if not exists <span class="hljs-subst">\(tableName)</span> (id integer primary key autoincrement,model BLOB)&quot;</span><br>        <span class="hljs-keyword">let</span> result <span class="hljs-operator">=</span> fmdb.executeUpdate(creatSql, withArgumentsIn:[])<br>        <span class="hljs-keyword">if</span> result&#123;<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;创建表成功&quot;</span>)<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p>5、删除表</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs livescript">func dropTable<span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span> Void &#123;<br>       <span class="hljs-keyword">let</span> sql = <span class="hljs-string">&quot;drop table if exists &quot;</span> + tableName!<br>       <span class="hljs-keyword">let</span> result = fmdb.executeUpdate(sql, withArgumentsIn:[])<br>       <span class="hljs-keyword">if</span> result&#123;<br>           <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;删除表成功&quot;</span>)<br>       &#125;<br>   &#125;<br></code></pre></td></tr></table></figure>
+<p>6、插入数据</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">func insert(model:NSObject, successBlock: successBlock, failBlock: failBlock) -&gt; Void &#123;<br>        <span class="hljs-keyword">let</span> modelData = <span class="hljs-keyword">try</span>! <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">NSKeyedArchiver</span>.</span></span>archived<span class="hljs-constructor">Data(<span class="hljs-params">withRootObject</span>: <span class="hljs-params">model</span>, <span class="hljs-params">requiringSecureCoding</span>: <span class="hljs-params">false</span>)</span><br>        <span class="hljs-keyword">let</span> insertSql = <span class="hljs-string">&quot;insert into &quot;</span> + tableName! + <span class="hljs-string">&quot; (model) values(?)&quot;</span><br>        <span class="hljs-keyword">do</span> &#123;<br>            <span class="hljs-keyword">try</span> fmdb.execute<span class="hljs-constructor">Update(<span class="hljs-params">insertSql</span>, <span class="hljs-params">values</span>: [<span class="hljs-params">modelData</span>])</span><br>            success<span class="hljs-constructor">Block()</span><br>        &#125; catch &#123;<br>            print(fmdb.last<span class="hljs-constructor">Error()</span>)<br>            fail<span class="hljs-constructor">Block()</span><br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p>7、更新表</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">func update(model:NSObject,uid:Int32, successBlock: successBlock, failBlock: failBlock) -&gt; Void &#123;<br>        <span class="hljs-keyword">let</span> modelData = <span class="hljs-keyword">try</span>! <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">NSKeyedArchiver</span>.</span></span>archived<span class="hljs-constructor">Data(<span class="hljs-params">withRootObject</span>: <span class="hljs-params">model</span>, <span class="hljs-params">requiringSecureCoding</span>: <span class="hljs-params">false</span>)</span><br>        <span class="hljs-keyword">let</span> updateSql = <span class="hljs-string">&quot;update &quot;</span> + tableName! + <span class="hljs-string">&quot; set model = ? where id = ?&quot;</span><br>        <span class="hljs-keyword">do</span> &#123;<br>            <span class="hljs-keyword">try</span> fmdb.execute<span class="hljs-constructor">Update(<span class="hljs-params">updateSql</span>, <span class="hljs-params">values</span>: [<span class="hljs-params">modelData</span>, <span class="hljs-params">uid</span>])</span><br>            success<span class="hljs-constructor">Block()</span><br>        &#125; catch &#123;<br>            print(fmdb.last<span class="hljs-constructor">Error()</span>)<br>            fail<span class="hljs-constructor">Block()</span><br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p>8、查询数据（这是查询所有数据，其他按需求设计）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">selectAll</span>()</span> -&gt; [<span class="hljs-type">NSObject</span>] &#123;<br>        <span class="hljs-keyword">var</span> tmpArr <span class="hljs-operator">=</span> [<span class="hljs-type">NSObject</span>]()<br>        <span class="hljs-keyword">let</span> selectSql <span class="hljs-operator">=</span> <span class="hljs-string">&quot;select * from &quot;</span> <span class="hljs-operator">+</span> tableName<span class="hljs-operator">!</span><br>        <span class="hljs-keyword">do</span> &#123;<br>            <span class="hljs-keyword">let</span> rs <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> fmdb.executeQuery(selectSql, values:<span class="hljs-literal">nil</span>)<br>            <span class="hljs-keyword">while</span> rs.next() &#123;<br>                <span class="hljs-keyword">var</span> model <span class="hljs-operator">=</span> <span class="hljs-type">NSObject</span>()<br>                <span class="hljs-keyword">let</span> modelData  <span class="hljs-operator">=</span> rs.data(forColumn:<span class="hljs-string">&quot;model&quot;</span>)<br>                <span class="hljs-keyword">let</span> id <span class="hljs-operator">=</span> rs.int(forColumn: <span class="hljs-string">&quot;id&quot;</span>)<br>                model <span class="hljs-operator">=</span> <span class="hljs-keyword">try!</span> <span class="hljs-type">NSKeyedUnarchiver</span>.unarchiveTopLevelObjectWithData(modelData<span class="hljs-operator">!</span>) <span class="hljs-keyword">as!</span> <span class="hljs-type">NSObject</span><br>                model.wd_fmdb_id <span class="hljs-operator">=</span> id<br>                tmpArr.append(model)<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> &#123;<br>            <span class="hljs-built_in">print</span>(fmdb.lastError())<br>        &#125;<br>        <span class="hljs-keyword">return</span> tmpArr<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p>9、删除数据（这是根据Id删除的）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">delete</span>(<span class="hljs-params">uid</span>:<span class="hljs-type">Int32</span>, <span class="hljs-params">successBlock</span>: successBlock, <span class="hljs-params">failBlock</span>: failBlock)</span> -&gt; <span class="hljs-type">Void</span> &#123;<br>        <span class="hljs-keyword">let</span> deleteSql <span class="hljs-operator">=</span> <span class="hljs-string">&quot;delete from &quot;</span> <span class="hljs-operator">+</span> tableName<span class="hljs-operator">!</span> <span class="hljs-operator">+</span> <span class="hljs-string">&quot; where id = ?&quot;</span><br>        <span class="hljs-keyword">do</span> &#123;<br>            <span class="hljs-keyword">try</span> fmdb.executeUpdate(deleteSql, values: [uid])<br>            successBlock()<br>        &#125; <span class="hljs-keyword">catch</span> &#123;<br>            <span class="hljs-built_in">print</span>(fmdb.lastError())<br>            failBlock()<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p>10、新增分类添加默认Id</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">private</span> var wd_id_key: String = <span class="hljs-string">&quot;key&quot;</span><br><br>extension NSObject &#123;<br>    <span class="hljs-keyword">open</span> var wd_fmdb_id:Int32? &#123;<br>        get &#123;<br>            return (objc<span class="hljs-constructor">_getAssociatedObject(<span class="hljs-params">self</span>, &amp;<span class="hljs-params">wd_id_key</span>)</span> <span class="hljs-keyword">as</span>? Int32)<br>        &#125; set(newValue) &#123;<br>            objc<span class="hljs-constructor">_setAssociatedObject(<span class="hljs-params">self</span>, &amp;<span class="hljs-params">wd_id_key</span>, <span class="hljs-params">newValue</span>, <span class="hljs-params">objc_AssociationPolicy</span>.OBJC_ASSOCIATION_ASSIGN)</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>11、使用方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-comment">//1. 在Appdelegate中打开数据库</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">application</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">application</span>: <span class="hljs-type">UIApplication</span>, <span class="hljs-params">didFinishLaunchingWithOptions</span> <span class="hljs-params">launchOptions</span>: [<span class="hljs-type">UIApplication</span>.<span class="hljs-params">LaunchOptionsKey</span>: <span class="hljs-keyword">Any</span>]<span class="hljs-operator">?</span>)</span> -&gt; <span class="hljs-type">Bool</span> &#123;<br>        <span class="hljs-type">DataBaseManager</span>.defaultManger.creatTable()<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span><br> &#125;<br><span class="hljs-comment">//2、添加数据</span><br><span class="hljs-type">WDDataBaseManager</span>.defaultManger.insert(model: model, successBlock: &#123;<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;成功&quot;</span>)<br>            &#125;, failBlock: &#123;<br>                 <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;失败&quot;</span>)<br>            &#125;)<br><span class="hljs-comment">//3、修改数据</span><br><span class="hljs-type">WDDataBaseManager</span>.defaultManger.update(model: model, uid: <span class="hljs-keyword">self</span>.model<span class="hljs-operator">!</span>.wd_fmdb_id<span class="hljs-operator">!</span>, successBlock: &#123;<br>               <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;成功&quot;</span>)<br>            &#125;, failBlock: &#123;<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;失败&quot;</span>)<br>            &#125;)<br><span class="hljs-comment">//4、删除数据</span><br><span class="hljs-type">WDDataBaseManager</span>.defaultManger.delete(uid: model.wd_fmdb_id<span class="hljs-operator">!</span>, successBlock: &#123;<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;成功&quot;</span>)<br>            &#125;, failBlock: &#123;<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;失败&quot;</span>)<br>            &#125;)<br><span class="hljs-comment">// 5、查询数据</span><br><span class="hljs-type">WDDataBaseManager</span>.defaultManger.selectAll()<br></code></pre></td></tr></table></figure>
+<ul>
+<li>遵循NSCoding 重写三个方法<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Model</span>: <span class="hljs-title">NSObject</span> , <span class="hljs-title">NSCoding</span></span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> name:<span class="hljs-type">String</span>?<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> phone:<span class="hljs-type">String</span>?<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> addres:<span class="hljs-type">String</span>?<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">init</span>()</span> &#123;<br>        <span class="hljs-keyword">super</span>.<span class="hljs-keyword">init</span>()<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">encode</span>(<span class="hljs-params">with</span> <span class="hljs-params">aCoder</span>: <span class="hljs-type">NSCoder</span>)</span> &#123;<br>        aCoder.encode(name, forKey: <span class="hljs-string">&quot;name&quot;</span>)<br>        aCoder.encode(phone, forKey: <span class="hljs-string">&quot;phone&quot;</span>)<br>        aCoder.encode(addres, forKey: <span class="hljs-string">&quot;addres&quot;</span>)<br>    &#125;<br>    <br>    <span class="hljs-keyword">required</span> <span class="hljs-function"><span class="hljs-keyword">init?</span>(<span class="hljs-params">coder</span> <span class="hljs-params">aDecoder</span>: <span class="hljs-type">NSCoder</span>)</span> &#123;<br>        <span class="hljs-keyword">super</span>.<span class="hljs-keyword">init</span>()<br>        <span class="hljs-keyword">self</span>.name <span class="hljs-operator">=</span> aDecoder.decodeObject(forKey: <span class="hljs-string">&quot;name&quot;</span>) <span class="hljs-keyword">as?</span> <span class="hljs-type">String</span><br>        <span class="hljs-keyword">self</span>.addres <span class="hljs-operator">=</span> aDecoder.decodeObject(forKey: <span class="hljs-string">&quot;addres&quot;</span>) <span class="hljs-keyword">as?</span> <span class="hljs-type">String</span><br>        <span class="hljs-keyword">self</span>.phone <span class="hljs-operator">=</span> aDecoder.decodeObject(forKey: <span class="hljs-string">&quot;phone&quot;</span>) <span class="hljs-keyword">as?</span> <span class="hljs-type">String</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+12、效果图</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/3334769-309b5904357f7e30.gif?imageMogr2/auto-orient/strip" srcset="/img/loading.gif" lazyload alt="效果图"></p>
+<p>13、Demo地址:<a target="_blank" rel="noopener" href="https://github.com/wudan-ios/FMDB-Model.git">https://github.com/wudan-ios/FMDB-Model.git</a></p>
+<hr>
+<p>补充Objective-C版本<br>1、接口文件</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;Foundation/Foundation.h&gt;</span></span><br><br><span class="hljs-built_in">NS_ASSUME_NONNULL_BEGIN</span><br><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">NSObject</span> (<span class="hljs-title">addId</span>)</span><br><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>) <span class="hljs-built_in">NSInteger</span> wd_fmdb_id;<br><br><span class="hljs-keyword">@end</span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span>(^successBlock)(<span class="hljs-keyword">void</span>);<br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span>(^failBlock)(<span class="hljs-keyword">void</span>);<br><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">WDDataBaseManager</span> : <span class="hljs-title">NSObject</span></span><br><br>+ (<span class="hljs-keyword">instancetype</span>)manager;<br><span class="hljs-comment">/** 创建表 */</span><br>- (<span class="hljs-keyword">void</span>)createTableWithName:(<span class="hljs-built_in">NSString</span> *)name;<br><span class="hljs-comment">/** 删除表 */</span><br>- (<span class="hljs-keyword">void</span>)dropTable;<br><span class="hljs-comment">/** 添加数据 */</span><br>- (<span class="hljs-keyword">void</span>)insertDataWithModel:(<span class="hljs-built_in">NSObject</span> *)model successBlock:(successBlock)aSuccessBlock failBlock:(failBlock)aFailBlock;<br><span class="hljs-comment">/** 更新数据 */</span><br>- (<span class="hljs-keyword">void</span>)updateDataWithModel:(<span class="hljs-built_in">NSObject</span> *)model uid:(<span class="hljs-built_in">NSInteger</span>)aUid successBlock:(successBlock)aSuccessBlock failBlock:(failBlock)aFailBlock;<br><span class="hljs-comment">/** 删除数据 */</span><br>- (<span class="hljs-keyword">void</span>)deleteDataWithUid:(<span class="hljs-built_in">NSInteger</span>)uid successBlock:(successBlock)aSuccessBlock failBlock:(failBlock)aFailBlock;<br><span class="hljs-comment">/** 查询全部数据 */</span><br>- (<span class="hljs-built_in">NSArray</span>&lt;<span class="hljs-built_in">NSObject</span> *&gt; *)queryAllData;<br><br><span class="hljs-keyword">@end</span><br><span class="hljs-built_in">NS_ASSUME_NONNULL_END</span><br></code></pre></td></tr></table></figure>
+<p>2、实现文件</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-meta">#import <span class="hljs-meta-string">&quot;WDDataBaseManager.h&quot;</span></span><br><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;FMDB.h&gt;</span></span><br><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;objc/runtime.h&gt;</span></span><br><br><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span> *wd_id_key = <span class="hljs-string">&quot;key&quot;</span>;<br><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">NSObject</span> (<span class="hljs-title">addId</span>)</span><br><br>- (<span class="hljs-built_in">NSInteger</span>)wd_fmdb_id &#123;<br>    <span class="hljs-built_in">NSNumber</span> *numberValue = objc_getAssociatedObject(<span class="hljs-keyword">self</span>, wd_id_key);<br>    <span class="hljs-keyword">return</span> numberValue.integerValue;<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)setWd_fmdb_id:(<span class="hljs-built_in">NSInteger</span>)wd_fmdb_id &#123;<br>    objc_setAssociatedObject(<span class="hljs-keyword">self</span>, wd_id_key, @(wd_fmdb_id), OBJC_ASSOCIATION_ASSIGN);<br>&#125;<br><br><span class="hljs-keyword">@end</span><br><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">WDDataBaseManager</span> ()</span><br><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>) FMDatabase *fmdb;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>) <span class="hljs-built_in">NSString</span> *tableName;<br><br><br><span class="hljs-keyword">@end</span><br><br><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">WDDataBaseManager</span></span><br><br>+ (<span class="hljs-keyword">instancetype</span>)manager &#123;<br>    <span class="hljs-keyword">static</span> <span class="hljs-built_in">dispatch_once_t</span> onceToken;<br>    <span class="hljs-keyword">static</span> WDDataBaseManager *manager = <span class="hljs-literal">nil</span>;<br>    <span class="hljs-built_in">dispatch_once</span>(&amp;onceToken, ^&#123;<br>        manager = [[WDDataBaseManager alloc] init];<br>    &#125;);<br>    <span class="hljs-keyword">return</span> manager;<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)createTableWithName:(<span class="hljs-built_in">NSString</span> *)name &#123;<br>    [<span class="hljs-keyword">self</span>.fmdb open];<br>    <span class="hljs-keyword">self</span>.tableName = name;<br>    <span class="hljs-built_in">NSString</span> *sql = [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;create table if not exists %@ (id integer primary key autoincrement,model BLOB)&quot;</span>, name];<br>    <span class="hljs-built_in">BOOL</span> result = [<span class="hljs-keyword">self</span>.fmdb executeUpdate:sql];<br>    <span class="hljs-keyword">if</span> (result) &#123;<br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;表创建成功&quot;</span>);<br>    &#125;<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)dropTable &#123;<br>    <span class="hljs-built_in">NSString</span> *sql = [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;drop table if exists %@&quot;</span>, <span class="hljs-keyword">self</span>.tableName];<br>    <span class="hljs-built_in">BOOL</span> result = [<span class="hljs-keyword">self</span>.fmdb executeUpdate:sql];<br>    <span class="hljs-keyword">if</span> (result) &#123;<br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;表删除成功&quot;</span>);<br>    &#125;<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)insertDataWithModel:(<span class="hljs-built_in">NSObject</span> *)model successBlock:(successBlock)aSuccessBlock failBlock:(failBlock)aFailBlock &#123;<br>    <span class="hljs-built_in">NSData</span> *modelData = [<span class="hljs-built_in">NSKeyedArchiver</span> archivedDataWithRootObject:model];<br>    <span class="hljs-built_in">NSString</span> *sql = [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;insert into %@ (model) values(?)&quot;</span>, <span class="hljs-keyword">self</span>.tableName];<br>    <span class="hljs-built_in">BOOL</span> result = [<span class="hljs-keyword">self</span>.fmdb executeUpdate:sql withArgumentsInArray:@[modelData]];<br>    <span class="hljs-keyword">if</span> (result) &#123;<br>        aSuccessBlock();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        aFailBlock();<br>    &#125;<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)updateDataWithModel:(<span class="hljs-built_in">NSObject</span> *)model uid:(<span class="hljs-built_in">NSInteger</span>)aUid successBlock:(successBlock)aSuccessBlock failBlock:(failBlock)aFailBlock &#123;<br>    <span class="hljs-built_in">NSData</span> *modelData = [<span class="hljs-built_in">NSKeyedArchiver</span> archivedDataWithRootObject:model];<br>    <span class="hljs-built_in">NSString</span> *sql = [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;update %@ set model = ? where id = ?&quot;</span>, <span class="hljs-keyword">self</span>.tableName];<br>    <span class="hljs-built_in">BOOL</span> result = [<span class="hljs-keyword">self</span>.fmdb executeUpdate:sql withArgumentsInArray:@[modelData, @(aUid)]];<br>    <span class="hljs-keyword">if</span> (result) &#123;<br>        aSuccessBlock();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        aFailBlock();<br>    &#125;<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)deleteDataWithUid:(<span class="hljs-built_in">NSInteger</span>)uid successBlock:(successBlock)aSuccessBlock failBlock:(failBlock)aFailBlock &#123;<br>    <span class="hljs-built_in">NSString</span> *sql = [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;delete from %@ where id = ?&quot;</span>, <span class="hljs-keyword">self</span>.tableName];<br>    <span class="hljs-built_in">BOOL</span> result = [<span class="hljs-keyword">self</span>.fmdb executeUpdate:sql withArgumentsInArray:@[@(uid)]];<br>    <span class="hljs-keyword">if</span> (result) &#123;<br>        aSuccessBlock();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        aFailBlock();<br>    &#125;<br>&#125;<br><br>- (<span class="hljs-built_in">NSArray</span>&lt;<span class="hljs-built_in">NSObject</span> *&gt; *)queryAllData &#123;<br>    <span class="hljs-built_in">NSMutableArray</span> *array = [<span class="hljs-built_in">NSMutableArray</span> array];<br>    <span class="hljs-built_in">NSString</span> *sql = [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;select * from %@&quot;</span>,<span class="hljs-keyword">self</span>.tableName];<br>    <span class="hljs-keyword">@try</span> &#123;<br>        FMResultSet *rs = [<span class="hljs-keyword">self</span>.fmdb executeQuery:sql];<br>        <span class="hljs-keyword">while</span> (rs.next) &#123;<br>            <span class="hljs-built_in">NSObject</span> *model = [[<span class="hljs-built_in">NSObject</span> alloc] init];<br>            <span class="hljs-built_in">NSData</span> *modelData = [rs dataForColumn:<span class="hljs-string">@&quot;model&quot;</span>];<br>            <span class="hljs-keyword">int</span> uid = [rs intForColumn:<span class="hljs-string">@&quot;id&quot;</span>];<br>            <br>            model = [<span class="hljs-built_in">NSKeyedUnarchiver</span> unarchiveObjectWithData:modelData];<br>            model.wd_fmdb_id = uid;<br>            [array addObject:model];<br>        &#125;<br>    &#125; <span class="hljs-keyword">@catch</span> (<span class="hljs-built_in">NSException</span> *exception) &#123;<br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;%@&quot;</span>, <span class="hljs-keyword">self</span>.fmdb.lastError);<br>    &#125; <span class="hljs-keyword">@finally</span> &#123;<br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;查询数据&quot;</span>);<br>    &#125;<br>    <br>   <span class="hljs-keyword">return</span> array;<br>&#125;<br><br>- (FMDatabase *)fmdb &#123;<br>    <span class="hljs-keyword">if</span> (!_fmdb) &#123;<br>        <span class="hljs-built_in">NSString</span> *path = [<span class="hljs-built_in">NSHomeDirectory</span>() stringByAppendingString:<span class="hljs-string">@&quot;/Documents/testDB.db&quot;</span>];<br>        _fmdb = [[FMDatabase alloc] initWithPath:path];<br>    &#125;<br>    <span class="hljs-keyword">return</span> _fmdb;<br>&#125;<br><br><span class="hljs-keyword">@end</span><br></code></pre></td></tr></table></figure>
+<p>3、使用方法</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> <span class="hljs-number">1</span>、打开数据库，并创建表<br>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;<br>    <br>    [[WDDataBaseManager manager] createTableWithName:@<span class="hljs-string">&quot;test&quot;</span>];<br>    <br>    return YES;<br>&#125;<br><span class="hljs-regexp">//</span> <span class="hljs-number">2</span>、添加数据<br> [[WDDataBaseManager manager] insertDataWithModel:model successBlock:^&#123;<br>        <span class="hljs-regexp">//</span> TODO:<br>    &#125; failBlock:^&#123;<br>        <span class="hljs-regexp">//</span> TODO:<br>    &#125;];<br><span class="hljs-regexp">//</span> <span class="hljs-number">3</span>、查询数据<br>[[WDDataBaseManager manager] queryAllData]<br><span class="hljs-regexp">//</span> <span class="hljs-number">4</span>、修改数据<br>[[WDDataBaseManager manager] updateDataWithModel:model uid:self.model.wd_fmdb_id successBlock:^&#123;<br>        <span class="hljs-regexp">//</span> TODO:<br>    &#125; failBlock:^&#123;<br>         <span class="hljs-regexp">//</span> TODO:<br>    &#125;];<br><span class="hljs-regexp">//</span> <span class="hljs-number">5</span>、删除数据<br>[[WDDataBaseManager manager] deleteDataWithUid:model.wd_fmdb_id successBlock:^&#123;<br>            <span class="hljs-regexp">//</span> TODO:<br>        &#125; failBlock:^&#123;<br>            <span class="hljs-regexp">//</span> TODO:<br>        &#125;];<br><span class="hljs-regexp">//</span> <span class="hljs-number">6</span>、删除表<br>[[WDDataBaseManager manager] dropTable];<br></code></pre></td></tr></table></figure>
+<ul>
+<li>插入表中的Model需要遵循<NSCoding>(实例代码)<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs objectivec">- (<span class="hljs-keyword">void</span>)encodeWithCoder:(<span class="hljs-keyword">nonnull</span> <span class="hljs-built_in">NSCoder</span> *)aCoder &#123;<br>    [aCoder encodeObject:<span class="hljs-keyword">self</span>.name forKey:<span class="hljs-string">@&quot;name&quot;</span>];<br>    [aCoder encodeObject:<span class="hljs-keyword">self</span>.phone forKey:<span class="hljs-string">@&quot;phone&quot;</span>];<br>    [aCoder encodeObject:<span class="hljs-keyword">self</span>.address forKey:<span class="hljs-string">@&quot;address&quot;</span>];<br>&#125;<br><br>- (<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">instancetype</span>)initWithCoder:(<span class="hljs-keyword">nonnull</span> <span class="hljs-built_in">NSCoder</span> *)aDecoder &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span> == [<span class="hljs-keyword">super</span> init]) &#123;<br>        <span class="hljs-keyword">self</span>.name = [aDecoder decodeObjectForKey:<span class="hljs-string">@&quot;name&quot;</span>] ;<br>        <span class="hljs-keyword">self</span>.phone = [aDecoder decodeObjectForKey:<span class="hljs-string">@&quot;phone&quot;</span>];<br>        <span class="hljs-keyword">self</span>.address = [aDecoder decodeObjectForKey:<span class="hljs-string">@&quot;address&quot;</span>];<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">self</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/">Objective-C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/iOS/SDK/">SDK</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/SDK/">SDK</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/03/01/iOS%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-RxSwift%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%B8%B8%EF%BC%88%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RxSwift学习日常（基础介绍）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/01/iOS%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-AFNetworking&amp;SDWebImage%E5%8E%9F%E7%90%86/">
+                        <span class="hidden-mobile">iOS第三方库-AFNetworking&SDWebImage原理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

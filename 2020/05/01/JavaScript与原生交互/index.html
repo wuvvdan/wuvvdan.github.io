@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>JavaScript与原生交互 - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JavaScript与原生交互">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-05-01 10:00" pubdate>
+        2020年5月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JavaScript与原生交互</h1>
+            
+            <div class="markdown-body">
+              <p> <img src="https://upload-images.jianshu.io/upload_images/3334769-b397461b46272052.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="实例样式"></p>
+<p>原生页面与HTML页面进行相互调用<br>方式 | 适用对象<br>—|—<br>拦截URL | <code>UIWebView</code>和<code>WKWebView</code><br>JavaScriptCore | <code>UIWebView</code><br>MessageHandler | <code>WKWebView</code><br>WebViewJavascriptBridge| <code>UIWebView</code>和<code>WKWebView</code></p>
+<h3 id="实例HTML代码"><a href="#实例HTML代码" class="headerlink" title="实例HTML代码"></a>实例HTML代码</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">&lt;body&gt;<br>    &lt;h2&gt;按钮点击&lt;/h2&gt;<br>    &lt;button <span class="hljs-keyword">type</span>=<span class="hljs-string">&quot;submit&quot;</span> onclick=<span class="hljs-string">&quot;buttonEvent()&quot;</span> id=<span class="hljs-string">&quot;submitButto&quot;</span>&gt;提交&lt;/button&gt;<br>    &lt;h2&gt;文件上传&lt;/h2&gt;<br>    &lt;input <span class="hljs-keyword">type</span>=<span class="hljs-string">&quot;file&quot;</span> /&gt;<br>    &lt;h2&gt;原生注入数据&lt;/h2&gt;<br>    &lt;input <span class="hljs-keyword">type</span>=<span class="hljs-string">&quot;text&quot;</span> id=<span class="hljs-string">&quot;textField&quot;</span>&gt;<br>    &lt;input <span class="hljs-keyword">type</span>=<span class="hljs-string">&quot;button&quot;</span> onclick=<span class="hljs-string">&quot;getTextEvent()&quot;</span> value=<span class="hljs-string">&quot;开始注入&quot;</span>&gt;<br>    &lt;script&gt;<br>        <span class="hljs-keyword">function</span> load<span class="hljs-constructor">URL(<span class="hljs-params">url</span>)</span> &#123;<br>            var iFrame;<br>            iFrame = document.create<span class="hljs-constructor">Element(<span class="hljs-string">&quot;iframe&quot;</span>)</span>;<br>            iFrame.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;src&quot;</span>, <span class="hljs-params">url</span>)</span>;<br>            iFrame.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;style&quot;</span>, <span class="hljs-string">&quot;display:none;&quot;</span>)</span>;<br>            iFrame.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;height&quot;</span>, <span class="hljs-string">&quot;0px&quot;</span>)</span>;<br>            iFrame.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;width&quot;</span>, <span class="hljs-string">&quot;0px&quot;</span>)</span>;<br>            iFrame.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;frameborder&quot;</span>, <span class="hljs-string">&quot;0&quot;</span>)</span>;<br>            document.body.append<span class="hljs-constructor">Child(<span class="hljs-params">iFrame</span>)</span>;<br>            iFrame.parentNode.remove<span class="hljs-constructor">Child(<span class="hljs-params">iFrame</span>)</span>;<br>            iFrame = null;<br>        &#125;<br>        <span class="hljs-keyword">function</span> button<span class="hljs-constructor">Event()</span>&#123;<br>            load<span class="hljs-constructor">URL(<span class="hljs-string">&quot;/buttonEvent&quot;</span>)</span>;<br>            button<span class="hljs-constructor">DidPapped()</span>;<br>        &#125;<br>    <br>        <span class="hljs-keyword">function</span> get<span class="hljs-constructor">TextEvent()</span> &#123;<br>            load<span class="hljs-constructor">URL(<span class="hljs-string">&quot;/getText&quot;</span>)</span>;<br>            get<span class="hljs-constructor">TextButtonDidPapped()</span>;<br>        &#125;<br>        <span class="hljs-keyword">function</span> get<span class="hljs-constructor">Text(<span class="hljs-params">text</span>)</span>&#123;<br>            document.get<span class="hljs-constructor">ElementById(<span class="hljs-string">&quot;textField&quot;</span>)</span>.value = text;<br>        &#125;<br>    &lt;/script&gt;<br>&lt;/body&gt;       <br></code></pre></td></tr></table></figure>
+
+<h2 id="拦截URL"><a href="#拦截URL" class="headerlink" title="拦截URL"></a>拦截URL</h2><h4 id="UIWebView"><a href="#UIWebView" class="headerlink" title="UIWebView"></a>UIWebView</h4><p>遵循<code>UIWebViewDelegate</code>调用<code>- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType </code>方法，判断获取的Url地址</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-comment">// 调用JS</span><br><span class="hljs-keyword">if</span> ([request.URL.absoluteString hasSuffix:<span class="hljs-string">@&quot;buttonEvent&quot;</span>]) &#123;<br>    <span class="hljs-built_in">UIAlertController</span> *vc = [<span class="hljs-built_in">UIAlertControlleralertControllerWithTitle</span>:<span class="hljs-string">@&quot;温馨提示&quot;</span> message:<span class="hljs-string">@&quot;点击了提交按钮&quot;</span> preferredStyle:<span class="hljs-built_in">UIAlertControllerStyleAlert</span>];<br>        [vc addAction:[<span class="hljs-built_in">UIAlertAction</span> actionWithTitle:<span class="hljs-string">@&quot;确定&quot;</span> style:<span class="hljs-built_in">UIAlertActionStyleDefault</span> handler:^(<span class="hljs-built_in">UIAlertAction</span> * _Nonnull action) &#123;<br>            <br>    &#125;]];<br>    [<span class="hljs-keyword">self</span> presentViewController:vc animated:<span class="hljs-literal">true</span> completion:<span class="hljs-literal">nil</span>];  <br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">NO</span>;<br>&#125; <br><span class="hljs-comment">// 注入数据给JS</span><br><span class="hljs-keyword">if</span> ([request.URL.absoluteString hasSuffix:<span class="hljs-string">@&quot;getText&quot;</span>]) &#123; <br>    [webView stringByEvaluatingJavaScriptFromString:<span class="hljs-string">@&quot;getText(&#x27;哈哈&#x27;)&quot;</span>];<br>     <span class="hljs-keyword">return</span> <span class="hljs-literal">NO</span>;<br>&#125;<br><span class="hljs-keyword">return</span> <span class="hljs-literal">YES</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h4><p>遵循<code>WKNavigationDelegate</code>调用<code>- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler</code>方法判断获取的地址</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-built_in">NSString</span> *strRequest = [navigationAction.request.URL.absoluteString stringByRemovingPercentEncoding];<br><span class="hljs-comment">// 调用JS</span><br><span class="hljs-keyword">if</span> ([strRequest hasSuffix:<span class="hljs-string">@&quot;buttonEvent&quot;</span>]) &#123;<br>    <span class="hljs-built_in">UIAlertController</span> *vc = [<span class="hljs-built_in">UIAlertController</span> alertControllerWithTitle:<span class="hljs-string">@&quot;温馨提示&quot;</span> message:<span class="hljs-string">@&quot;点击了提交按钮&quot;</span> preferredStyle:<span class="hljs-built_in">UIAlertControllerStyleAlert</span>];<br>    [vc addAction:[<span class="hljs-built_in">UIAlertAction</span> actionWithTitle:<span class="hljs-string">@&quot;确定&quot;</span> style:<span class="hljs-built_in">UIAlertActionStyleDefault</span> handler:^(<span class="hljs-built_in">UIAlertAction</span> * _Nonnull action) &#123;<br>            <br>    &#125;]];<br>    [<span class="hljs-keyword">self</span> presentViewController:vc animated:<span class="hljs-literal">true</span> completion:<span class="hljs-literal">nil</span>];<br>    decisionHandler(<span class="hljs-built_in">WKNavigationActionPolicyCancel</span>);<br>&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([strRequest hasSuffix:<span class="hljs-string">@&quot;getText&quot;</span>]) &#123; <span class="hljs-comment">// 注入数据给JS</span><br>    [webView evaluateJavaScript:<span class="hljs-string">@&quot;getText(&#x27;哈哈&#x27;)&quot;</span> completionHandler:^(<span class="hljs-keyword">id</span> _Nullable info, <span class="hljs-built_in">NSError</span> * _Nullable error) &#123;<br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;Error--%@, info--%@&quot;</span>, error, info);<br>    &#125;];<br>    decisionHandler(<span class="hljs-built_in">WKNavigationActionPolicyCancel</span>);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    decisionHandler(<span class="hljs-built_in">WKNavigationActionPolicyAllow</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="JavaScriptCore"><a href="#JavaScriptCore" class="headerlink" title="JavaScriptCore"></a>JavaScriptCore</h2><ol>
+<li>导入<code>&lt;JavaScriptCore/JavaScriptCore.h&gt;</code></li>
+<li>遵循<code>&lt;UIWebViewDelegate&gt;</code>并实现<code>- (void)webViewDidFinishLoad:(UIWebView *)webView</code>方法。<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-comment">// 对JSContext对象进行初始化</span><br>JSContext *context = [<span class="hljs-keyword">self</span>.webView valueForKeyPath:<span class="hljs-string">@&quot;documentView.webView.mainFrame.javaScriptContext&quot;</span>];<br><span class="hljs-comment">// 验证JSContext对象是否初始化成功</span><br>context.exceptionHandler = ^(JSContext *context, JSValue *exceptionValue)&#123;<br>    context.exception = exceptionValue;<br>&#125;;<br> <br><span class="hljs-comment">// 调用JS  </span><br>context[<span class="hljs-string">@&quot;buttonDidPapped&quot;</span>] = ^&#123;<br>    <span class="hljs-built_in">UIAlertController</span> *vc = [<span class="hljs-built_in">UIAlertController</span> alertControllerWithTitle:<span class="hljs-string">@&quot;温馨提示&quot;</span> message:<span class="hljs-string">@&quot;点击了提交按钮&quot;</span> preferredStyle:<span class="hljs-built_in">UIAlertControllerStyleAlert</span>];<br>    [vc addAction:[<span class="hljs-built_in">UIAlertAction</span> actionWithTitle:<span class="hljs-string">@&quot;确定&quot;</span> style:<span class="hljs-built_in">UIAlertActionStyleDefault</span> handler:^(<span class="hljs-built_in">UIAlertAction</span> * _Nonnull action) &#123;<br>            <br>    &#125;]];<br>    [<span class="hljs-keyword">self</span> presentViewController:vc animated:<span class="hljs-literal">true</span> completion:<span class="hljs-literal">nil</span>];<br>&#125;;<br> <br><span class="hljs-comment">// 注入数据给JS   </span><br>context[<span class="hljs-string">@&quot;getTextButtonDidPapped&quot;</span>] = ^&#123;<br>    <span class="hljs-built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;<br>      [<span class="hljs-keyword">self</span>.webView stringByEvaluatingJavaScriptFromString:<span class="hljs-string">@&quot;getText(&#x27;哈哈&#x27;)&quot;</span>];<br>        &#125;);<br>&#125;;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="MessageHandler"><a href="#MessageHandler" class="headerlink" title="MessageHandler"></a>MessageHandler</h2><ol>
+<li>修改js中的方法， 通过<code>window.webkit.messageHandlers</code>+操作方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buttonEvent</span>(<span class="hljs-params"></span>)</span>&#123;<br>    <span class="hljs-built_in">window</span>.webkit.messageHandlers.buttonEvent.postMessage(<span class="hljs-literal">null</span>);<br>&#125;<br>        <br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTextEvent</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">window</span>.webkit.messageHandlers.getTextEvent.postMessage(<span class="hljs-literal">null</span>);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>遵循<code>WKScriptMessageHandler</code></li>
+<li>在<code>- (void)viewWillAppear:(BOOL)animated </code>中添加<code>scriptMessageHandler</code></li>
+<li>在<code>- (void)viewWillDisappear:(BOOL)animated</code>中移除<code>scriptMessageHandler</code></li>
+<li>实现<code>WKScriptMessageHandler</code>方法<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs objectivec">- (<span class="hljs-keyword">void</span>)viewWillAppear:(<span class="hljs-built_in">BOOL</span>)animated &#123;<br>    [<span class="hljs-keyword">super</span> viewWillAppear:animated];<br>    [<span class="hljs-keyword">self</span>.webView.configuration.userContentController addScriptMessageHandler:<span class="hljs-keyword">self</span> name:<span class="hljs-string">@&quot;buttonEvent&quot;</span>];<br>    [<span class="hljs-keyword">self</span>.webView.configuration.userContentController addScriptMessageHandler:<span class="hljs-keyword">self</span> name:<span class="hljs-string">@&quot;getTextEvent&quot;</span>];<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)viewWillDisappear:(<span class="hljs-built_in">BOOL</span>)animated &#123;<br>    [<span class="hljs-keyword">super</span> viewWillDisappear:animated];<br>    [<span class="hljs-keyword">self</span>.webView.configuration.userContentController removeScriptMessageHandlerForName:<span class="hljs-string">@&quot;buttonEvent&quot;</span>];<br>    [<span class="hljs-keyword">self</span>.webView.configuration.userContentController removeScriptMessageHandlerForName:<span class="hljs-string">@&quot;getTextEvent&quot;</span>];<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - WKScriptMessageHandler Method</span><br>- (<span class="hljs-keyword">void</span>)userContentController:(<span class="hljs-built_in">WKUserContentController</span> *)userContentController didReceiveScriptMessage:(<span class="hljs-built_in">WKScriptMessage</span> *)message &#123;<br>    <span class="hljs-comment">// 调用JS</span><br>    <span class="hljs-keyword">if</span> ([message.name isEqualToString:<span class="hljs-string">@&quot;buttonEvent&quot;</span>]) &#123;<br>        <span class="hljs-built_in">UIAlertController</span> *vc = [<span class="hljs-built_in">UIAlertController</span> alertControllerWithTitle:<span class="hljs-string">@&quot;温馨提示&quot;</span> message:<span class="hljs-string">@&quot;点击了提交按钮&quot;</span> preferredStyle:<span class="hljs-built_in">UIAlertControllerStyleAlert</span>];<br>        [vc addAction:[<span class="hljs-built_in">UIAlertAction</span> actionWithTitle:<span class="hljs-string">@&quot;确定&quot;</span> style:<span class="hljs-built_in">UIAlertActionStyleDefault</span> handler:^(<span class="hljs-built_in">UIAlertAction</span> * _Nonnull action) &#123;<br>            <br>        &#125;]];<br>        [<span class="hljs-keyword">self</span> presentViewController:vc animated:<span class="hljs-literal">true</span> completion:<span class="hljs-literal">nil</span>];<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 注入数据给JS</span><br>    <span class="hljs-keyword">if</span>  ([message.name isEqualToString:<span class="hljs-string">@&quot;getTextEvent&quot;</span>]) &#123;<br>        [<span class="hljs-keyword">self</span>.webView evaluateJavaScript:<span class="hljs-string">@&quot;getText(&#x27;哈哈&#x27;)&quot;</span> completionHandler:^(<span class="hljs-keyword">id</span> _Nullable info, <span class="hljs-built_in">NSError</span> * _Nullable error) &#123;<br>            <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;Error--%@, info--%@&quot;</span>, error, info);<br>        &#125;];<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="WebViewJavascriptBridge"><a href="#WebViewJavascriptBridge" class="headerlink" title="WebViewJavascriptBridge"></a>WebViewJavascriptBridge</h2><p>HTML代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>按钮点击<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span> = <span class="hljs-string">&#x27;submitBtn&#x27;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;提交按钮&quot;</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;submitClick()&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>文件选择<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;file&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;image&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>注入数据<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;getTextField&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;开始获取&quot;</span> <span class="hljs-attr">id</span> = <span class="hljs-string">&#x27;startGet&#x27;</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;getTextClick()&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span><br><span class="javascript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setupWebViewJavascriptBridge</span>(<span class="hljs-params">callback</span>) </span>&#123;</span><br><span class="javascript">	        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.WebViewJavascriptBridge) &#123; <span class="hljs-keyword">return</span> callback(WebViewJavascriptBridge); &#125;</span><br><span class="javascript">	        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.WVJBCallbacks) &#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">window</span>.WVJBCallbacks.push(callback); &#125;</span><br><span class="javascript">        	<span class="hljs-built_in">window</span>.WVJBCallbacks = [callback];</span><br><span class="javascript">	        <span class="hljs-keyword">var</span> WVJBIframe = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;iframe&#x27;</span>);</span><br><span class="javascript">        	WVJBIframe.style.display = <span class="hljs-string">&#x27;none&#x27;</span>;</span><br><span class="javascript">        	WVJBIframe.src = <span class="hljs-string">&#x27;https://__bridge_loaded__&#x27;</span>;</span><br><span class="javascript">        	<span class="hljs-built_in">document</span>.documentElement.appendChild(WVJBIframe);</span><br><span class="javascript">	        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123; <span class="hljs-built_in">document</span>.documentElement.removeChild(WVJBIframe) &#125;, <span class="hljs-number">0</span>)</span><br><span class="javascript">        &#125;</span><br><span class="javascript"></span><br><span class="javascript">        setupWebViewJavascriptBridge(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">bridge</span>) </span>&#123;</span><br><span class="javascript"></span><br><span class="javascript">        &#125;)</span><br><span class="javascript"></span><br><span class="javascript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">submitClick</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="javascript">            WebViewJavascriptBridge.callHandler(<span class="hljs-string">&#x27;submitClick&#x27;</span>, <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>&#123;</span><br><span class="javascript">                </span><br><span class="javascript">            &#125;);</span><br><span class="javascript">        &#125;</span><br><span class="javascript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTextClick</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="javascript">            WebViewJavascriptBridge.callHandler(<span class="hljs-string">&#x27;getTextClick&#x27;</span>, <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>&#123;</span><br><span class="javascript">                <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;getTextField&quot;</span>).value = response;</span><br><span class="javascript">            &#125;);</span><br><span class="javascript">        &#125;</span><br><span class="javascript">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>第三方库：<a target="_blank" rel="noopener" href="https://github.com/marcuswestin/WebViewJavascriptBridge">地址</a></p>
+<ol>
+<li>添加<code>WebViewJavascriptBridge</code>库</li>
+<li>导入头文件<code>#import &lt;WebViewJavascriptBridge.h&gt;</code></li>
+<li>声明方法<code>@property WebViewJavascriptBridge* bridge;</code></li>
+<li>与WebView关联<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">_bridge</span> = [WebViewJavascriptBridge bridgeForWebView:self.webView]<span class="hljs-comment">;</span><br><br><span class="hljs-section">[_bridge setWebViewDelegate:self]</span><span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure></li>
+<li>调用js<figure class="highlight hy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs hy">[_bridge registerHandler:@<span class="hljs-string">&quot;submitClick&quot;</span> handler:^(<span class="hljs-name"><span class="hljs-builtin-name">id</span></span> data, WVJBResponseCallback responseCallback) &#123;<br>        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@<span class="hljs-string">&quot;温馨提示&quot;</span> message:@<span class="hljs-string">&quot;点击了提交按钮&quot;</span> preferredStyle:UIAlertControllerStyleAlert]<span class="hljs-comment">;</span><br>        [vc addAction:[UIAlertAction actionWithTitle:@<span class="hljs-string">&quot;确定&quot;</span> style:UIAlertActionStyleDefault handler:^(<span class="hljs-name">UIAlertAction</span> * _Nonnull action) &#123;<br>            <br>        &#125;]]<span class="hljs-comment">;</span><br>        [self presentViewController:vc animated:true completion:nil]<span class="hljs-comment">;</span><br>&#125;]<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure></li>
+<li>注入数据<figure class="highlight hy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs hy">[_bridge registerHandler:@<span class="hljs-string">&quot;getTextClick&quot;</span> handler:^(<span class="hljs-name"><span class="hljs-builtin-name">id</span></span> data, WVJBResponseCallback responseCallback) &#123;<br>        responseCallback(@<span class="hljs-string">&quot;哈哈哈&quot;</span>)<span class="hljs-comment">;</span><br>&#125;]<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/">Objective-C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/iOS/WebView/">WebView</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/WebView/">WebView</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaScript/">JavaScript</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/01/%E5%88%A9%E7%94%A8UIDocument%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">利用UIDocument保存数据</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/01/iOS%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-YYCache/">
+                        <span class="hidden-mobile">iOS第三方库-YYCache</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

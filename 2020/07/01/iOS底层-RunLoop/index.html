@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS底层-RunLoop - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS底层-RunLoop">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-07-01 10:00" pubdate>
+        2020年7月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      42
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS底层-RunLoop</h1>
+            
+            <div class="markdown-body">
+              <h1 id="RunLoop"><a href="#RunLoop" class="headerlink" title="RunLoop"></a>RunLoop</h1><h2 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h2><p>RunLoop是通过内部维护的<code>事件循环(Event Loop)</code>来对<code>事件/消息进行管理</code>的一个对象。</p>
+<p>1、没有消息处理时，休眠已避免资源占用，由用户态切换到内核态(CPU-内核态和用户态)<br><br>2、有消息需要处理时，立刻被唤醒，由内核态切换到用户态</p>
+<p><strong>为什么main函数不会退出？</strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-keyword">int</span> main(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> * argv[]) &#123;<br>    <span class="hljs-keyword">@autoreleasepool</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">UIApplicationMain</span>(argc, argv, <span class="hljs-literal">nil</span>, <span class="hljs-built_in">NSStringFromClass</span>([AppDelegate <span class="hljs-keyword">class</span>]));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>UIApplicationMain内部默认开启了主线程的RunLoop，并执行了一段无限循环的代码（不是简单的for循环或while循环）</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">//无限循环代码模式(伪代码)</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> * argv[])</span> </span>&#123;        <br>    BOOL running = YES;<br>    <span class="hljs-keyword">do</span> &#123;<br>        <span class="hljs-comment">// 执行各种任务，处理各种事件</span><br>        <span class="hljs-comment">// ......</span><br>    &#125; <span class="hljs-keyword">while</span> (running);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>UIApplicationMain函数一直没有返回，而是不断地接收处理消息以及等待休眠，所以运行程序之后会保持持续运行状态。</p>
+<h2 id="二、RunLoop的数据结构"><a href="#二、RunLoop的数据结构" class="headerlink" title="二、RunLoop的数据结构"></a>二、RunLoop的数据结构</h2><p><code>NSRunLoop(Foundation)</code>是<code>CFRunLoop(CoreFoundation)</code>的封装，提供了面向对象的API<br>RunLoop 相关的主要涉及五个类：</p>
+<p><code>CFRunLoop</code>：RunLoop对象<br><code>CFRunLoopMode</code>：运行模式<br><code>CFRunLoopSource</code>：输入源/事件源<br><code>CFRunLoopTimer</code>：定时源<br><code>CFRunLoopObserver</code>：观察者</p>
+<p><strong>1、CFRunLoop</strong></p>
+<p>由<code>pthread</code>(线程对象，说明RunLoop和线程是一一对应的)、<code>currentMode</code>(当前所处的运行模式)、<code>modes</code>(多个运行模式的集合)、<code>commonModes</code>(模式名称字符串集合)、<code>commonModelItems</code>(Observer,Timer,Source集合)构成</p>
+<p><strong>2、CFRunLoopMode</strong></p>
+<p>由name、source0、source1、observers、timers构成</p>
+<p><strong>3、CFRunLoopSource</strong></p>
+<p>分为source0和source1两种</p>
+<ul>
+<li><code>source0:</code><br>即非基于port的，也就是用户触发的事件。需要手动唤醒线程，将当前线程从内核态切换到用户态</li>
+</ul>
+<ul>
+<li><code>source1:</code><br>基于port的，包含一个 mach_port 和一个回调，可监听系统端口和通过内核和其他线程发送的消息，能主动唤醒RunLoop，接收分发系统事件。<br>具备唤醒线程的能力</li>
+</ul>
+<p><strong>4、CFRunLoopTimer</strong></p>
+<p>基于时间的触发器，基本上说的就是NSTimer。在预设的时间点唤醒RunLoop执行回调。因为它是基于RunLoop的，因此它不是实时的（就是NSTimer 是不准确的。 因为RunLoop只负责分发源的消息。如果线程当前正在处理繁重的任务，就有可能导致Timer本次延时，或者少执行一次）。</p>
+<p><strong>5、CFRunLoopObserver</strong></p>
+<p>监听以下时间点:<code>CFRunLoopActivity</code></p>
+<ul>
+<li><p><code>kCFRunLoopEntry</code><br>RunLoop准备启动</p>
+</li>
+<li><p><code>kCFRunLoopBeforeTimers</code><br>RunLoop将要处理一些Timer相关事件</p>
+</li>
+<li><p><code>kCFRunLoopBeforeSources</code><br>RunLoop将要处理一些Source事件</p>
+</li>
+<li><p><code>kCFRunLoopBeforeWaiting</code><br>RunLoop将要进行休眠状态,即将由用户态切换到内核态</p>
+</li>
+<li><p><code>kCFRunLoopAfterWaiting</code><br>RunLoop被唤醒，即从内核态切换到用户态后</p>
+</li>
+<li><p><code>kCFRunLoopExit</code><br>RunLoop退出</p>
+</li>
+<li><p><code>kCFRunLoopAllActivities</code><br>监听所有状态</p>
+</li>
+</ul>
+<p><strong>6、各数据结构之间的联系</strong></p>
+<p>线程和RunLoop一一对应， RunLoop和Mode是一对多的，Mode和source、timer、observer也是一对多的</p>
+<h2 id="三、RunLoop的Mode"><a href="#三、RunLoop的Mode" class="headerlink" title="三、RunLoop的Mode"></a>三、RunLoop的Mode</h2><p>关于Mode首先要知道一个RunLoop 对象中可能包含多个Mode，且每次调用 RunLoop 的主函数时，只能指定其中一个 Mode(CurrentMode)。切换 Mode，需要重新指定一个 Mode 。主要是为了分隔开不同的 Source、Timer、Observer，让它们之间互不影响。</p>
+<p>当RunLoop运行在Mode1上时，是无法接受处理Mode2或Mode3上的Source、Timer、Observer事件的</p>
+<p>总共是有五种<code>CFRunLoopMode</code>:</p>
+<ul>
+<li><code>kCFRunLoopDefaultMode</code>：默认模式，主线程是在这个运行模式下运行</li>
+<li><code>UITrackingRunLoopMode</code>：跟踪用户交互事件（用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他Mode影响）</li>
+<li><code>UIInitializationRunLoopMode</code>：在刚启动App时第进入的第一个 Mode，启动完成后就不再使用</li>
+<li><code>GSEventReceiveRunLoopMode</code>：接受系统内部事件，通常用不到</li>
+<li><code>kCFRunLoopCommonModes</code>：伪模式，不是一种真正的运行模式，是同步Source/Timer/Observer到多个Mode中的一种解决方案</li>
+</ul>
+<h2 id="四、RunLoop的实现机制"><a href="#四、RunLoop的实现机制" class="headerlink" title="四、RunLoop的实现机制"></a>四、RunLoop的实现机制</h2><p>对于RunLoop而言最核心的事情就是保证线程在没有消息的时候休眠，在有消息时唤醒，以提高程序性能。RunLoop这个机制是依靠系统内核来完成的（苹果操作系统核心组件Darwin中的Mach）。</p>
+<p>RunLoop通过<code>mach_msg()</code>函数接收、发送消息。它的本质是调用函数<code>mach_msg_trap()</code>，相当于是一个系统调用，会触发内核状态切换。在用户态调用 <code>mach_msg_trap()</code>时会切换到内核态；内核态中内核实现的<code>mach_msg()</code>函数会完成实际的工作。<br>即基于port的source1，监听端口，端口有消息就会触发回调；而source0，要手动标记为待处理和手动唤醒RunLoop</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a764aad31847">Mach消息发送机制</a><br>大致逻辑为：<br>1、通知观察者 RunLoop 即将启动。<br>2、通知观察者即将要处理Timer事件。<br>3、通知观察者即将要处理source0事件。<br>4、处理source0事件。<br>5、如果基于端口的源(Source1)准备好并处于等待状态，进入步骤9。<br>6、通知观察者线程即将进入休眠状态。<br>7、将线程置于休眠状态，由用户态切换到内核态，直到下面的任一事件发生才唤醒线程。</p>
+<ul>
+<li>一个基于 port 的Source1 的事件(图里应该是source0)。</li>
+<li>一个 Timer 到时间了。</li>
+<li>RunLoop 自身的超时时间到了。</li>
+<li>被其他调用者手动唤醒。</li>
+</ul>
+<p>8、通知观察者线程将被唤醒。<br>9、处理唤醒时收到的事件。</p>
+<ul>
+<li>如果用户定义的定时器启动，处理定时器事件并重启RunLoop。进入步骤2。</li>
+<li>如果输入源启动，传递相应的消息。</li>
+<li>如果RunLoop被显示唤醒而且时间还没超时，重启RunLoop。进入步骤2</li>
+</ul>
+<p>10、通知观察者RunLoop结束。</p>
+<h2 id="五、RunLoop与NSTimer"><a href="#五、RunLoop与NSTimer" class="headerlink" title="五、RunLoop与NSTimer"></a>五、RunLoop与NSTimer</h2><p>一个比较常见的问题：滑动tableView时，定时器还会生效吗？<br>默认情况下RunLoop运行在<code>kCFRunLoopDefaultMode</code>下，而当滑动tableView时，RunLoop切换到<code>UITrackingRunLoopMode</code>，而Timer是在<code>kCFRunLoopDefaultMode</code>下的，就无法接受处理Timer的事件。<br>怎么去解决这个问题呢？把Timer添加到UITrackingRunLoopMode上并不能解决问题，因为这样在默认情况下就无法接受定时器事件了。<br>所以我们需要把Timer同时添加到<code>UITrackingRunLoopMode</code>和<code>kCFRunLoopDefaultMode</code>上。<br>那么如何把timer同时添加到多个mode上呢？就要用到<code>NSRunLoopCommonModes</code>了</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clojure">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes]<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>Timer就被添加到多个mode上，这样即使RunLoop由<code>kCFRunLoopDefaultMode</code>切换到<code>UITrackingRunLoopMode</code>下，也不会影响接收Timer事件</p>
+<h2 id="六、RunLoop和线程"><a href="#六、RunLoop和线程" class="headerlink" title="六、RunLoop和线程"></a>六、RunLoop和线程</h2><ul>
+<li>线程和RunLoop是一一对应的,其映射关系是保存在一个全局的 Dictionary 里</li>
+<li>自己创建的线程默认是没有开启RunLoop的</li>
+</ul>
+<p><strong>1、怎么创建一个常驻线程？</strong></p>
+<p>1、为当前线程开启一个RunLoop（第一次调用 [NSRunLoop currentRunLoop]方法时实际是会先去创建一个RunLoop）<br>2、向当前RunLoop中添加一个Port/Source等维持RunLoop的事件循环（如果RunLoop的mode中一个item都没有，RunLoop会退出）<br>3、启动该RunLoop</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-keyword">@autoreleasepool</span> &#123;<br>      <br>      <span class="hljs-built_in">NSRunLoop</span> *runLoop = [<span class="hljs-built_in">NSRunLoop</span> currentRunLoop];<br>      <br>      [[<span class="hljs-built_in">NSRunLoop</span> currentRunLoop] addPort:[<span class="hljs-built_in">NSMachPort</span> port] forMode:<span class="hljs-built_in">NSDefaultRunLoopMode</span>];<br>      <br>      [runLoop run];<br>      <br>  &#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>2、输出下边代码的执行顺序</strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;1&quot;</span>);<br><br><span class="hljs-built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), ^&#123;<br>    <br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;2&quot;</span>);<br><br>    [<span class="hljs-keyword">self</span> performSelector:<span class="hljs-keyword">@selector</span>(test) withObject:<span class="hljs-literal">nil</span> afterDelay:<span class="hljs-number">10</span>];<br>    <br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;3&quot;</span>);<br>&#125;);<br><br><span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;4&quot;</span>);<br><br>- (<span class="hljs-keyword">void</span>)test<br>&#123;<br>    <br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;5&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>答案是1423，test方法并不会执行。<br>原因是如果是带afterDelay的延时函数，会在内部创建一个 NSTimer，然后添加到当前线程的RunLoop中。也就是如果当前线程没有开启RunLoop，该方法会失效。<br>那么我们改成:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), ^&#123;<br>        <br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;2&quot;</span>);<br>        <br>        [[<span class="hljs-built_in">NSRunLoop</span> currentRunLoop] run];<br>        <br>        [<span class="hljs-keyword">self</span> performSelector:<span class="hljs-keyword">@selector</span>(test) withObject:<span class="hljs-literal">nil</span> afterDelay:<span class="hljs-number">10</span>];<br>  <br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;3&quot;</span>);<br>    &#125;);<br></code></pre></td></tr></table></figure>
+
+<p>然而test方法依然不执行。<br>原因是如果RunLoop的mode中一个item都没有，RunLoop会退出。即在调用RunLoop的run方法后，由于其mode中没有添加任何item去维持RunLoop的时间循环，RunLoop随即还是会退出。<br>所以我们自己启动RunLoop，一定要在添加item后</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), ^&#123;<br>        <br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;2&quot;</span>);<br>        <br>        [<span class="hljs-keyword">self</span> performSelector:<span class="hljs-keyword">@selector</span>(test) withObject:<span class="hljs-literal">nil</span> afterDelay:<span class="hljs-number">10</span>];<br>        <br>        [[<span class="hljs-built_in">NSRunLoop</span> currentRunLoop] run];<br>  <br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;3&quot;</span>);<br>    &#125;);<br></code></pre></td></tr></table></figure>
+
+<p><strong>3、怎样保证子线程数据回来更新UI的时候不打断用户的滑动操作？</strong></p>
+<p>当我们在子请求数据的同时滑动浏览当前页面，如果数据请求成功要切回主线程更新UI，那么就会影响当前正在滑动的体验。<br>我们就可以将更新UI事件放在主线程的<code>NSDefaultRunLoopMode</code>上执行即可，这样就会等用户不再滑动页面，主线程RunLoop由<code>UITrackingRunLoopMode</code>切换到<code>NSDefaultRunLoopMode</code>时再去更新UI</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs objectivec">[<span class="hljs-keyword">self</span> performSelectorOnMainThread:<span class="hljs-keyword">@selector</span>(reloadData) withObject:<span class="hljs-literal">nil</span> waitUntilDone:<span class="hljs-literal">NO</span> modes:@[<span class="hljs-built_in">NSDefaultRunLoopMode</span>]];<br></code></pre></td></tr></table></figure>
+
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h4 id="1-如何使用-Runloop-实现一个常驻线程？这种线程一般有什么作用？"><a href="#1-如何使用-Runloop-实现一个常驻线程？这种线程一般有什么作用？" class="headerlink" title="1. 如何使用 Runloop 实现一个常驻线程？这种线程一般有什么作用？"></a>1. 如何使用 <code>Runloop</code> 实现一个常驻线程？这种线程一般有什么作用？</h4><p>一般做法是向 <code>Runloop</code> 中放一个 <code>port</code>。<br><br>创建一条常驻的后台线程，做任何你想做的事。</p>
+<h4 id="2-为什么-NSTimer-有时候不好使？"><a href="#2-为什么-NSTimer-有时候不好使？" class="headerlink" title="2. 为什么 NSTimer 有时候不好使？"></a>2. 为什么 <code>NSTimer</code> 有时候不好使？</h4><p>因为创建的  <code>NSTimer</code> 默认是被加入到了 <code>defaultMode</code>，所以当 <code>Runloop</code> 的 <code>Mode</code> 变化时，当前的 <code>NSTimer</code> 就不会工作了。</p>
+<h4 id="3-autoreleasePool-在何时被释放？"><a href="#3-autoreleasePool-在何时被释放？" class="headerlink" title="3. autoreleasePool 在何时被释放？"></a>3. <code>autoreleasePool</code> 在何时被释放？</h4><p><code>App</code>启动后，苹果在主线程 <code>RunLoop</code> 里注册了两个 <code>Observer</code>，其回调都是 <code>_wrapRunLoopWithAutoreleasePoolHandler()</code>。</p>
+<p>第一个 <code>Observer</code> 监视的事件是 <code>Entry(即将进入Loop)</code>，其回调内会调用 <code>_objc_autoreleasePoolPush()</code> 创建自动释放池。其 <code>order</code> 是 <code>-2147483647</code>，优先级最高，保证创建释放池发生在其他所有回调之前。</p>
+<p>第二个 <code>Observer</code> 监视了两个事件： <code>BeforeWaiting</code>(准备进入休眠) 时调用<code>_objc_autoreleasePoolPop()</code>  和 <code>_objc_autoreleasePoolPush()</code> 释放旧的池并创建新池；<code>Exit</code>(即将退出Loop) 时调用 <code>_objc_autoreleasePoolPop()</code> 来释放自动释放池。这个 <code>Observer</code> 的 <code>order</code> 是 <code>2147483647</code>，优先级最低，保证其释放池子发生在其他所有回调之后。</p>
+<p>在主线程执行的代码，通常是写在诸如事件回调、<code>Timer</code>回调内的。这些回调会被 <code>RunLoop</code> 创建好的 <code>AutoreleasePool</code> 环绕着，所以不会出现内存泄漏，开发者也不必显示创建 <code>Pool</code> 了。</p>
+<h4 id="4-PerformSelector-的实现原理？"><a href="#4-PerformSelector-的实现原理？" class="headerlink" title="4. PerformSelector 的实现原理？"></a>4. <code>PerformSelector</code> 的实现原理？</h4><p>当调用 NSObject 的 performSelecter:afterDelay: 后，实际上其内部会创建一个 Timer 并添加到当前线程的 RunLoop 中。所以如果当前线程没有 RunLoop，则这个方法会失效。</p>
+<p>当调用 performSelector:onThread: 时，实际上其会创建一个 Timer 加到对应的线程去，同样的，如果对应线程没有 RunLoop 该方法也会失效。</p>
+<h4 id="5-PerformSelector-afterDelay-这个方法在子线程中是否起作用？为什么？怎么解决？"><a href="#5-PerformSelector-afterDelay-这个方法在子线程中是否起作用？为什么？怎么解决？" class="headerlink" title="5. PerformSelector:afterDelay:这个方法在子线程中是否起作用？为什么？怎么解决？"></a>5. <code>PerformSelector:afterDelay:</code>这个方法在子线程中是否起作用？为什么？怎么解决？</h4><p>不起作用，子线程默认没有 <code>Runloop</code>，也就没有 <code>Timer</code>。<br><br>解决的办法是可以使用 <code>GCD</code> 来实现：<code>Dispatch_after</code></p>
+<h4 id="6-讲一下-Observer-？"><a href="#6-讲一下-Observer-？" class="headerlink" title="6. 讲一下 Observer ？"></a>6. 讲一下 <code>Observer</code> ？</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs objc"><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">CF_OPTIONS</span>(<span class="hljs-built_in">CFOptionFlags</span>, <span class="hljs-built_in">CFRunLoopActivity</span>) &#123;<br>    kCFRunLoopEntry         = (<span class="hljs-number">1</span>UL &lt;&lt; <span class="hljs-number">0</span>), <span class="hljs-comment">// 即将进入Loop</span><br>    kCFRunLoopBeforeTimers  = (<span class="hljs-number">1</span>UL &lt;&lt; <span class="hljs-number">1</span>), <span class="hljs-comment">// 即将处理 Timer</span><br>    kCFRunLoopBeforeSources = (<span class="hljs-number">1</span>UL &lt;&lt; <span class="hljs-number">2</span>), <span class="hljs-comment">// 即将处理 Source</span><br>    kCFRunLoopBeforeWaiting = (<span class="hljs-number">1</span>UL &lt;&lt; <span class="hljs-number">5</span>), <span class="hljs-comment">// 即将进入休眠</span><br>    kCFRunLoopAfterWaiting  = (<span class="hljs-number">1</span>UL &lt;&lt; <span class="hljs-number">6</span>), <span class="hljs-comment">// 刚从休眠中唤醒</span><br>    kCFRunLoopExit          = (<span class="hljs-number">1</span>UL &lt;&lt; <span class="hljs-number">7</span>), <span class="hljs-comment">// 即将退出Loop</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h4 id="7-解释一下-事件响应-的过程？"><a href="#7-解释一下-事件响应-的过程？" class="headerlink" title="7. 解释一下 事件响应 的过程？"></a>7. 解释一下 <code>事件响应</code> 的过程？</h4><p>苹果注册了一个 <code>Source1</code> (基于 <code>mach port</code> 的) 用来接收系统事件，其回调函数为 <code>__IOHIDEventSystemClientQueueCallback()</code>。</p>
+<p>当一个硬件事件(触摸/锁屏/摇晃等)发生后，首先由 <code>IOKit.framework</code> 生成一个 <code>IOHIDEvent</code> 事件并由 <code>SpringBoard</code> 接收。这个过程的详细情况可以参考这里。<code>SpringBoard</code> 只接收按键(锁屏/静音等)，触摸，加速，接近传感器等几种 <code>Event</code>，随后用 <code>mach port</code> 转发给需要的 <code>App</code> 进程。随后苹果注册的那个 <code>Source1</code> 就会触发回调，并调用 <code>_UIApplicationHandleEventQueue()</code> 进行应用内部的分发。</p>
+<p><code>_UIApplicationHandleEventQueue()</code> 会把 <code>IOHIDEvent</code> 处理并包装成 <code>UIEvent</code> 进行处理或分发，其中包括识别 <code>UIGesture</code>/处理屏幕旋转/发送给 <code>UIWindow</code> 等。通常事件比如 <code>UIButton 点击</code>、<code>touchesBegin/Move/End/Cancel</code> 事件都是在这个回调中完成的。</p>
+<h4 id="8-解释一下-手势识别-的过程？"><a href="#8-解释一下-手势识别-的过程？" class="headerlink" title="8. 解释一下 手势识别 的过程？"></a>8. 解释一下 <code>手势识别</code> 的过程？</h4><p>当上面的 <code>_UIApplicationHandleEventQueue() </code>识别了一个手势时，其首先会调用 <code>Cancel</code> 将当前的 <code>touchesBegin/Move/End</code> 系列回调打断。随后系统将对应的 <code>UIGestureRecognizer</code> 标记为待处理。</p>
+<p>苹果注册了一个 <code>Observer</code> 监测 <code>BeforeWaiting</code> (Loop即将进入休眠) 事件，这个 <code>Observer</code> 的回调函数是 <code>_UIGestureRecognizerUpdateObserver()</code>，其内部会获取所有刚被标记为待处理的 <code>GestureRecognizer</code>，并执行<code>GestureRecognizer</code> 的回调。</p>
+<p>当有 <code>UIGestureRecognizer</code> 的变化(创建/销毁/状态改变)时，这个回调都会进行相应处理。</p>
+<h4 id="9-解释一下-GCD-在-Runloop-中的使用？"><a href="#9-解释一下-GCD-在-Runloop-中的使用？" class="headerlink" title="9. 解释一下 GCD 在 Runloop 中的使用？"></a>9. 解释一下 <code>GCD</code> 在 <code>Runloop</code> 中的使用？</h4><p><code>GCD</code>由 子线程 返回到 主线程,只有在这种情况下才会触发 RunLoop。会触发 RunLoop 的 Source 1 事件。</p>
+<h4 id="10-解释一下-NSTimer。"><a href="#10-解释一下-NSTimer。" class="headerlink" title="10. 解释一下 NSTimer。"></a>10. 解释一下 <code>NSTimer</code>。</h4><p><code>NSTimer</code> 其实就是 <code>CFRunLoopTimerRef</code>，他们之间是 <code>toll-free bridged</code> 的。一个 <code>NSTimer</code> 注册到 <code>RunLoop</code> 后，<code>RunLoop</code> 会为其重复的时间点注册好事件。例如 <code>10:00</code>, <code>10:10</code>, <code>10:20</code> 这几个时间点。<code>RunLoop</code> 为了节省资源，并不会在非常准确的时间点回调这个<code>Timer</code>。<code>Timer</code> 有个属性叫做 <code>Tolerance</code> (宽容度)，标示了当时间点到后，容许有多少最大误差。</p>
+<p>如果某个时间点被错过了，例如执行了一个很长的任务，则那个时间点的回调也会跳过去，不会延后执行。就比如等公交，如果 10:10 时我忙着玩手机错过了那个点的公交，那我只能等 10:20 这一趟了。</p>
+<p><code>CADisplayLink</code> 是一个和屏幕刷新率一致的定时器（但实际实现原理更复杂，和 NSTimer 并不一样，其内部实际是操作了一个 <code>Source</code>）。如果在两次屏幕刷新之间执行了一个长任务，那其中就会有一帧被跳过去（和 <code>NSTimer</code> 相似），造成界面卡顿的感觉。在快速滑动 <code>TableView</code> 时，即使一帧的卡顿也会让用户有所察觉。<code>Facebook</code> 开源的 <code>AsyncDisplayLink</code> 就是为了解决界面卡顿的问题，其内部也用到了 <code>RunLoop</code>。</p>
+<h4 id="11-利用-runloop-解释一下页面的渲染的过程？"><a href="#11-利用-runloop-解释一下页面的渲染的过程？" class="headerlink" title="11. 利用 runloop 解释一下页面的渲染的过程？"></a>11. 利用 <code>runloop</code> 解释一下页面的渲染的过程？</h4><p>当我们调用 <code>[UIView setNeedsDisplay]</code> 时，这时会调用当前 <code>View.layer</code> 的 <code>[view.layer setNeedsDisplay]</code>方法。</p>
+<p>这等于给当前的 <code>layer</code> 打上了一个脏标记，而此时并没有直接进行绘制工作。而是会到当前的 <code>Runloop</code> 即将休眠，也就是 <code>beforeWaiting</code> 时才会进行绘制工作。</p>
+<p>紧接着会调用 <code>[CALayer display]</code>，进入到真正绘制的工作。<code>CALayer</code> 层会判断自己的 <code>delegate</code> 有没有实现异步绘制的代理方法 <code>displayer:</code>，这个代理方法是异步绘制的入口，如果没有实现这个方法，那么会继续进行系统绘制的流程，然后绘制结束。</p>
+<p><code>CALayer</code> 内部会创建一个 <code>Backing Store</code>，用来获取图形上下文。接下来会判断这个 <code>layer</code> 是否有 delegate。</p>
+<p>如果有的话，会调用 <code>[layer.delegate drawLayer:inContext:]</code>，并且会返回给我们 <code>[UIView DrawRect:]</code> 的回调，让我们在系统绘制的基础之上再做一些事情。</p>
+<p>如果没有 <code>delegate</code>，那么会调用 <code>[CALayer drawInContext:]</code>。</p>
+<p>以上两个分支，最终 <code>CALayer</code> 都会将位图提交到 <code>Backing Store</code>，最后提交给 <code>GPU</code>。</p>
+<p>至此绘制的过程结束。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/">Objective-C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/iOS/">iOS</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BA%95%E5%B1%82/">底层</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/01/iOS%E5%BA%95%E5%B1%82-Runtime-%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Runtime-消息转发</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/01/%E4%BB%A3%E7%A0%81%E5%9D%97(Snippet)/">
+                        <span class="hidden-mobile">iOS代码块(Snippet)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

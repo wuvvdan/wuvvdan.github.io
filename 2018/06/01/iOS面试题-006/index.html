@@ -1,0 +1,582 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS 面试题（六） - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS 面试题（六）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-06-01 10:00" pubdate>
+        2018年6月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS 面试题（六）</h1>
+            
+            <div class="markdown-body">
+              <h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<li><p>如何是自己写的对象具有拷贝功能</p>
+<blockquote>
+<p> 需实现 NSCopying 协议。</p>
+</blockquote>
+</li>
+<li><p>说说你如何理解weak属性</p>
+<blockquote>
+<p>Runtime维护了一个weak表，用于存储指向某个对象的所有weak指针。weak表其实是一个hash（哈希）表，Key是所指对象的地址，Value是weak指针的地址（这个地址的值是所指对象的地址）数组。<br><br>1、初始化时：runtime会调用objc_initWeak函数，初始化一个新的weak指针指向对象的地址。<br><br>2、添加引用时：objc_initWeak函数会调用 objc_storeWeak() 函数， objc_storeWeak() 的作用是更新指针指向，创建对应的弱引用表。<br><br>3、释放时，调用clearDeallocating函数。clearDeallocating函数首先根据对象地址获取所有weak指针地址的数组，然后遍历这个数组把其中的数据设为nil，最后把这个entry从weak表中删除，最后清理对象的记录。</p>
+</blockquote>
+</li>
+<li><p>UIView和CALayer的关系</p>
+<blockquote>
+<p>每个UIView都对应着一个CALayer,当我们创建了一个UIView之后也会创建对应的CALayer。UIView之所以能够显示内容，其实还是靠CALayer来绘制的。UIView本身就像是CALayer的管理者，访问UIView的坐标，例如：frame，center等，其实是访问内部layer的frame、position等相关属性。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>@synthesize和@dynamic分别什么作用?</p>
+<blockquote>
+<p>1、@property有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize和 @dynamic都没写，那么默认的就是@syntheszie var = _var;<br><br>2、@synthesize 的语义是如果你没有手动实现 setter 方法和 getter 方法，那么编译器会自动为你加上这两个方法。<br><br>3、@dynamic 告诉编译器：属性的 setter 与 getter 方法由用户自己实现，不自动生成。（当然对于 readonly 的属性只需提供 getter 即可）。假如一个属性被声明为 @dynamic var，然后你没有提供 @setter方法和 @getter 方法，编译的时候没问题，但是当程序运行到 instance.var = someVar，由于缺 setter 方法会导致程序崩溃；或者当运行到 someVar = var 时，由于缺 getter 方法同样会导致崩溃。编译时没问题，运行时才执行相应的方法，这就是所谓的动态绑定。</p>
+</blockquote>
+</li>
+<li><p>动态绑定</p>
+</li>
+<li><p>Category(类别)、Extension(扩展)和继承的区别</p>
+<blockquote>
+<p>1、Category：分类就是对一个类的功能进行扩展,,让这个类能够适应不不同情况的需求.在一般的实际开发中,我们都会对系统的一些常用类进行扩展,比如,NSString,Button,Label等等,简单来说类别是一种为现有的类添加新方法的方式。<br><br><br>2、Extension：是Category的一个特例<br>作用:为一个类增加私有方法,属性或成员变量,也就是说只能这些只能在本文件中被使用其名字为匿名(为空),<br>并且新添加的方法一定要予以实现。(Category没有这个限制)<br><br><br>3、继承：多个类具有相同的实例变量和方法时，考虑用继承。即子类可以继承父类的相同特性。如animal具有年龄和体重两个属性，dog也具有年龄和体重两 个属性，dog可以继承animal的这两个属性，即为继承。</p>
+</blockquote>
+</li>
+<li><p>为什么代理要用weak？delegate和DataSource有什么区别？Block和代理的区别？</p>
+</li>
+</ul>
+<ul>
+<li><p>id和NSObject *的区别</p>
+<blockquote>
+<p>1、NSObject包含了一些其他的方法，需要实现NSObject协议，可以用NSObject来表示id，但是不能用id来表示NSObject。<br><br>2、id关键字在编译的时候不会被检查，而NSObject在编译的时候被被检查是否含有一些错误的方法<br><br>3、id可以是任何对象，包括不是NSObject的对象<br><br>4、定义id的时候不需要*，而定义NSOject的时候需要。</p>
+</blockquote>
+</li>
+<li><p>针对系统提供的Block API，是否也要考虑循环引用的问题？</p>
+<blockquote>
+<p>系统的某些block api中，UIView的block版本写动画时不需要考虑，但也有一些api 需要考虑。<br>以下这些使用方式不会引起循环引用的问题</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs clojure">[UIView animateWithDuration:1.2 animations:<span class="hljs-comment">^&#123;</span><br><span class="hljs-comment">        [self.view layoutIfNeeded];</span><br><span class="hljs-comment">    &#125;</span>]<span class="hljs-comment">;</span><br>    <br>    [[NSOperationQueue mainQueue] addOperationWithBlock:<span class="hljs-comment">^&#123;</span><br><span class="hljs-comment">       // Do Some Thing</span><br><span class="hljs-comment">    &#125;</span>]<span class="hljs-comment">;</span><br>    <br>    [[NSNotificationCenter defaultCenter] addObserverForName:@<span class="hljs-string">&quot;someNotification&quot;</span> object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(<span class="hljs-name">NSNotification</span> * _Nonnull note) &#123;<br>         // Do Some Thing<br>    &#125;]<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>但如果方法中的一些参数是 成员变量，那么可以造成循环引用，如 GCD 、NSNotificationCenter调用就要小心一点，比如 GCD 内部如果引用了 self，而且 GCD 的参数是 成员变量，则要考虑到循环引用，举例如下：<br><br>GCD-&gt;分析：self–&gt;_operationsQueue–&gt;block–&gt;self形成闭环，就造成了循环引用</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs less">&gt;<span class="hljs-selector-tag">dispatch_group_async</span>(_operationsGroup, _operationsQueue, ^&#123;<br>       <span class="hljs-comment">// Do Some Thing</span><br>&gt;&#125;);<br></code></pre></td></tr></table></figure>
+<p>NSNotificationCenter-&gt;分析:self–&gt;_observer–&gt;block–&gt;self形成闭环，就造成了循环引用</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs objectivec">&gt;_observer = [[<span class="hljs-built_in">NSNotificationCenter</span> defaultCenter] addObserverForName:<span class="hljs-string">@&quot;testKey&quot;</span> object:<span class="hljs-literal">nil</span> queue:<span class="hljs-literal">nil</span> usingBlock:^(<span class="hljs-built_in">NSNotification</span> *note)&#123;<br><span class="hljs-comment">// Do Some Thing</span><br>&gt;&#125;];<br></code></pre></td></tr></table></figure></blockquote>
+</li>
+<li><p>在@property中为什么 NSString （或NSArray，NSDictionary）使用copy关键字？改成Strong有可能会造成什么问题？</p>
+<blockquote>
+<p>1、因为父类指针可以指向子类对象,使用copy的目的是为了让本对象的属性不受外界影响,使用copy无论给我传入是一个可变对象还是不可对象,我本身持有的就是一个不可变的副本.<br><br>2、如果我们使用是strong,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么会影响该属性.</p>
+</blockquote>
+</li>
+<li><p>关键字const/static/extern、UIKIT_EXTERN区别和用法</p>
+<blockquote>
+<p>1、const<br><br>（1）const用来修饰右边的基本变量或指针变量<br><br>（2）被修饰的变量只读，不能被修改<br><br> <br>2、static<br><br>（1）修饰局部变量<br><br>（2）修饰全局变量<br><br>（3）修饰函数<br><br><br>3、extern<br><br>（1）声明外部全局变量。这里需要特别注意extern只能声明，不能用于实现，而且定义和分配内存都在原来类中。<br><br><br>4、UIKIT_EXTERN<br><br>（1）将函数修饰为兼容以往C编译方式的、具有extern属性(文件外可见性)、public修饰的方法或变量库外仍可见的属性</p>
+</blockquote>
+<h3 id="底层"><a href="#底层" class="headerlink" title="底层"></a>底层</h3></li>
+<li><p>main()之前有哪些过程？</p>
+</li>
+<li><p>KVO的原理</p>
+</li>
+</ul>
+<blockquote>
+<p>当观察某对象时，KVO动态创建该对象的子类，并重写子类被观察属性setter方法，随后通知观察者该属性的变化状况。</p>
+</blockquote>
+<ul>
+<li><p>Swift如何使用KVO？</p>
+</li>
+<li><p>Swift有哪些匹配模式？</p>
+</li>
+<li><p>Objc向一个对象发送消息，发生了什么？</p>
+<blockquote>
+<p>Runtime库会根据对象的isa指针找到该对象实际所属的类，然后在该类中的方法列表以及其父类方法列表中寻找方法运行，然后在发送消息的时候，objc_msgSend方法不会返回值，所谓的返回内容都是具体调用时执行的。</p>
+</blockquote>
+</li>
+<li><p>静态库的原理是什么？你有没有写过哪些静态库? 遇到哪些问题？</p>
+</li>
+<li><p>Runloop是用来做什么的？runloop和线程的关系？主线程默认开始runloop了吗？ 子线程呢？</p>
+<blockquote>
+</blockquote>
+</li>
+<li><p>不手动指定autoreleasepool的前提下，autoreleasepool在什么什么时刻释放？（比如在vc的viewDidLoad中创建）</p>
+<blockquote>
+<ul>
+<li>手动干预释放时机 - 指定autoreleasepool就是所谓的：当前作用域大括号结束时释放。</li>
+<li>系统自动去释放 - 不手动指定autoreleasepool<br>Autorelease对象出了作用域之后，会被添加到最近一次创建的自动释放池中，并会在当前的 runloop 迭代结束时释放。<br>如果在一个vc的viewDidLoad中创建一个 Autorelease对象，那么该对象会在 viewDidAppear 方法执行前就被销毁了。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>OC中的消息转发机制+代码实现</p>
+<blockquote>
+</blockquote>
+</li>
+<li><p>以 + scheduledTimerWithTimeInterval…的方式触发的NSTimer，在滑动的列表时，timer会暂时回调，为什么？如何解决？</p>
+<blockquote>
+</blockquote>
+</li>
+<li><p>如何手动触发一个value的KVO？</p>
+<blockquote>
+<p>自动触发：</p>
+<blockquote>
+<p>自动触发是指类似的这种场景：在注册KVO之前设置一个初始值，<br>注册之后设置一个不一样的值，就可以触发了。</p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>手动触发：</p>
+<blockquote>
+<p>键值观察通知依赖于NSObject的两个方法：<br>willChangeValueForKey：和didChangeValueForKey：。<br>在一个被观察属性发生改变之前，willChangeValueForKey：一定会被调用，这就会记录旧的值。<br>而当改变发生后，didChangeValueForKey：会被调用，<br>继而objectServeValueForKey：ofObject：change：content：也会被调用。<br>如果可以手动实现这些调用，就可以实现“手动触发”了。</p>
+</blockquote>
+</blockquote>
+<ul>
+<li>如何定位和分析项目中影响性能的地方？以及如何进行性能优化？</li>
+<li>串行并行，异步同步的区别<blockquote>
+<ul>
+<li>串行并行<blockquote>
+<p>指的是能否开启新的线程。同步不能开启新的线程，异步可以。</p>
+</blockquote>
+</li>
+<li>异步同步<blockquote>
+<p>指的是任务的执行方式。串行是指多个任务时，各个任务按顺序执行，完成一个之后才能进行下一个。并行指的是多个任务可以同时执行。异步是多个任务并行的前提条件。</p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>线程是什么？进程是什么？二者有什么区别和联系？<blockquote>
+<ul>
+<li>线程是CPU独立运行和独立调度的基本单位</li>
+<li>进程是资源分配的基本单位；</li>
+<li>两者的联系：进程和线程都是操作系统所运行的程序运行的基本单元。</li>
+<li>区别：<blockquote>
+<ul>
+<li>进程具有独立的空间地址，一个进程崩溃后，在保护模式下不会对其它进程产生影响。</li>
+<li>线程只是一个进程的不同执行路径，线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/07/01/iOS%E9%9D%A2%E8%AF%95%E9%A2%98-007/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS 面试题（ 七）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/05/01/iOS%E9%9D%A2%E8%AF%95%E9%A2%98-005/">
+                        <span class="hidden-mobile">iOS 面试题（五）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

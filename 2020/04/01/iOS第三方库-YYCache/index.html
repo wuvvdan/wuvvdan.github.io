@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS第三方库-YYCache - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS第三方库-YYCache">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-04-01 10:00" pubdate>
+        2020年4月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      712 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS第三方库-YYCache</h1>
+            
+            <div class="markdown-body">
+              <h1 id="YYCache"><a href="#YYCache" class="headerlink" title="YYCache"></a>YYCache</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>一个高性能 iOS 缓存框架。</p>
+<p>主要由<code>YYDiskCache</code>与<code>YYMemoryCache</code>组成。其中<code>YYDiskCache</code>是作为持久化储存，通过<code>sqlite</code>的形式储存在沙盒中<code>Library/Caches/&lt;缓存地址名称&gt;</code>。<br>缓存的对象需要遵循<code>NSCoding</code>协议，并实现协议方法，可以通过<code>YYModel</code>一键归档。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs objectivec">- (<span class="hljs-keyword">void</span>)encodeWithCoder:(<span class="hljs-built_in">NSCoder</span>*)aCoder &#123;<br>    [<span class="hljs-keyword">self</span> yy_modelEncodeWithCoder:aCoder];<br>&#125;<br><br>- (<span class="hljs-keyword">id</span>)initWithCoder:(<span class="hljs-built_in">NSCoder</span>*)aDecoder &#123;<br>    <span class="hljs-keyword">self</span> = [<span class="hljs-keyword">super</span> init];<br>    <span class="hljs-keyword">return</span> [<span class="hljs-keyword">self</span> yy_modelInitWithCoder:aDecoder];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="接口说明"><a href="#接口说明" class="headerlink" title="接口说明"></a>接口说明</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">YYCache</span> : <span class="hljs-title">NSObject</span></span><br><br><span class="hljs-comment">/** 缓存的名称 */</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">copy</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">NSString</span> *name;<br><br><span class="hljs-comment">/** 内存缓存 */</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">strong</span>, <span class="hljs-keyword">readonly</span>) YYMemoryCache *memoryCache;<br><br><span class="hljs-comment">/** 磁盘缓存 */</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">strong</span>, <span class="hljs-keyword">readonly</span>) YYDiskCache *diskCache;<br><br><span class="hljs-comment">/** 初始化方式一，设置缓存名称 */</span><br>- (<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">instancetype</span>)initWithName:(<span class="hljs-built_in">NSString</span> *)name;<br><br><span class="hljs-comment">/** 初始化方式二，设置缓存路径 */</span><br>- (<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">instancetype</span>)initWithPath:(<span class="hljs-built_in">NSString</span> *)path <span class="hljs-built_in">NS_DESIGNATED_INITIALIZER</span>;<br><br><span class="hljs-comment">/** 便利构造初始化，设置缓存名称 */</span><br>+ (<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">instancetype</span>)cacheWithName:(<span class="hljs-built_in">NSString</span> *)name;<br><br><span class="hljs-comment">/** 便利构造初始化，设置缓存路径 */</span><br>+ (<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">instancetype</span>)cacheWithPath:(<span class="hljs-built_in">NSString</span> *)path;<br><br><span class="hljs-comment">/** 方法失效 */</span><br>- (<span class="hljs-keyword">instancetype</span>)init UNAVAILABLE_ATTRIBUTE;<br><span class="hljs-comment">/** 方法失效 */</span><br>+ (<span class="hljs-keyword">instancetype</span>)new UNAVAILABLE_ATTRIBUTE;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - Access Methods</span><br><span class="hljs-comment">///=============================================================================</span><br><span class="hljs-comment">/// @name Access Methods</span><br><span class="hljs-comment">///=============================================================================</span><br><br><span class="hljs-comment">/** 判断缓存中是否存在相同key值的数据 */</span><br>- (<span class="hljs-built_in">BOOL</span>)containsObjectForKey:(<span class="hljs-built_in">NSString</span> *)key;<br><br><span class="hljs-comment">/** 异步 判断缓存中是否存在相同key值的数据 */</span><br>- (<span class="hljs-keyword">void</span>)containsObjectForKey:(<span class="hljs-built_in">NSString</span> *)key withBlock:(<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">void</span>(^)(<span class="hljs-built_in">NSString</span> *key, <span class="hljs-built_in">BOOL</span> contains))block;<br><br><span class="hljs-comment">/** 通过key值获取缓存数据 */</span><br>- (<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">id</span>&lt;<span class="hljs-built_in">NSCoding</span>&gt;)objectForKey:(<span class="hljs-built_in">NSString</span> *)key;<br><br><span class="hljs-comment">/** 异步通过key值获取缓存数据 */</span><br>- (<span class="hljs-keyword">void</span>)objectForKey:(<span class="hljs-built_in">NSString</span> *)key withBlock:(<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">void</span>(^)(<span class="hljs-built_in">NSString</span> *key, <span class="hljs-keyword">id</span>&lt;<span class="hljs-built_in">NSCoding</span>&gt; object))block;<br><br><span class="hljs-comment">/** 通过key值，设置缓存数据 */</span><br>- (<span class="hljs-keyword">void</span>)setObject:(<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">id</span>&lt;<span class="hljs-built_in">NSCoding</span>&gt;)object forKey:(<span class="hljs-built_in">NSString</span> *)key;<br><br><span class="hljs-comment">/** 异步通过key值，设置缓存数据 */</span><br>- (<span class="hljs-keyword">void</span>)setObject:(<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">id</span>&lt;<span class="hljs-built_in">NSCoding</span>&gt;)object forKey:(<span class="hljs-built_in">NSString</span> *)key withBlock:(<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">void</span>(^)(<span class="hljs-keyword">void</span>))block;<br><br><span class="hljs-comment">/** 通过key值，清除缓存数据 */</span><br>- (<span class="hljs-keyword">void</span>)removeObjectForKey:(<span class="hljs-built_in">NSString</span> *)key;<br><br><span class="hljs-comment">/** 异步通过key值，清除缓存数据  */</span><br>- (<span class="hljs-keyword">void</span>)removeObjectForKey:(<span class="hljs-built_in">NSString</span> *)key withBlock:(<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">void</span>(^)(<span class="hljs-built_in">NSString</span> *key))block;<br><br><span class="hljs-comment">/** 清除所有缓存数据  */</span><br>- (<span class="hljs-keyword">void</span>)removeAllObjects;<br><br><span class="hljs-comment">/** 异步清除所有缓存数据  */</span><br>- (<span class="hljs-keyword">void</span>)removeAllObjectsWithBlock:(<span class="hljs-keyword">void</span>(^)(<span class="hljs-keyword">void</span>))block;<br><br><span class="hljs-comment">/** 异步清除所有缓存数据，并获取清除进程和是否清除失败  */</span><br>- (<span class="hljs-keyword">void</span>)removeAllObjectsWithProgressBlock:(<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">void</span>(^)(<span class="hljs-keyword">int</span> removedCount, <span class="hljs-keyword">int</span> totalCount))progress<br>                                 endBlock:(<span class="hljs-keyword">nullable</span> <span class="hljs-keyword">void</span>(^)(<span class="hljs-built_in">BOOL</span> error))end;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>实例<code>Model</code></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;Foundation/Foundation.h&gt;</span></span><br><span class="hljs-built_in">NS_ASSUME_NONNULL_BEGIN</span><br><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">TestModel</span> : <span class="hljs-title">NSObject</span> &lt;<span class="hljs-title">NSCoding</span>&gt;</span><br><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>) <span class="hljs-built_in">NSString</span> *name;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>) <span class="hljs-built_in">NSInteger</span> age;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>) <span class="hljs-keyword">bool</span> sex;<br><br><span class="hljs-keyword">@end</span><br><br><span class="hljs-built_in">NS_ASSUME_NONNULL_END</span><br><br><span class="hljs-comment">//--------------------分界线--------------------//</span><br><br><span class="hljs-meta">#import <span class="hljs-meta-string">&quot;TestModel.h&quot;</span></span><br><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;YYModel.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">TestModel</span></span><br>- (<span class="hljs-keyword">void</span>)encodeWithCoder:(<span class="hljs-built_in">NSCoder</span>*)aCoder &#123;<br>    [<span class="hljs-keyword">self</span> yy_modelEncodeWithCoder:aCoder];<br>&#125;<br><br>- (<span class="hljs-keyword">id</span>)initWithCoder:(<span class="hljs-built_in">NSCoder</span>*)aDecoder &#123;<br>    <span class="hljs-keyword">self</span> = [<span class="hljs-keyword">super</span> init];<br>    <span class="hljs-keyword">return</span> [<span class="hljs-keyword">self</span> yy_modelInitWithCoder:aDecoder];<br>&#125;<br><span class="hljs-keyword">@end</span><br></code></pre></td></tr></table></figure>
+<p>添加到缓存中</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs nix">YYCache *<span class="hljs-attr">cache</span> = [YYCache cacheWithName:@<span class="hljs-string">&quot;CacheName&quot;</span>];<br><br>TestModel *<span class="hljs-attr">model</span> = [[TestModel alloc] init];<br>model.<span class="hljs-attr">name</span> = @<span class="hljs-string">&quot;test&quot;</span>;<br>model.<span class="hljs-attr">age</span> = <span class="hljs-number">11</span>;<br>model.<span class="hljs-attr">sex</span> = NO;<br><br>TestModel *<span class="hljs-attr">model1</span> = [[TestModel alloc] init];<br>model1.<span class="hljs-attr">name</span> = @<span class="hljs-string">&quot;tes2&quot;</span>;<br>model1.<span class="hljs-attr">age</span> = <span class="hljs-number">22</span>;<br>model1.<span class="hljs-attr">sex</span> = YES;<br><br>TestModel *<span class="hljs-attr">model2</span> = [[TestModel alloc] init];<br>model2.<span class="hljs-attr">name</span> = @<span class="hljs-string">&quot;tes3&quot;</span>;<br>model2.<span class="hljs-attr">age</span> = <span class="hljs-number">33</span>;<br>model2.<span class="hljs-attr">sex</span> = NO;<br><br>NSArray&lt;TestModel *&gt; *<span class="hljs-attr">array</span> = @[model, model1, model2];<br><br>[cache setObject:array forKey:@<span class="hljs-string">&quot;Test&quot;</span>];<br>NSArray&lt;TestModel *&gt; *<span class="hljs-attr">tArray</span> = [cache objectForKey:@<span class="hljs-string">&quot;Test&quot;</span>];<br><br>for (TestModel *m <span class="hljs-keyword">in</span> tArray) &#123;<br>    NSLog(@<span class="hljs-string">&quot;name:%@----age:%ld---sex:%d&quot;</span>, m.name, m.age, m.sex);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>获取缓存中的数据</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">2019</span>-<span class="hljs-number">05</span>-<span class="hljs-number">16</span> <span class="hljs-number">11</span>:<span class="hljs-number">59</span>:<span class="hljs-number">12</span>.<span class="hljs-number">918221</span>+<span class="hljs-number">0800</span> YYKitDemo[<span class="hljs-number">8347</span>:<span class="hljs-number">173145</span>] name:test----age:<span class="hljs-number">11</span>---sex:<span class="hljs-number">0</span><br><span class="hljs-attribute">2019</span>-<span class="hljs-number">05</span>-<span class="hljs-number">16</span> <span class="hljs-number">11</span>:<span class="hljs-number">59</span>:<span class="hljs-number">12</span>.<span class="hljs-number">918342</span>+<span class="hljs-number">0800</span> YYKitDemo[<span class="hljs-number">8347</span>:<span class="hljs-number">173145</span>] name:tes<span class="hljs-number">2</span>----age:<span class="hljs-number">22</span>---sex:<span class="hljs-number">1</span><br><span class="hljs-attribute">2019</span>-<span class="hljs-number">05</span>-<span class="hljs-number">16</span> <span class="hljs-number">11</span>:<span class="hljs-number">59</span>:<span class="hljs-number">12</span>.<span class="hljs-number">918412</span>+<span class="hljs-number">0800</span> YYKitDemo[<span class="hljs-number">8347</span>:<span class="hljs-number">173145</span>] name:tes<span class="hljs-number">3</span>----age:<span class="hljs-number">33</span>---sex:<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Swift/">Swift</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Swift/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Swift/iOS/SDK/">SDK</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/SDK/">SDK</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/01/JavaScript%E4%B8%8E%E5%8E%9F%E7%94%9F%E4%BA%A4%E4%BA%92/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaScript与原生交互</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/01/iOS%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-RxSwift%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%B8%B8%EF%BC%88%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D%EF%BC%89/">
+                        <span class="hidden-mobile">RxSwift学习日常（基础介绍）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

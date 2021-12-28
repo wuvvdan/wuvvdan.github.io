@@ -1,0 +1,729 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS 面试题（一） - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS 面试题（一）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-01-01 10:00" pubdate>
+        2018年1月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      70
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS 面试题（一）</h1>
+            
+            <div class="markdown-body">
+              <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h4 id="1-属性修饰词"><a href="#1-属性修饰词" class="headerlink" title="1. 属性修饰词"></a>1. 属性修饰词</h4><h4 id="nonatomic"><a href="#nonatomic" class="headerlink" title="nonatomic"></a>nonatomic</h4><p>非原子性访问，多线程并发访问会提高性能。</p>
+<h4 id="atomic"><a href="#atomic" class="headerlink" title="atomic:"></a>atomic:</h4><p>原子性访问。</p>
+<h4 id="strong"><a href="#strong" class="headerlink" title="strong"></a>strong</h4><p>ARC时中使用，相当于retain。</p>
+<h4 id="weak"><a href="#weak" class="headerlink" title="weak"></a>weak</h4><p>相当于assign，可以把对应的指针变量置为nil。</p>
+<h4 id="assgin"><a href="#assgin" class="headerlink" title="assgin"></a>assgin</h4><p>不会使引用计数加1，也就是直接赋值。</p>
+<h4 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h4><p>建立一个索引计数为1的对象，在赋值时使用传入值的一份拷贝。</p>
+<h4 id="retain"><a href="#retain" class="headerlink" title="retain"></a>retain</h4><p>会使引用计数加1。</p>
+<h4 id="readonly"><a href="#readonly" class="headerlink" title="readonly"></a>readonly</h4><p>此标记说明属性会被当成读写的，这也是默认属性。</p>
+<h4 id="readwrite"><a href="#readwrite" class="headerlink" title="readwrite"></a>readwrite</h4><p>此标记说明属性只可以读，也就是不能设置，可以获取。</p>
+<h4 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h4><p>（1）什么情况使用 weak 关键字？相比 assign 有什么不同?</p>
+<ul>
+<li>使用<blockquote>
+<ol>
+<li>协议声明使用weak</li>
+<li>IBOutlet 使用weak</li>
+</ol>
+</blockquote>
+</li>
+<li>weak 和 assign 的不同点:<blockquote>
+<p>weak 策略在属性所指的对象遭到摧毁时,系统会将 weak 修饰的属性对象的指针指向 nil,在 OC 给 nil 发消息是不会有什么问题的;如果使用 assign 策略在属性所指的对象遭到摧毁时,属性对象指针还指向原来的对象,由于对象已经被销毁,这时候就产生了野指针,如果这时候在给此对象发送消息,很容造成程序奔溃assigin 可以用于修饰非 OC 对象,而 weak 必须用于 OC 对象。</p>
+</blockquote>
+</li>
+</ul>
+<p>（2）使用 atomic 一定是线程安全的吗?</p>
+<ul>
+<li>不是,atomic 的本意是指属性的存取方法是线程安全的,并不保证整个对象是线程安全的。<blockquote>
+<p>例如： 声明一个 NSMutableArray 的原子属性 stuff,此时 self.stuff 和 self.stuff =othersulf 都是线程安全的。但是,使用[self.stuff objectAtIndex:index]就不是线程安全的,需要用互斥锁来保证线程安全性。</p>
+</blockquote>
+</li>
+</ul>
+<p>（3）@synthesize 和 @dynamic 分别有什么作用</p>
+<blockquote>
+<ul>
+<li>@property 有两个对应的词,一个是@synthesize,一个是@dynamic。<br>如果@synthesize 和@dynamic 都没写,那么默认的就是<br>@syntheszie var = _var;</li>
+<li>@synthesize 的语义是如果你没有手动实现 setter 方法和 getter 方法,那么编译器会自动为你加上这两个方法。</li>
+<li>@dynamic 告诉编译器:属性的 setter 与 getter 方法由用户自己实现,不自动生成。(当然对于 readonly 的属性只需提供 getter 即可)</li>
+<li>假如一个属性被声明为@dynamic var；然后你没有提供@setter 方法和@getter 方法,编译的时候没问题,但是当程序运行到 instance.var = someVar,由于缺 setter方法会导致程序崩溃;<br>或者当运行到 someVar = instance.var 时,由于缺 getter 方法同样会导致崩溃。</li>
+</ul>
+</blockquote>
+<p>（4）ARC 下,不显式指定任何属性关键字时,默认的关键字都有哪些?</p>
+<blockquote>
+<ul>
+<li>基本数据：  <code>atomic,readwrite,assign</code></li>
+<li>普通的 OC 对象: <code>atomic,readwrite,strong</code></li>
+</ul>
+</blockquote>
+<p>（5）用@property 声明的 NSString(或 NSArray,NSDictionary)经常使用 copy 关键字,为什么?如果改用 strong 关键字,可能造成什么问题?</p>
+<blockquote>
+<p>因为父类指针可以指向子类对象,使用 copy 的目的是为了让本对象的属性不受外界影响,使用 copy 无论给我传入是一个可变对象还是不可对象,我本身持有的就是一个不可变的副本.</p>
+<p>如果我们使用是 strong,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么会影响该属性.</p>
+</blockquote>
+<p>（6）这个写法会出什么问题: @property(copy)NSMutableArray *array;</p>
+<blockquote>
+<p>因为 copy 策略拷贝出来的是一个不可变对象,然而却把它当成可变对象使用,很容易造成程序奔溃这里还有一个问题,该属性使用了同步锁,会在创建时生成一些额外的代码用于帮助编写多线程程序,这会带来性能问题,通过声明 nonatomic 可以节省这些虽然<br>很小但是不必要额外开销,在 iOS 开发中应该使用 nonatomic 替代 atomic.</p>
+</blockquote>
+<p>（7）如何让自定义类可以用 copy 修饰符?如何重写带 copy 关键字的 setter?</p>
+<blockquote>
+<p>若想令自己所写的对象具有拷贝功能,则需实现 NSCopying 协议。</p>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-comment">// 实现不可变版本拷贝</span><br>- (<span class="hljs-keyword">id</span>)copyWithZone:(<span class="hljs-built_in">NSZone</span> *)zone; <span class="hljs-comment">// 实现可变版本拷贝</span><br>- (<span class="hljs-keyword">id</span>)mutableCopyWithZone:(<span class="hljs-built_in">NSZone</span> *)zone;<br><span class="hljs-comment">// 重写带 copy 关键字的 setter</span><br>- (<span class="hljs-keyword">void</span>)setName:(<span class="hljs-built_in">NSString</span> *)name &#123;<br>    _name = [name <span class="hljs-keyword">copy</span>];<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="2-我们说的Objective-C是动态运行时语言是什么意思？"><a href="#2-我们说的Objective-C是动态运行时语言是什么意思？" class="headerlink" title="2. 我们说的Objective-C是动态运行时语言是什么意思？"></a>2. 我们说的Objective-C是动态运行时语言是什么意思？</h4><blockquote>
+<ul>
+<li>动态类型。 如id类型。实际上静态类型因为其固定性和可预知性而使用得更加广泛。静态类型是强类型，而动态类型属于弱类型。运行时决定接收者。</li>
+<li>动态绑定。让代码在运行时判断需要调用什么方法，而不是在编译时。与其他面向对象语言一样，方法调用和代码并没有在编译时连接在一起，而是在消息发送时才进行连接。运行时决定调用哪个方法。</li>
+<li> 动态载入。让程序在运行时添加代码模块以及其他资源。用户可以根据需要加载一些可执行代码和资源，而不是在启动时就加载所有组件。可执行代码中可以含有和程序运行时整合的新类。</li>
+</ul>
+</blockquote>
+<h4 id="3-讲一下MVC和MVVM，MVP？"><a href="#3-讲一下MVC和MVVM，MVP？" class="headerlink" title="3. 讲一下MVC和MVVM，MVP？"></a>3. 讲一下MVC和MVVM，MVP？</h4><ul>
+<li>MVC:<blockquote>
+<p>MVC即Model-VIew-Controller。MVC模式致力于关注点的切分，这意味着model和controller的逻辑是不与用户界面（View）挂钩的。Model层代表了描述业务逻辑和数据的一系列类的集合。它也定义了数据修改和操作的业务规则。View代表了UI组件，像UIView，UIButton，UITableView等。他只负责展示从controller接收到的数据。因此，维护和测试程序变得更加简单容易。然而在Cocoa的MVC模式中Controller经常被混杂在View的生命周期中，因此很难说View和ViewController是分离的，这也往往驱使人们写出臃肿的视图控制器，尽管仍可以将业务逻辑和数据转换到Model，但是大多数情况下当需要为View减负的时候我们却无能为力了。View的最大的任务就是向Controller传递用户动作事件。ViewController不再承担一切代理和数据源的职责，通常只负责一些分发和取消网络请求以及一些其他的任务。当在进行单元测试的时候你会发现问题越来越明显。因为你的ViewController和View是紧密耦合的，对它们进行测试就显得很艰难。Cocoa MVC看来并不是我们定义中理想的架构模式。</p>
+</blockquote>
+</li>
+<li>MVVM:<blockquote>
+<p>即Model-View-View Model。这个模式提供对View和View Model的双向数据绑定。这使得View Model的状态改变可以自动传递给View。典型的情况是，View Model通过使用obsever模式（观察者模式）来将View Model的变化通知给model。View Model负责暴漏方法，命令，其他属性来操作VIew的状态，组装model作为View动作的结果，并且触发View自己的事件。它和MVP模式看起来非常像:MVVM将ViewController视作View,View和Model之间没有紧密的联系。在使用MVVM模式时，自然而然会想到ReactiveCoca，反之亦然。尽管通过简单的绑定来使用MVVM是可实现的，但是ReactiveCocoa却能更好的发挥MVVM模式的特点。但是使用这个框架有个难以忽略的事实：当你刚开始使用ReactiveCoca的时候有很大的可能就会把事情搞砸。换句话来说就是，如果发现了一些错误，当你试图查看函数调用栈时你可能会喊：“天哪，好深的函数调用栈“！调试出这个bug可能会花费大量的时间。MVVM很诱人，因为它集合了上述方法的优点，并且由于在View层的绑定，它并不需要其他附加的代码来更新View，尽管这样，可测试性依然很强——符合我们理想中好架构模式的定义。</p>
+</blockquote>
+</li>
+<li>MVP:<blockquote>
+<p>这个模式把Presenter换成Controller就和MVC非常相像了。这个设计模式把应用程序分成了3个主要方面：Model、View和Presenter,其中的Model和View与MVC模中的角色相同。Presenter负责处理View背后所有的UI事件。它通过View接收用户输入，之后利用Model来处理用户的数据，最后把结果返回给View。与View和Controller不同，View和Presenter之间是完全解耦的，他们通过接口来交互。另外，presenter不像controller处理进入的请求。这不是正解决了Cocoa MVC中ViewController和View的耦合问题吗？就MVP模式而言，UIViewController的子类实际上就是Views并不是Presenters。这点区别使得这种模式的可测试性得到了极大的提高，付出的代价是开发速度的一些降低，因为必须要做一些手动的数据和事件绑定。但是这也意味着我们将最主要的任务划分到Presenter和Model，而View的功能较少——各个实体任务量分配不均衡。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="4-为什么代理要用weak？代理的delegate和dataSource有什么区别？block和代理的区别"><a href="#4-为什么代理要用weak？代理的delegate和dataSource有什么区别？block和代理的区别" class="headerlink" title="4. 为什么代理要用weak？代理的delegate和dataSource有什么区别？block和代理的区别?"></a>4. 为什么代理要用weak？代理的delegate和dataSource有什么区别？block和代理的区别?</h4><blockquote>
+<ol>
+<li>为什么代理要用weak? <blockquote>
+<p>防止循环引用。例如View有一个协议，需要一个代理实现回调。一个Controller添加这个View，并且遵守协议，成为View的代理。如果不用week，用strong，Controller -&gt;View -&gt; delegate -&gt; Controller，就循环引用了。</p>
+</blockquote>
+</li>
+<li>代理的delegate和dataSource有什么区别？<blockquote>
+<p> delegate偏重于与用户交互的回调，有那些方法可以供我使用，例如UITableviewDelegate；dataSource偏重于数据的回调，view里面有什么东西，属性都是什么，例如UITableviewDatasource；</p>
+</blockquote>
+</li>
+<li>block和代理的区别?<blockquote>
+<p>代理和block的共同特性是回调机制，不同的是，代理的方法比较多，比较分散。使用block的代码比较集中统一。</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<h4 id="5-属性的实质是什么？包括哪几个部分？属性默认的关键字都有哪些？-dynamic关键字和-synthesize关键字是用来做什么的？"><a href="#5-属性的实质是什么？包括哪几个部分？属性默认的关键字都有哪些？-dynamic关键字和-synthesize关键字是用来做什么的？" class="headerlink" title="5. 属性的实质是什么？包括哪几个部分？属性默认的关键字都有哪些？@dynamic关键字和@synthesize关键字是用来做什么的？"></a>5. 属性的实质是什么？包括哪几个部分？属性默认的关键字都有哪些？@dynamic关键字和@synthesize关键字是用来做什么的？</h4><blockquote>
+<ol>
+<li>@property = ivar + getter + setter; (实例变量+get方法+ set方法，也就是说使用@property系统会自动生成setter和getter方法;) <br></li>
+<li>@synthesize propertyName = _propertyName; (这行代码会创造一个带下划线前缀的实例变量名，同时使用这个属性生成getter 和 setter 方法。) <br></li>
+<li>禁止@synthesize:如果某属性已经在某处实现了自己的 setter/getter ,可以使用 @dynamic 来阻止 @synthesize 自动生成新的 setter/getter 覆盖。</li>
+</ol>
+</blockquote>
+<h4 id="6-属性的默认关键字是什么？"><a href="#6-属性的默认关键字是什么？" class="headerlink" title="6. 属性的默认关键字是什么？"></a>6. 属性的默认关键字是什么？</h4><blockquote>
+<p>基本类型 @property (atomic, assign) <br><br>对象类型 @property (atomic, strong)</p>
+</blockquote>
+<h4 id="7-NSString为什么要用copy关键字，如果用strong会有什么问题？（注意：这里没有说用strong就一定不行。使用copy和strong是看情况而定的）"><a href="#7-NSString为什么要用copy关键字，如果用strong会有什么问题？（注意：这里没有说用strong就一定不行。使用copy和strong是看情况而定的）" class="headerlink" title="7. NSString为什么要用copy关键字，如果用strong会有什么问题？（注意：这里没有说用strong就一定不行。使用copy和strong是看情况而定的）"></a>7. NSString为什么要用copy关键字，如果用strong会有什么问题？（注意：这里没有说用strong就一定不行。使用copy和strong是看情况而定的）</h4><blockquote>
+<ol>
+<li>因为父类指针可以指向子类对象,使用copy的目的是为了让本对象的属性不受外界影响,使用copy无论给我传入是一个可变对象还是不可对象,我本身持有的就是一个不可变的副本.</li>
+<li>如果我们使用是strong,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么会影响该属性.</li>
+</ol>
+</blockquote>
+<h4 id="8-如何令自己所写的对象具有拷贝功能"><a href="#8-如何令自己所写的对象具有拷贝功能" class="headerlink" title="8. 如何令自己所写的对象具有拷贝功能?"></a>8. 如何令自己所写的对象具有拷贝功能?</h4><blockquote>
+<ol>
+<li>需声明该类遵从 NSCopying 协议</li>
+<li>实现 NSCopying 协议。该协议只有一个方法: <code>- (id)copyWithZone:(NSZone *)zone;</code></li>
+</ol>
+</blockquote>
+<h4 id="9-简述kvo、kvc、Delegate他们之间的区别？"><a href="#9-简述kvo、kvc、Delegate他们之间的区别？" class="headerlink" title="9. 简述kvo、kvc、Delegate他们之间的区别？"></a>9. 简述kvo、kvc、Delegate他们之间的区别？</h4><blockquote>
+<ol>
+<li>KVO（Key-Value- Observing）：一对多, 观察者模式, 是键值监听,键值观察机制, KVO的本质是当观察者为一个对象的属性进行了注册，被观察对象的isa指针被修改的时候，isa指针就会指向一个中间类，而不是真实的类。所以 isa指针其实不需要指向实例对象真实的类。所以我们的程序最好不要依赖于isa指针。在调用类的方法的时候，最好要明确对象实例的类名。</li>
+<li>KVC(Key-Value-Coding)内部的实现：是键值编码, 一个对象在调用setValue的时候，（1）首先根据方法名找到运行方法的时候所需要的环 境参数。（2）他会从自己isa指针结合环境参数，找到具体的方法实现的接口。（3）再直接查找得来的具体的方法实现。</li>
+<li>Delegate: 通常发送者和接收者的关系是直接的一对一的关系。代理的目的是改变或传递控制链。允许一个类在某些特定时刻通知到其他类，而不需要获取到那些类的指针。可以减少框架复杂度。消息的发送者(sender)告知接收者(receiver)某个事件将要发生，delegate同意然然后发送者响应事件，delegate机制使得接收者可以改变发送者的行为。</li>
+<li>Notification: 观察者模式, 通常发送者和接收者的关系是间接的多对多关系。 消息的发送者告知接收者事件已经发生或者将要发送，仅此而已，接收者并不能反过来影响发送者的行为。<blockquote>
+<p>(1) 效率肯定是delegate比NSNotification高。<br></p>
+<p>(2) delegate方法比notification更加直接，最典型的特征是，delegate方法往往需要关注返回值，也就是delegate方法的结果。比如-windowShouldClose:，需要关心返回的是yes还是no。所以delegate方法往往包含should这个很传神的词。也就是好比你做我的delegate，我会问你我想关闭窗口你愿意吗？你需要给我一个答案，我根据你的答案来决定如何做下一步。相反的，notification最大的特色就是不关心接受者的态度，我只管把通告放出来，你接受不接受就是你的事情，同时我也不关心结果。所以notification往往用did这个词汇，比如NSWindowDidResizeNotification，那么nswindow对象放出这个notification后就什么都不管了也不会等待接受者的反应。</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<h4 id="10-include与-import的区别？-import与-class的区别？"><a href="#10-include与-import的区别？-import与-class的区别？" class="headerlink" title="10. include与#import的区别？#import与@class的区别？"></a>10. include与#import的区别？#import与@class的区别？</h4><blockquote>
+<ol>
+<li>#import指令是Object-C针对@include的改进版本，能确保引用的文件只会被引用一次，不会陷入递归包含的问题中；</li>
+<li>@import与@class的区别：<blockquote>
+<p>#import会链入该头文件的全部信息，包括实体变量和方法等；二@class只是告诉编译器，其后面声明的名称是类的名称，至于这些类如何定义的，暂时不用考虑。在头文件中，一般只需要知道被引用的类的名称就可以了，不需要知道其内部的实体变量和方法，所以在头文件中一般使用@class来声明这个名称是类的名称；而在实现类里面，因为会用到这个引用类的内部的实体变量和方法，所以需要使用#import类包含这个被引用类的头文件。@class还可以解决循环包含的问题</p>
+</blockquote>
+</li>
+<li>#import&lt;&gt;跟#import””的区别：<blockquote>
+<p>#import&lt;&gt;用来包含系统自带的文件，#import””用来包含自定义的文件</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<h4 id="11-nonatomic和atomic的区别？atomic是绝对的线程安全么？为什么？如果不是，那应该如何实现？"><a href="#11-nonatomic和atomic的区别？atomic是绝对的线程安全么？为什么？如果不是，那应该如何实现？" class="headerlink" title="11. nonatomic和atomic的区别？atomic是绝对的线程安全么？为什么？如果不是，那应该如何实现？"></a>11. nonatomic和atomic的区别？atomic是绝对的线程安全么？为什么？如果不是，那应该如何实现？</h4><blockquote>
+<ol>
+<li>nonatomic和atomic的区别<blockquote>
+<p>nonatomic和atomic用来决定编译器生成的getter和setter操作是否为原子操作。</p>
+</blockquote>
+</li>
+<li>atomic是绝对的线程安全么？<blockquote>
+<p>atomic不是绝对的线程安全。atomic的本意是指属性的存取方法是线程安全的，并不保证整个对象是线程安全的。如：<br>声明一个NSMutableArray的原子属性stuff，此时self.stuff 和 self.stuff = otherstuff都是线程安全的。但是使用[self.stuff objectAtIndex:index]就不是线程安全的。需要用互斥锁来保证线程安全性。</p>
+</blockquote>
+</li>
+<li>如何实现线程安全<blockquote>
+<p>使用线程锁</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<h4 id="12-UICollectionView自定义layout如何实现？"><a href="#12-UICollectionView自定义layout如何实现？" class="headerlink" title="12. UICollectionView自定义layout如何实现？"></a>12. UICollectionView自定义layout如何实现？</h4><blockquote>
+<ol>
+<li><code> -(void)prepareLayout;</code> 方法重写，并设置初始样式</li>
+<li><code> - (CGRect)collectionViewContentSize;</code> 方法重写， 并使用它来返回CollectionView视图内容的宽高，</li>
+<li>四个方法来确定布局信息<blockquote>
+<ul>
+<li><p><code> - (NSArray&lt;__kindof UICollectionViewLayoutAttributes *&gt; *)layoutAttributesForElementsInRect:(CGRect)rect;</code></p>
+</li>
+<li><p><code>- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath;</code></p>
+</li>
+<li><p><code> - (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath;</code></p>
+</li>
+<li><p><code> - (UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString*)elementKind atIndexPath:(NSIndexPath *)indexPath;</code></p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><code> - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds;</code>如果返回YES，那么collectionView显示的范围发生改变时，就会重新刷新布局</li>
+</ol>
+</blockquote>
+<h4 id="13-进程和线程的区别？同步异步的区别？并行和并发的区别？"><a href="#13-进程和线程的区别？同步异步的区别？并行和并发的区别？" class="headerlink" title="13. 进程和线程的区别？同步异步的区别？并行和并发的区别？"></a>13. 进程和线程的区别？同步异步的区别？并行和并发的区别？</h4><blockquote>
+<ol>
+<li>进程和线程的区别<blockquote>
+<ul>
+<li>进程是资源的分配和调度的一个独立单元，而线程是CPU调度的基本单元</li>
+<li>同一个进程中可以包括多个线程，并且线程共享整个进程的资源（寄存器、堆栈、上下文），一个进行至少包括一个线程。</li>
+<li>进程的创建调用fork或者vfork，而线程的创建调用pthread_create，进程结束后它拥有的所有线程都将销毁，而线程的结束不会影响同个进程中的其他线程的结束</li>
+<li>线程是轻两级的进程，它的创建和销毁所需要的时间比进程小很多，所有操作系统中的执行功能都是创建线程去完成的</li>
+<li>线程中执行时一般都要进行同步和互斥，因为他们共享同一进程的所有资源</li>
+<li>线程有自己的私有属性TCB，线程id，寄存器、硬件上下文，而进程也有自己的私有属性进程控制块PCB，这些私有属性是不被共享的，用来标示一个进程或一个线程的标志</li>
+</ul>
+</blockquote>
+</li>
+<li>同步和异步的区别<blockquote>
+<ul>
+<li>同步(synchronous)：进程之间的关系不是相互排斥临界资源的关系，而是相互依赖的关系。进一步的说明：就是前一个进程的输出作为后一个进程的输入，当第一个进程没有输出时第二个进程必须等待。具有同步关系的一组并发进程相互发送的信息称为消息或事件。</li>
+<li>异步(asynchronous)：异步和同步是相对的，同步就是顺序执行，执行完一个再执行下一个，需要等待、协调运行。异步就是彼此独立,在等待某事件的过程中继续做自己的事，不需要等待这一事件完成后再工作。线程就是实现异步的一个方式。异步是让调用方法的主线程不需要同步等待另一线程的完成，从而可以让主线程干其它的事情。</li>
+</ul>
+</blockquote>
+</li>
+<li>并行和并发的区别<blockquote>
+<ul>
+<li>并发：在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这个几个程序都是在同一个处理机上运行。其中两种并发关系分别是同步和互斥。 <blockquote>
+<ol>
+<li>互斥：进程间相互排斥的使用临界资源的现象</li>
+<li>同步：进程之间的关系不是相互排斥临界资源的关系，而是相互依赖的关系。进一步说明就是前一个进程的输出作为后一个进程的输入，当第一个进程没有输出时第二个进程必须等待。具有同步关系的一组并发进程相互发送的信息称为消息或事件。<br>其中并发又有伪并发和真并发，伪并发是指单核处理器的并发，真并发是指多核处理器的并发。</li>
+</ol>
+</blockquote>
+</li>
+<li>并行(parallelism)：在单处理器中多道程序设计系统中，进程被交替执行，表现出一种并发的外部特种；在多处理器系统中，进程不仅可以交替执行，而且可以重叠执行。在多处理器上的程序才可实现并行处理。从而可知，并行是针对多处理器而言的。并行是同时发生的多个并发事件，具有并发的含义，但并发不一定并行，也亦是说并发事件之间不一定要同一时刻发生。 </li>
+</ul>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<h4 id="14-线程间通信？"><a href="#14-线程间通信？" class="headerlink" title="14. 线程间通信？"></a>14. 线程间通信？</h4><blockquote>
+<ol>
+<li><code>NSThread</code><blockquote>
+<ol>
+<li> <code>- (void)performSelectorOnMainThread:(SEL)aSelector withObject:(nullable id)arg waitUntilDone:(BOOL)wait;</code></li>
+<li><code>- (void)performSelector:(SEL)aSelector onThread:(NSThread *)thr withObject:(nullable id)arg waitUntilDone:(BOOL)wait;</code></li>
+</ol>
+</blockquote>
+</li>
+<li><code>CGD</code><blockquote>
+<p> dispatch_async(dispatch_get_global_queue(0, 0), ^{…});</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<h4 id="15-GCD的一些常用的函数？（group，barrier，信号量，线程同步）"><a href="#15-GCD的一些常用的函数？（group，barrier，信号量，线程同步）" class="headerlink" title="15. GCD的一些常用的函数？（group，barrier，信号量，线程同步）"></a>15. GCD的一些常用的函数？（group，barrier，信号量，线程同步）</h4><h4 id="16-如何访问并修改一个类的私有属性？"><a href="#16-如何访问并修改一个类的私有属性？" class="headerlink" title="16. 如何访问并修改一个类的私有属性？"></a>16. 如何访问并修改一个类的私有属性？</h4><blockquote>
+<ol>
+<li>KVO + KVC</li>
+<li>runtime (class_copyIvarList, object_setIvar)</li>
+</ol>
+</blockquote>
+<h4 id="17-数据持久化的几个方案（fmdb用没用过）"><a href="#17-数据持久化的几个方案（fmdb用没用过）" class="headerlink" title="17. 数据持久化的几个方案（fmdb用没用过）"></a>17. 数据持久化的几个方案（fmdb用没用过）</h4><blockquote>
+<ol>
+<li>CoreData</li>
+<li>Sqlite 3</li>
+<li>FMDB （Sqlite 3封装）</li>
+<li>钥匙串</li>
+<li>NSUserDefualt</li>
+<li>NSKeyedArchiver</li>
+<li>NSCache</li>
+<li>沙盒</li>
+</ol>
+</blockquote>
+<h4 id="18-说一下AppDelegate的几个方法？从后台到前台调用了哪些方法？第一次启动调用了哪些方法？从前台到后台调用了哪些方法？"><a href="#18-说一下AppDelegate的几个方法？从后台到前台调用了哪些方法？第一次启动调用了哪些方法？从前台到后台调用了哪些方法？" class="headerlink" title="18. 说一下AppDelegate的几个方法？从后台到前台调用了哪些方法？第一次启动调用了哪些方法？从前台到后台调用了哪些方法？"></a>18. 说一下AppDelegate的几个方法？从后台到前台调用了哪些方法？第一次启动调用了哪些方法？从前台到后台调用了哪些方法？</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">1</span>.当应用程序将要进入非活动状态执行，在此期间，应用程序不接受消息或事件，比如来电<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">applicationWillResignActive</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;应用程序将要进入非活动状态，即将进入后台&quot;</span>);<br>&#125;<br><br><span class="hljs-selector-tag">2</span>.应用程序已经进入后台运行<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">applicationDidEnterBackground</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;如果应用程序支持后台运行，则应用程序已经进入后台运行&quot;</span>); <span class="hljs-comment">//如果需要退出后台,则在这里加上:exit(0);</span><br>&#125;<br><br><span class="hljs-selector-tag">3</span>.应用程序将要进入活动状态执行<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">applicationWillEnterForeground</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;应用程序将要进入活动状态，即将进入前台运行&quot;</span>);<br>&#125;<br><br><span class="hljs-selector-tag">4</span>.应用程序已经进入活动状态<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">applicationDidBecomeActive</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;应用程序已进入前台，处于活动状态&quot;</span>);<br>&#125;<br><br><span class="hljs-selector-tag">5</span>.应用程序将要退出，通常用于保存数据和一些退出前的清理工作<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">applicationWillTerminate</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;应用程序将要退出，通常用于保存数据和一些退出前的清理工作&quot;</span>);<br>&#125;<br><br><span class="hljs-selector-tag">6</span>.当设备为应用程序分配了太多的内存，操作系统会终止应用程序的运行，在终止前会执行这个方法，通常可以在这里进行内存清理工作，防止程序被终止<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">applicationDidReceiveMemoryWarning</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;系统内存不足，需要进行清理工作&quot;</span>);<br>&#125;<br><br><span class="hljs-selector-tag">7</span>.当系统时间发生改变时执行<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">applicationSignificantTimeChange</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;当系统时间发生改变时执行&quot;</span>);<br>&#125;<br><br><span class="hljs-selector-tag">8</span>.推送消息时，获取设备的<span class="hljs-selector-tag">tokenid</span><br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">application</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> <span class="hljs-selector-tag">didRegisterForRemoteNotificationsWithDeviceToken</span>:(NSData *)<span class="hljs-selector-tag">deviceToken</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;%@&quot;</span>,deviceToken);<br>&#125;<br><br><span class="hljs-selector-tag">9</span><span class="hljs-selector-class">.tokenid</span>获取失败时,做相应处理<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">application</span>:(UIApplication *)<span class="hljs-selector-tag">app</span> <span class="hljs-selector-tag">didFailToRegisterForRemoteNotificationsWithError</span>:(NSError *)<span class="hljs-selector-tag">error</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;fail to register for remoteNotifications: %@&quot;</span>, [err description]);<br>&#125;<br><br><span class="hljs-selector-tag">10</span>.接收到推送消息处理<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">application</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> <span class="hljs-selector-tag">didReceiveRemoteNotification</span>:(NSDictionary *)<span class="hljs-selector-tag">userInfo</span> &#123;<br>    <span class="hljs-comment">//设置icon上的标记数字设置为0；</span><br>    <span class="hljs-comment">//application.applicationIconBadgeNumber = 0;</span><br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;%@&quot;</span>,userInfo);<br>&#125;<br><br><span class="hljs-selector-tag">11</span>.当程序载入后执行<br><br><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">applicationDidFinishLaunching</span>:(UIApplication *)<span class="hljs-selector-tag">application</span> &#123;<br>    <span class="hljs-selector-tag">NSLog</span>(@<span class="hljs-string">&quot;当程序载入后执行&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="19-NSCache优于NSDictionary的几点？"><a href="#19-NSCache优于NSDictionary的几点？" class="headerlink" title="19. NSCache优于NSDictionary的几点？"></a>19. NSCache优于NSDictionary的几点？</h4><blockquote>
+<p>NSCache 是一个容器类，类似于NSDIctionary,通过key-value 形式存储和查询值，用于临时存储对象。</p>
+<p>注意一点它和NSDictionary区别就是，NSCache 中的key不必实现copy，NSDictionary中的key必须实现copy</p>
+<p>NSCache中存储的对象也不必实现NSCoding协议，因为毕竟是临时存储，类似于内存缓存，程序退出后就被释放了。</p>
+</blockquote>
+<h4 id="20-知不知道Designated-Initializer？使用它的时候有什么需要注意的问题？"><a href="#20-知不知道Designated-Initializer？使用它的时候有什么需要注意的问题？" class="headerlink" title="20. 知不知道Designated Initializer？使用它的时候有什么需要注意的问题？"></a>20. 知不知道Designated Initializer？使用它的时候有什么需要注意的问题？</h4><h4 id="21-实现description方法能取到什么效果？"><a href="#21-实现description方法能取到什么效果？" class="headerlink" title="21. 实现description方法能取到什么效果？"></a>21. 实现description方法能取到什么效果？</h4><blockquote>
+<p>可以输出对象内部的一些成变量的值</p>
+</blockquote>
+<h4 id="22-objc使用什么机制管理对象内存？"><a href="#22-objc使用什么机制管理对象内存？" class="headerlink" title="22. objc使用什么机制管理对象内存？"></a>22. objc使用什么机制管理对象内存？</h4><blockquote>
+<p>ARC (automatic reference counting)<br>MRC (manual retain-release)</p>
+</blockquote>
+<h2 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h2><ol>
+<li>block的实质是什么？一共有几种block？都是什么情况下生成的？</li>
+<li>使用系统的某些block api，是否考虑引用循环问题？</li>
+<li>谈谈block的理解？并写出一个使用block执行UIVew动画？</li>
+</ol>
+<h2 id="Runtime"><a href="#Runtime" class="headerlink" title="Runtime"></a>Runtime</h2><ol>
+<li>runtime如何实现weak属性？</li>
+<li>runtime如何通过selector找到对应的IMP地址？</li>
+<li>能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？</li>
+<li>runtime如何实现weak变量的自动置nil？</li>
+<li>在开发中如何使用runtime？什么应用场景？</li>
+</ol>
+<h2 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h2><ol>
+<li>isa指针？（对象的isa，类对象的isa，元类的isa都要说）</li>
+<li>类方法和实例方法有什么区别？</li>
+<li>介绍一下分类，能用分类做什么？内部是如何实现的？它为什么会覆盖掉原来的方法？</li>
+<li>运行时能增加成员变量么？能增加属性么？如果能，如何增加？如果不能，为什么？</li>
+<li>objc中向一个nil对象发送消息将会发生什么？（返回值是对象，是标量，结构体）</li>
+</ol>
+<h2 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h2><ol>
+<li>UITableview的优化方法（缓存高度，异步绘制，减少层级，hide，避免离屏渲染）</li>
+<li>有没有用过运行时，用它都能做什么？（交换方法，创建类，给新创建的类增加方法，改变isa指针）</li>
+<li>看过哪些第三方框架的源码？都是如何实现的？（如果没有，问一下多图下载的设计）</li>
+<li>SDWebImage的缓存策略？</li>
+<li>AFN为什么添加一条常驻线程？</li>
+<li>KVO的使用？实现原理？（为什么要创建子类来实现）</li>
+<li>KVC的使用？实现原理？（KVC拿到key以后，是如何赋值的？知不知道集合操作符，能不能访问私有属性，能不能直接访问_ivar）</li>
+</ol>
+<h2 id="iOS的沙盒目录结构"><a href="#iOS的沙盒目录结构" class="headerlink" title="iOS的沙盒目录结构"></a>iOS的沙盒目录结构</h2><ol>
+<li>AppName.app</li>
+<li>Documents</li>
+<li>Library –&gt; 3.1 Preferences 3.2 Caches</li>
+<li>tmp</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/02/01/iOS%E9%9D%A2%E8%AF%95%E9%A2%98-002/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS 面试题（二）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/01/01/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

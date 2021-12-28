@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS多线程-GCD - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS多线程-GCD">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-03-01 10:00" pubdate>
+        2019年3月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      46
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS多线程-GCD</h1>
+            
+            <div class="markdown-body">
+              <h1 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h1><h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>就是执行操作的意思，换句话说就是你在线程中执行的那段代码。在 GCD 中是放在 block 中的。执行任务有两种方式：同步执行（sync）和异步执行（async）。<br>两者的主要区别是：是否等待队列的任务执行结束，以及是否具备开启新线程的能力。</p>
+<h3 id="同步执行（sync）"><a href="#同步执行（sync）" class="headerlink" title="同步执行（sync）"></a>同步执行（sync）</h3><p>同步添加任务到指定的队列中，在添加的任务执行结束之前，会一直等待，直到队列里面的任务完成之后再继续执行。<br><br>只能在当前线程中执行任务，不具备开启新线程的能力。</p>
+<h3 id="异步执行（async）"><a href="#异步执行（async）" class="headerlink" title="异步执行（async）"></a>异步执行（async）</h3><p>异步添加任务到指定的队列中，它不会做任何等待，可以继续执行任务。<br><br>可以在新的线程中执行任务，具备开启新线程的能力。</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>执行任务的等待队列，即用来存放任务的队列。队列是一种特殊的线性表，采用 FIFO（先进先出）的原则，即新任务总是被插入到队列的末尾，而读取任务的时候总是从队列的头部开始读取。每读取一个任务，则从队列中释放一个任务。<br><br><br>在 GCD 中有两种队列：串行队列和并发队列。两者都符合 FIFO（先进先出）的原则。两者的主要区别是：执行顺序不同，以及开启线程数不同。</p>
+<h3 id="串行队列（Serial-Dispatch-Queue）"><a href="#串行队列（Serial-Dispatch-Queue）" class="headerlink" title="串行队列（Serial Dispatch Queue）"></a>串行队列（Serial Dispatch Queue）</h3><p>每次只有一个任务被执行。让任务一个接着一个地执行。（只开启一个线程，一个任务执行完毕后，再执行下一个任务）</p>
+<h3 id="并发队列（Concurrent-Dispatch-Queue）"><a href="#并发队列（Concurrent-Dispatch-Queue）" class="headerlink" title="并发队列（Concurrent Dispatch Queue）"></a>并发队列（Concurrent Dispatch Queue）</h3><p>可以让多个任务并发（同时）执行。（可以开启多个线程，并且同时执行任务）</p>
+<blockquote>
+<p>注意：并发队列 的并发功能只有在异步（dispatch_async）函数下才有效</p>
+</blockquote>
+<h2 id="dispatch-queue-t"><a href="#dispatch-queue-t" class="headerlink" title="dispatch_queue_t"></a>dispatch_queue_t</h2><table>
+<thead>
+<tr>
+<th>任务</th>
+<th>队列</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同步</td>
+<td>串行</td>
+</tr>
+<tr>
+<td>异步</td>
+<td>并发</td>
+</tr>
+</tbody></table>
+<h4 id="组合结果"><a href="#组合结果" class="headerlink" title="组合结果"></a>组合结果</h4><table>
+<thead>
+<tr>
+<th>组合</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同步执行 + 并发队列</td>
+<td>在当前线程中执行任务，不会开启新线程，执行完一个任务，再执行下一个任务</td>
+</tr>
+<tr>
+<td>异步执行 + 并发队列</td>
+<td>可以开启多个线程，任务交替（同时）执行</td>
+</tr>
+<tr>
+<td>同步执行 + 串行队列</td>
+<td>不会开启新线程，在当前线程执行任务。任务是串行的，执行完一个任务，再执行下一个任务</td>
+</tr>
+<tr>
+<td>异步执行 + 串行队列</td>
+<td>会开启新线程，但是因为任务是串行的，执行完一个任务，再执行下一个任务</td>
+</tr>
+<tr>
+<td>同步执行 + 主队列</td>
+<td>在主线程中调用会出现死锁，而在其他线程中则不会</td>
+</tr>
+<tr>
+<td>异步执行 + 主队列</td>
+<td>互相等待卡住不可行</td>
+</tr>
+</tbody></table>
+<h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><h4 id="串行队列"><a href="#串行队列" class="headerlink" title="串行队列"></a>串行队列</h4><p>常用宏定义</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DISPATCH_QUEUE_SERIAL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>DISPATCH_QUEUE_SERIAL_INACTIVE</td>
+<td>dispatch_queue_attr_make_initially_inactive(DISPATCH_QUEUE_SERIAL)</td>
+</tr>
+<tr>
+<td>DISPATCH_QUEUE_SERIAL_WITH_AUTORELEASE_POOL</td>
+<td>dispatch_queue_attr_make_with_autorelease_frequency(DISPATCH_QUEUE_SERIAL, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">dispatch_queue_create</span>(<span class="hljs-string">&quot;标识&quot;</span>, DISPATCH_QUEUE_SERIAL);<br></code></pre></td></tr></table></figure>
+<h4 id="并发队列"><a href="#并发队列" class="headerlink" title="并发队列"></a>并发队列</h4><p>常用宏定义</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DISPATCH_QUEUE_CONCURRENT</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>DISPATCH_QUEUE_CONCURRENT_INACTIVE</td>
+<td>dispatch_queue_attr_make_initially_inactive(DISPATCH_QUEUE_CONCURRENT)</td>
+</tr>
+<tr>
+<td>DISPATCH_QUEUE_CONCURRENT_WITH_AUTORELEASE_POOL</td>
+<td>dispatch_queue_attr_make_with_autorelease_frequency(DISPATCH_QUEUE_SERIAL,DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM)</td>
+</tr>
+</tbody></table>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">dispatch_queue_t</span> queue = <span class="hljs-built_in">dispatch_queue_create</span>(<span class="hljs-string">&quot;标识&quot;</span>, DISPATCH_QUEUE_CONCURRENT);<br><br></code></pre></td></tr></table></figure>
+<h4 id="获取主线程"><a href="#获取主线程" class="headerlink" title="获取主线程"></a>获取主线程</h4><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">dispatch_get_main_queue()<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<h4 id="获取系统默认的全局并发队列"><a href="#获取系统默认的全局并发队列" class="headerlink" title="获取系统默认的全局并发队列"></a>获取系统默认的全局并发队列</h4><h4 id="iOS-8-0"><a href="#iOS-8-0" class="headerlink" title="iOS 8.0"></a>iOS 8.0</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QOS_CLASS_USER_INTERACTIVE</td>
+<td>用户交互(希望尽快完成，用户对结果很期望，不要放太耗时操作)</td>
+</tr>
+<tr>
+<td>QOS_CLASS_USER_INITIATED</td>
+<td>用户期望(不要放太耗时操作)</td>
+</tr>
+<tr>
+<td>QOS_CLASS_DEFAULT</td>
+<td>默认(不是给程序员使用的，用来重置对列使用的)</td>
+</tr>
+<tr>
+<td>QOS_CLASS_UTILITY</td>
+<td>实用工具(耗时操作，可以使用这个选项)</td>
+</tr>
+<tr>
+<td>QOS_CLASS_BACKGROUND</td>
+<td>后台</td>
+</tr>
+<tr>
+<td>QOS_CLASS_UNSPECIFIED</td>
+<td>未指定</td>
+</tr>
+</tbody></table>
+<h4 id="iOS-8-0之前"><a href="#iOS-8-0之前" class="headerlink" title="iOS 8.0之前"></a>iOS 8.0之前</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DISPATCH_QUEUE_PRIORITY_HIGH</td>
+<td>高优先级</td>
+</tr>
+<tr>
+<td>DISPATCH_QUEUE_PRIORITY_DEFAULT</td>
+<td>默认优先级</td>
+</tr>
+<tr>
+<td>DISPATCH_QUEUE_PRIORITY_LOW</td>
+<td>低优先级</td>
+</tr>
+<tr>
+<td>DISPATCH_QUEUE_PRIORITY_BACKGROUND</td>
+<td>后台优先级</td>
+</tr>
+</tbody></table>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">dispatch_get_global_queue</span>(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+
+<h4 id="异步执行"><a href="#异步执行" class="headerlink" title="异步执行"></a>异步执行</h4><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-keyword">int</span> context = <span class="hljs-number">10</span>;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment">  队列异步执行</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  <span class="hljs-doctag">@param</span> queue 队列</span><br><span class="hljs-comment">  <span class="hljs-doctag">@param</span> context 要传递给函数的应用程序定义的上下文参数。</span><br><span class="hljs-comment">  <span class="hljs-doctag">@param</span> asyncMethod c操作方法</span><br><span class="hljs-comment">  <span class="hljs-doctag">@return</span> dispatch_queue_t</span><br><span class="hljs-comment">*/</span><br>dispatch_async_f(queue, &amp;context, asyncMethod);<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">asyncMethod</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;<br><br>dispatch_sync(queue, ^&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h4 id="同步执行"><a href="#同步执行" class="headerlink" title="同步执行"></a>同步执行</h4><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-keyword">int</span> context = <span class="hljs-number">10</span>;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment">  队列同步执行</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  <span class="hljs-doctag">@param</span> queue 队列</span><br><span class="hljs-comment">  <span class="hljs-doctag">@param</span> context 要传递给函数的应用程序定义的上下文参数。</span><br><span class="hljs-comment">  <span class="hljs-doctag">@param</span> syncMethod c操作方法</span><br><span class="hljs-comment">  <span class="hljs-doctag">@return</span> dispatch_queue_t</span><br><span class="hljs-comment"> */</span><br>dispatch_sync_f(queue, &amp;context, syncMethod);<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">syncMethod</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;<br><br>dispatch_sync(queue, ^&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h4 id="延迟操作"><a href="#延迟操作" class="headerlink" title="延迟操作"></a>延迟操作</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> context = <span class="hljs-number">10</span>;<br><span class="hljs-built_in">dispatch_after_f</span>(<span class="hljs-built_in">dispatch_time</span>(DISPATCH_TIME_NOW, (<span class="hljs-keyword">int64_t</span>)(<span class="hljs-number">1.2</span> * NSEC_PER_SEC)), queue, &amp;context, afterMethod);<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">afterMethod</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;<br><br><span class="hljs-keyword">dispatch_queue_t</span> queue = <span class="hljs-built_in">dispatch_get_main_queue</span>();<br> <span class="hljs-built_in">dispatch_after</span>(<span class="hljs-built_in">dispatch_time</span>(DISPATCH_TIME_NOW, (<span class="hljs-keyword">int64_t</span>)(<span class="hljs-number">1.2</span> * NSEC_PER_SEC)), queue, ^&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+<h4 id="快速迭代"><a href="#快速迭代" class="headerlink" title="快速迭代"></a>快速迭代</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-built_in">int</span> context = <span class="hljs-number">1</span>;<br><span class="hljs-comment">// 执行10次applyMethod函数</span><br>dispatch<span class="hljs-constructor">_apply_f(10, <span class="hljs-params">queue</span>, &amp;<span class="hljs-params">context</span>, <span class="hljs-params">applyMethod</span>)</span>;<br>void apply<span class="hljs-constructor">Method()</span> &#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;<br><br>dispatch<span class="hljs-constructor">_apply(10, <span class="hljs-params">queue</span>, ^(<span class="hljs-params">size_t</span> <span class="hljs-params">index</span>)</span> &#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+<h4 id="执行一次"><a href="#执行一次" class="headerlink" title="执行一次"></a>执行一次</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">dispatch_once_f</span>(&amp;onceToken, &amp;context, onceMethod);<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onceMethod</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;<br><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">dispatch_once_t</span> onceToken;<br><span class="hljs-built_in">dispatch_once</span>(&amp;onceToken, ^&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+<h4 id="栅栏方法"><a href="#栅栏方法" class="headerlink" title="栅栏方法"></a>栅栏方法</h4><p>将队列执行的操作组给分割起来。</p>
+<ul>
+<li>dispatch_barrier_async<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> context = <span class="hljs-number">10</span>;<br><span class="hljs-built_in">dispatch_barrier_async_f</span>(queue, &amp;context, barrierAsync);<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">barrierAsync</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;<br><br><span class="hljs-built_in">dispatch_barrier_async</span>(queue, ^&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;);<br></code></pre></td></tr></table></figure></li>
+<li>dispatch_barrier_sync<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> context = <span class="hljs-number">10</span>;<br><span class="hljs-built_in">dispatch_barrier_sync_f</span>(queue, &amp;context, barrierAsync);<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">barrierSync</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;<br><br><span class="hljs-built_in">dispatch_barrier_sync</span>(queue, ^&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+dispatch_barrier_sync和dispatch_barrier_async的共同点： <blockquote>
+<ul>
+<li>1、都会等待在它前面插入队列的任务先执行完 </li>
+<li>2、都会等待他们自己的任务执行完再执行后面的任务</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>dispatch_barrier_sync和dispatch_barrier_async的不共同点： </p>
+<blockquote>
+<ul>
+<li>在将任务插入到queue的时候，dispatch_barrier_sync需要等待自己的任务结束之后才会继续程序，然后插入被写在它后面的任务，然后执行后面的任务<br>而dispatch_barrier_async将自己的任务插入到queue之后，不会等待自己的任务结束，它会继续把后面的任务插入到queue。</li>
+<li>所以，dispatch_barrier_async的不等待（异步）特性体现在将任务插入队列的过程，它的等待特性体现在任务真正执行的过程。</li>
+</ul>
+</blockquote>
+<h2 id="dispatch-semaphore"><a href="#dispatch-semaphore" class="headerlink" title="dispatch_semaphore"></a>dispatch_semaphore</h2><p>GCD 中的信号量是指 Dispatch Semaphore，是持有计数的信号。类似于过高速路收费站的栏杆。可以通过时，打开栏杆，不可以通过时，关闭栏杆。在 Dispatch Semaphore 中，使用计数来完成这个功能，计数为0时等待，不可通过。计数为1或大于1时，计数减1且不等待，可通过。<br><br></p>
+<h5 id="Dispatch-Semaphore-提供了三个函数。"><a href="#Dispatch-Semaphore-提供了三个函数。" class="headerlink" title="Dispatch Semaphore 提供了三个函数。"></a>Dispatch Semaphore 提供了三个函数。</h5><ul>
+<li>dispatch_semaphore_create：创建一个Semaphore并初始化信号的总量</li>
+<li>dispatch_semaphore_signal：发送一个信号，让信号总量加1</li>
+<li>dispatch_semaphore_wait：可以使总信号量减1，当信号总量为0时就会一直等待（阻塞所在线程），否则就可以正常执行。</li>
+</ul>
+<blockquote>
+<p>注意：信号量的使用前提是：想清楚你需要处理哪个线程等待（阻塞），又要哪个线程继续执行，然后使用信号量。</p>
+</blockquote>
+<h5 id="Dispatch-Semaphore-在实际开发中主要用于："><a href="#Dispatch-Semaphore-在实际开发中主要用于：" class="headerlink" title="Dispatch Semaphore 在实际开发中主要用于："></a>Dispatch Semaphore 在实际开发中主要用于：</h5><ul>
+<li>保持线程同步，将异步执行任务转换为同步执行任务</li>
+<li>保证线程安全，为线程加锁</li>
+</ul>
+<h3 id="Dispatch-Semaphore-线程同步"><a href="#Dispatch-Semaphore-线程同步" class="headerlink" title="Dispatch Semaphore 线程同步"></a>Dispatch Semaphore 线程同步</h3><p>我们在开发中，会遇到这样的需求：异步执行耗时任务，并使用异步执行的结果进行一些额外的操作。换句话说，相当于，将将异步执行任务转换为同步执行任务。比如说：AFNetworking 中 AFURLSessionManager.m 里面的 tasksForKeyPath: 方法。通过引入信号量的方式，等待异步执行任务结果，获取到 tasks，然后再返回该 tasks。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs objectivec">- (<span class="hljs-built_in">NSArray</span> *)tasksForKeyPath:(<span class="hljs-built_in">NSString</span> *)keyPath &#123;<br>    __block <span class="hljs-built_in">NSArray</span> *tasks = <span class="hljs-literal">nil</span>;<br>    dispatch_semaphore_t semaphore = dispatch_semaphore_create(<span class="hljs-number">0</span>);<br>    [<span class="hljs-keyword">self</span>.session getTasksWithCompletionHandler:^(<span class="hljs-built_in">NSArray</span> *dataTasks, <span class="hljs-built_in">NSArray</span> *uploadTasks, <span class="hljs-built_in">NSArray</span> *downloadTasks) &#123;<br>        <span class="hljs-keyword">if</span> ([keyPath isEqualToString:<span class="hljs-built_in">NSStringFromSelector</span>(<span class="hljs-keyword">@selector</span>(dataTasks))]) &#123;<br>            tasks = dataTasks;<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([keyPath isEqualToString:<span class="hljs-built_in">NSStringFromSelector</span>(<span class="hljs-keyword">@selector</span>(uploadTasks))]) &#123;<br>            tasks = uploadTasks;<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([keyPath isEqualToString:<span class="hljs-built_in">NSStringFromSelector</span>(<span class="hljs-keyword">@selector</span>(downloadTasks))]) &#123;<br>            tasks = downloadTasks;<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([keyPath isEqualToString:<span class="hljs-built_in">NSStringFromSelector</span>(<span class="hljs-keyword">@selector</span>(tasks))]) &#123;<br>            tasks = [@[dataTasks, uploadTasks, downloadTasks] valueForKeyPath:<span class="hljs-string">@&quot;@unionOfArrays.self&quot;</span>];<br>        &#125;<br><br>        dispatch_semaphore_signal(semaphore);<br>    &#125;];<br><br>    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);<br><br>    <span class="hljs-keyword">return</span> tasks;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="Dispatch-Semaphore-线程安全和线程同步（为线程加锁）"><a href="#Dispatch-Semaphore-线程安全和线程同步（为线程加锁）" class="headerlink" title="Dispatch Semaphore 线程安全和线程同步（为线程加锁）"></a>Dispatch Semaphore 线程安全和线程同步（为线程加锁）</h3><ul>
+<li><p>线程安全：如果你的代码所在的进程中有多个线程在同时运行，而这些线程可能会同时运行这段代码。如果每次运行结果和单线程运行的结果是一样的，而且其他的变量的值也和预期的是一样的，就是线程安全的。<br><br>若每个线程中对全局变量、静态变量只有读操作，而无写操作，一般来说，这个全局变量是线程安全的；若有多个线程同时执行写操作（更改变量），一般都需要考虑线程同步，否则的话就可能影响线程安全。</p>
+</li>
+<li><p>线程同步：可理解为线程 A 和 线程 B 一块配合，A 执行到一定程度时要依靠线程 B 的某个结果，于是停下来，示意 B 运行；B 依言执行，再将结果给 A；A 再继续操作。</p>
+</li>
+<li><p>举个简单例子就是：两个人在一起聊天。两个人不能同时说话，避免听不清(操作冲突)。等一个人说完(一个线程结束操作)，另一个再说(另一个线程再开始操作)。<br>下面，我们模拟火车票售卖的方式，实现 NSThread 线程安全和解决线程同步问题。<br>场景：总共有50张火车票，有两个售卖火车票的窗口，一个是北京火车票售卖窗口，另一个是上海火车票售卖窗口。两个窗口同时售卖火车票，卖完为止。</p>
+<h4 id="非线程安全（不使用-semaphore）"><a href="#非线程安全（不使用-semaphore）" class="headerlink" title="非线程安全（不使用 semaphore）"></a>非线程安全（不使用 semaphore）</h4><p>先来看看不考虑线程安全的代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 非线程安全：不使用 semaphore</span><br><span class="hljs-comment"> * 初始化火车票数量、卖票窗口(非线程安全)、并开始卖票</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)initTicketStatusNotSave &#123;<br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;currentThread---%@&quot;</span>,[<span class="hljs-built_in">NSThread</span> currentThread]);  <span class="hljs-comment">// 打印当前线程</span><br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;semaphore---begin&quot;</span>);<br>    <br>    <span class="hljs-keyword">self</span>.ticketSurplusCount = <span class="hljs-number">50</span>;<br>    <br>    <span class="hljs-comment">// queue1 代表北京火车票售卖窗口</span><br>    <span class="hljs-built_in">dispatch_queue_t</span> queue1 = dispatch_queue_create(<span class="hljs-string">&quot;net.bujige.testQueue1&quot;</span>, DISPATCH_QUEUE_SERIAL);<br>    <span class="hljs-comment">// queue2 代表上海火车票售卖窗口</span><br>    <span class="hljs-built_in">dispatch_queue_t</span> queue2 = dispatch_queue_create(<span class="hljs-string">&quot;net.bujige.testQueue2&quot;</span>, DISPATCH_QUEUE_SERIAL);<br>    <br>    __<span class="hljs-keyword">weak</span> <span class="hljs-keyword">typeof</span>(<span class="hljs-keyword">self</span>) weakSelf = <span class="hljs-keyword">self</span>;<br>    <span class="hljs-built_in">dispatch_async</span>(queue1, ^&#123;<br>        [weakSelf saleTicketNotSafe];<br>    &#125;);<br>    <br>    <span class="hljs-built_in">dispatch_async</span>(queue2, ^&#123;<br>        [weakSelf saleTicketNotSafe];<br>    &#125;);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 售卖火车票(非线程安全)</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)saleTicketNotSafe &#123;<br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>        <br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.ticketSurplusCount &gt; <span class="hljs-number">0</span>) &#123;  <span class="hljs-comment">//如果还有票，继续售卖</span><br>            <span class="hljs-keyword">self</span>.ticketSurplusCount--;<br>            <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;%@&quot;</span>, [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;剩余票数：%d 窗口：%@&quot;</span>, <span class="hljs-keyword">self</span>.ticketSurplusCount, [<span class="hljs-built_in">NSThread</span> currentThread]]);<br>            [<span class="hljs-built_in">NSThread</span> sleepForTimeInterval:<span class="hljs-number">0.2</span>];<br>        &#125; <span class="hljs-keyword">else</span> &#123; <span class="hljs-comment">//如果已卖完，关闭售票窗口</span><br>            <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;所有火车票均已售完&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>输出结果（部分）：<br>2018-02-23 22:25:35.789072+0800 YSC-GCD-demo[20712:5258914] currentThread—&lt;NSThread: 0x604000068880&gt;{number = 1, name = main}</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>2018-02-23 22:25:35.789260+0800 YSC-GCD-demo[20712:5258914] semaphore—begin</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:25:35.789641+0800 YSC-GCD-demo[20712:5259176] 剩余票数：48 窗口：&lt;NSThread: 0x60000027db80&gt;{number = 3, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:25:35.789646+0800 YSC-GCD-demo[20712:5259175] 剩余票数：49 窗口：&lt;NSThread: 0x60000027e740&gt;{number = 4, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:25:35.994113+0800 YSC-GCD-demo[20712:5259175] 剩余票数：47 窗口：&lt;NSThread: 0x60000027e740&gt;{number = 4, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:25:35.994129+0800 YSC-GCD-demo[20712:5259176] 剩余票数：46 窗口：&lt;NSThread: 0x60000027db80&gt;{number = 3, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:25:36.198993+0800 YSC-GCD-demo[20712:5259176] 剩余票数：45 窗口：&lt;NSThread: 0x60000027db80&gt;{number = 3, name = (null)}</p>
+</blockquote>
+<p>可以看到在不考虑线程安全，不使用 semaphore 的情况下，得到票数是错乱的，这样显然不符合我们的需求，所以我们需要考虑线程安全问题。</p>
+<h4 id="线程安全（使用-semaphore-加锁）"><a href="#线程安全（使用-semaphore-加锁）" class="headerlink" title="线程安全（使用 semaphore 加锁）"></a>线程安全（使用 semaphore 加锁）</h4><p>考虑线程安全的代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 线程安全：使用 semaphore 加锁</span><br><span class="hljs-comment"> * 初始化火车票数量、卖票窗口(线程安全)、并开始卖票</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)initTicketStatusSave &#123;<br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;currentThread---%@&quot;</span>,[<span class="hljs-built_in">NSThread</span> currentThread]);  <span class="hljs-comment">// 打印当前线程</span><br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;semaphore---begin&quot;</span>);<br>    <br>    semaphoreLock = dispatch_semaphore_create(<span class="hljs-number">1</span>);<br>    <br>    <span class="hljs-keyword">self</span>.ticketSurplusCount = <span class="hljs-number">50</span>;<br>    <br>    <span class="hljs-comment">// queue1 代表北京火车票售卖窗口</span><br>    <span class="hljs-built_in">dispatch_queue_t</span> queue1 = dispatch_queue_create(<span class="hljs-string">&quot;net.bujige.testQueue1&quot;</span>, DISPATCH_QUEUE_SERIAL);<br>    <span class="hljs-comment">// queue2 代表上海火车票售卖窗口</span><br>    <span class="hljs-built_in">dispatch_queue_t</span> queue2 = dispatch_queue_create(<span class="hljs-string">&quot;net.bujige.testQueue2&quot;</span>, DISPATCH_QUEUE_SERIAL);<br>    <br>    __<span class="hljs-keyword">weak</span> <span class="hljs-keyword">typeof</span>(<span class="hljs-keyword">self</span>) weakSelf = <span class="hljs-keyword">self</span>;<br>    <span class="hljs-built_in">dispatch_async</span>(queue1, ^&#123;<br>        [weakSelf saleTicketSafe];<br>    &#125;);<br>    <br>    <span class="hljs-built_in">dispatch_async</span>(queue2, ^&#123;<br>        [weakSelf saleTicketSafe];<br>    &#125;);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 售卖火车票(线程安全)</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)saleTicketSafe &#123;<br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-comment">// 相当于加锁</span><br>        dispatch_semaphore_wait(semaphoreLock, DISPATCH_TIME_FOREVER);<br>        <br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.ticketSurplusCount &gt; <span class="hljs-number">0</span>) &#123;  <span class="hljs-comment">//如果还有票，继续售卖</span><br>            <span class="hljs-keyword">self</span>.ticketSurplusCount--;<br>            <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;%@&quot;</span>, [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;剩余票数：%d 窗口：%@&quot;</span>, <span class="hljs-keyword">self</span>.ticketSurplusCount, [<span class="hljs-built_in">NSThread</span> currentThread]]);<br>            [<span class="hljs-built_in">NSThread</span> sleepForTimeInterval:<span class="hljs-number">0.2</span>];<br>        &#125; <span class="hljs-keyword">else</span> &#123; <span class="hljs-comment">//如果已卖完，关闭售票窗口</span><br>            <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;所有火车票均已售完&quot;</span>);<br>            <br>            <span class="hljs-comment">// 相当于解锁</span><br>            dispatch_semaphore_signal(semaphoreLock);<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <br>        <span class="hljs-comment">// 相当于解锁</span><br>        dispatch_semaphore_signal(semaphoreLock);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>输出结果为：<br>2018-02-23 22:32:19.814232+0800 YSC-GCD-demo[20862:5290531] currentThread—&lt;NSThread: 0x6000000783c0&gt;{number = 1, name = main}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:19.814412+0800 YSC-GCD-demo[20862:5290531] semaphore—begin</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:19.814837+0800 YSC-GCD-demo[20862:5290687] 剩余票数：49 窗口：&lt;NSThread: 0x6040002709c0&gt;{number = 3, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:20.017745+0800 YSC-GCD-demo[20862:5290689] 剩余票数：48 窗口：&lt;NSThread: 0x60000046c640&gt;{number = 4, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:20.222039+0800 YSC-GCD-demo[20862:5290687] 剩余票数：47 窗口：&lt;NSThread: 0x6040002709c0&gt;{number = 3, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>…<br>2018-02-23 22:32:29.024817+0800 YSC-GCD-demo[20862:5290689] 剩余票数：4 窗口：&lt;NSThread: 0x60000046c640&gt;{number = 4, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:29.230110+0800 YSC-GCD-demo[20862:5290687] 剩余票数：3 窗口：&lt;NSThread: 0x6040002709c0&gt;{number = 3, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:29.433615+0800 YSC-GCD-demo[20862:5290689] 剩余票数：2 窗口：&lt;NSThread: 0x60000046c640&gt;{number = 4, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:29.637572+0800 YSC-GCD-demo[20862:5290687] 剩余票数：1 窗口：&lt;NSThread: 0x6040002709c0&gt;{number = 3, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:29.840234+0800 YSC-GCD-demo[20862:5290689] 剩余票数：0 窗口：&lt;NSThread: 0x60000046c640&gt;{number = 4, name = (null)}</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:30.044960+0800 YSC-GCD-demo[20862:5290687] 所有火车票均已售完</p>
+</blockquote>
+<blockquote>
+<p>2018-02-23 22:32:30.045260+0800 YSC-GCD-demo[20862:5290689] 所有火车票均已售完</p>
+</blockquote>
+<p>可以看出，在考虑了线程安全的情况下，使用 dispatch_semaphore<br>机制之后，得到的票数是正确的，没有出现混乱的情况。我们也就解决了多个线程同步的问题。</p>
+<h2 id="dispatch-group"><a href="#dispatch-group" class="headerlink" title="dispatch_group"></a>dispatch_group</h2><p>多个任务放到一个组中。</p>
+<h3 id="dispatch-group-t"><a href="#dispatch-group-t" class="headerlink" title="dispatch_group_t"></a>dispatch_group_t</h3><h4 id="创建-1"><a href="#创建-1" class="headerlink" title="创建"></a>创建</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">dispatch_group_t <span class="hljs-keyword">group</span> <span class="hljs-title">= dispatch_group_create</span>();<br></code></pre></td></tr></table></figure>
+<h4 id="添加任务"><a href="#添加任务" class="headerlink" title="添加任务"></a>添加任务</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">dispatch_queue_t</span> queue = <span class="hljs-built_in">dispatch_queue_create</span>(<span class="hljs-string">&quot;name&quot;</span>, DISPATCH_QUEUE_SERIAL);<br><span class="hljs-keyword">int</span> context = <span class="hljs-number">10</span>;<br><span class="hljs-built_in">dispatch_group_async_f</span>(group, queue, &amp;context, groupMethod);<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">groupMethod</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;<br><br><span class="hljs-keyword">dispatch_queue_t</span> queue = <span class="hljs-built_in">dispatch_queue_create</span>(<span class="hljs-string">&quot;name&quot;</span>, DISPATCH_QUEUE_SERIAL);<br><span class="hljs-built_in">dispatch_group_async</span>(group, queue, ^&#123;<br>    <span class="hljs-comment">// TODO</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+<h4 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h4><h5 id="1-获取任务组任务完成，进行操作"><a href="#1-获取任务组任务完成，进行操作" class="headerlink" title="1. 获取任务组任务完成，进行操作"></a>1. 获取任务组任务完成，进行操作</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> 所有任务执行完，通知调度组，在queue上异步执行block，不会阻塞当前任务<br>dispatch_group_notify_f(group, queue5, &amp;context, groupMethod);<br><br>void groupMethod() &#123;<br>    <span class="hljs-regexp">//</span> TODO<br>&#125;<br><br><span class="hljs-regexp">//</span> dispatch_group_notify_f的封装    <br>dispatch_group_notify(group, queue, ^&#123;<br>    <span class="hljs-regexp">//</span> TODO<br>&#125;);<br></code></pre></td></tr></table></figure>
+<h4 id="2-通知group，下面的任务马上要放到group中执行了。"><a href="#2-通知group，下面的任务马上要放到group中执行了。" class="headerlink" title="2. 通知group，下面的任务马上要放到group中执行了。"></a>2. 通知group，下面的任务马上要放到group中执行了。</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">dispatch<span class="hljs-constructor">_group_enter(<span class="hljs-params">group</span>)</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="3-通知group，任务完成了，该任务要从group中移除了。"><a href="#3-通知group，任务完成了，该任务要从group中移除了。" class="headerlink" title="3. 通知group，任务完成了，该任务要从group中移除了。"></a>3. 通知group，任务完成了，该任务要从group中移除了。</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">dispatch<span class="hljs-constructor">_group_leave(<span class="hljs-params">group</span>)</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="4-设置超时"><a href="#4-设置超时" class="headerlink" title="4. 设置超时"></a>4. 设置超时</h4><p>假设创建dispatch_group_wait里的dispatch_time等待时间是4秒,那么group里的内容在4s内完成的话,那wait直接结束,如果group在4s内没有执行完,那么wait也会结束,结束之后,周末的任务就会被加进来了。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">long result = dispatch<span class="hljs-constructor">_group_wait(<span class="hljs-params">group</span>, <span class="hljs-params">dispatch_time</span>(DISPATCH_TIME_NOW, 4.0 <span class="hljs-operator">*</span> NSEC_PER_SEC)</span>);<br><span class="hljs-keyword">if</span> (result) &#123;<br>    <span class="hljs-constructor">NSLog(@<span class="hljs-string">&quot;超过等待时间了&quot;</span>)</span>;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-constructor">NSLog(@<span class="hljs-string">&quot;时间没有超过等待时间&quot;</span>)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/04/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B-9%E7%A7%8D%E9%94%81.md/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS多线程-9种锁</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/02/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B-NSOperation/">
+                        <span class="hidden-mobile">iOS多线程-NSOperation</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

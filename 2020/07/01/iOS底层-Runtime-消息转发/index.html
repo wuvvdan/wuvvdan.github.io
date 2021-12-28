@@ -1,0 +1,461 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>Runtime-消息转发 - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Runtime-消息转发">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-07-01 10:00" pubdate>
+        2020年7月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      739 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Runtime-消息转发</h1>
+            
+            <div class="markdown-body">
+              <p>iOS 方法的动态解析和消息转发</p>
+<p>以创建的Message类为示例<br>Message.h</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">Message</span> : <span class="hljs-title">NSObject</span></span><br><br>- (<span class="hljs-keyword">void</span>)sendMessage:(<span class="hljs-built_in">NSString</span> *)message;<br><br>+ (<span class="hljs-keyword">void</span>)sendClassMessage:(<span class="hljs-built_in">NSString</span> *)message;<br><br><span class="hljs-keyword">@end</span><br></code></pre></td></tr></table></figure>
+<p>Message.m</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@implementation</span> Message<br><br><span class="hljs-variable">@end</span><br></code></pre></td></tr></table></figure>
+<h3 id="动态方法解析"><a href="#动态方法解析" class="headerlink" title="动态方法解析"></a>动态方法解析</h3><p>征询接收者所属的类，是否需要动态添加类方法或实例方法，来处理这个未找到的方法。</p>
+<ol>
+<li>首先判断是否实现了 <code>resolveInstanceMethod</code>，如果没有实现，进入下一步处理；</li>
+<li>如果实现了，调用 <code>resolveInstanceMethod</code>，获取返回值；</li>
+<li>如果返回值为 YES，表示 <code>resolveInstanceMethod</code> 声称它已经提供了 <code>selector</code> 的实现，因此再次查找 method list，如果找到对应的 <code>IMP</code>，则返回该实现，否则提示警告信息，进入下一步处理；</li>
+<li>如果返回值为 NO，进入下一步处理；<h4 id="1-对象方法"><a href="#1-对象方法" class="headerlink" title="1. 对象方法"></a>1. 对象方法</h4>通过<code>+ (BOOL)resolveInstanceMethod:(SEL)sel;</code>方法进行解析<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs objectivec">+ (<span class="hljs-built_in">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;<br>    <span class="hljs-keyword">if</span> (sel == <span class="hljs-keyword">@selector</span>(sendMessage:)) &#123;<br>        class_addMethod([<span class="hljs-keyword">self</span> <span class="hljs-keyword">class</span>], sel, (IMP)innerSenderMessageMetod, <span class="hljs-string">&quot;v@:@&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">YES</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> [<span class="hljs-keyword">super</span> resolveInstanceMethod:sel];<br>&#125;<br><br><span class="hljs-keyword">void</span> innerSenderMessageMetod(<span class="hljs-keyword">id</span> obj, SEL _cmd) &#123;<br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;对象方法，动态解析&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="2-类方法"><a href="#2-类方法" class="headerlink" title="2. 类方法"></a>2. 类方法</h4>通过<code>+ (BOOL)resolveClassMethod:(SEL)sel;</code>方法进行解析<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs objectivec">+ (<span class="hljs-built_in">BOOL</span>)resolveClassMethod:(SEL)sel &#123;<br>    <span class="hljs-keyword">if</span> (sel == <span class="hljs-keyword">@selector</span>(sendClassMessage:)) &#123;<br>        class_addMethod(object_getClass(<span class="hljs-keyword">self</span>), sel, (IMP)innerSenderClassMessageMetod, <span class="hljs-string">&quot;v@:@&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">YES</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> [<span class="hljs-keyword">super</span> resolveClassMethod:sel];<br>&#125;<br><br><span class="hljs-keyword">void</span> innerSenderClassMessageMetod(<span class="hljs-keyword">id</span> obj, SEL _cmd) &#123;<br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;类方法，动态解析&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3>如果没有动态添加方法，则会进入此阶段，此时询问是否要将这条消息转发给其他的对象，来处理这个方法。如果返回nil，即表示不转发给其他对象，此时会进入第3阶段<br>创建了一个备用类<code>MessageTemp</code><br>MessageTemp.h<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">MessageTemp</span> : <span class="hljs-title">NSObject</span></span><br><br>- (<span class="hljs-keyword">void</span>)sendMessage:(<span class="hljs-built_in">NSString</span> *)message;<br>- (<span class="hljs-keyword">void</span>)sendClassMessage:(<span class="hljs-built_in">NSString</span> *)message;<br><span class="hljs-keyword">@end</span><br></code></pre></td></tr></table></figure>
+MessageTemp.m<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">MessageTemp</span></span><br>- (<span class="hljs-keyword">void</span>)sendMessage:(<span class="hljs-built_in">NSString</span> *)message &#123;<br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;备用Message，解析对象方法&quot;</span>);<br>&#125;<br>- (<span class="hljs-keyword">void</span>)sendClassMessage:(<span class="hljs-built_in">NSString</span> *)message &#123;<br>    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;备用Message，解析类方法&quot;</span>);<br>&#125;<br><span class="hljs-keyword">@end</span><br></code></pre></td></tr></table></figure>
+<h4 id="1-对象方法-1"><a href="#1-对象方法-1" class="headerlink" title="1. 对象方法"></a>1. 对象方法</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">-</span> (id)<span class="hljs-selector-tag">forwardingTargetForSelector</span>:(SEL)<span class="hljs-selector-tag">aSelector</span> &#123;<br>    <span class="hljs-selector-tag">if</span> (aSelector == <span class="hljs-variable">@selector</span>(<span class="hljs-attribute">sendMessage</span>:)) &#123;<br>        <span class="hljs-selector-tag">return</span> <span class="hljs-selector-attr">[MessageTemp new]</span>;<br>    &#125;<br>    <span class="hljs-selector-tag">return</span> <span class="hljs-selector-attr">[super forwardingTargetForSelector:aSelector]</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="2-类方法-1"><a href="#2-类方法-1" class="headerlink" title="2. 类方法"></a>2. 类方法</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">+ (id)forwardingTargetForSelector:(SEL)aSelector &#123;<br>    <span class="hljs-keyword">if</span> (aSelector == <span class="hljs-meta">@selector(sendClassMessage:)</span>) &#123;<br>        <span class="hljs-keyword">return</span> [MessageTemp new];<br>    &#125;<br>    <span class="hljs-keyword">return</span> [<span class="hljs-keyword">super</span> forwardingTargetForSelector:aSelector];<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="消息转发"><a href="#消息转发" class="headerlink" title="消息转发"></a>消息转发</h3>当 <code>forwardingTargetForSelector:</code> 方法未做出任何响应的话，会来到消息转发流程。消息转发时会首先调用 <code>methodSignatureForSelector:</code> 方法，在方法内部生成 <code>NSMethodSignature</code> 类型的方法签名对象。在生成签名对象时，可以指定 <code>target</code> 和 <code>SEL</code>，可以将这两个参数换成其他参数，将消息转发给其他对象。<h4 id="1-对象方法-2"><a href="#1-对象方法-2" class="headerlink" title="1. 对象方法"></a>1. 对象方法</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">-</span> (void)<span class="hljs-selector-tag">forwardInvocation</span>:(NSInvocation *)<span class="hljs-selector-tag">anInvocation</span> &#123;<br>    <span class="hljs-selector-tag">if</span> ([anInvocation selector] == <span class="hljs-variable">@selector</span>(<span class="hljs-attribute">sendMessage</span>:)) &#123;<br>        <span class="hljs-selector-attr">[anInvocation invokeWithTarget:[MessageTemp new]</span>];<br>    &#125; <span class="hljs-selector-tag">else</span> &#123;<br>        <span class="hljs-selector-attr">[super forwardInvocation:anInvocation]</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-selector-tag">-</span> (NSMethodSignature *)<span class="hljs-selector-tag">methodSignatureForSelector</span>:(SEL)<span class="hljs-selector-tag">aSelector</span> &#123;<br>    <span class="hljs-selector-tag">if</span> (aSelector == <span class="hljs-variable">@selector</span>(<span class="hljs-attribute">sendMessage</span>:)) &#123;<br>        <span class="hljs-selector-tag">return</span> <span class="hljs-selector-attr">[NSMethodSignature signatureWithObjCTypes:<span class="hljs-string">&quot;v@:@&quot;</span>]</span>;<br>    &#125;<br>    <span class="hljs-selector-tag">return</span> <span class="hljs-selector-attr">[super methodSignatureForSelector:aSelector]</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="2-类方法-2"><a href="#2-类方法-2" class="headerlink" title="2. 类方法"></a>2. 类方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java">+ (<span class="hljs-keyword">void</span>)forwardInvocation:(NSInvocation *)anInvocation &#123;<br>    <span class="hljs-keyword">if</span> ([anInvocation selector] == <span class="hljs-meta">@selector(sendClassMessage:)</span>) &#123;<br>        [anInvocation invokeWithTarget:[MessageTemp <span class="hljs-keyword">new</span>]];<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        [<span class="hljs-keyword">super</span> forwardInvocation:anInvocation];<br>    &#125;<br>&#125;<br><br>+ (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector &#123;<br>    <span class="hljs-keyword">if</span> (aSelector == <span class="hljs-meta">@selector(sendClassMessage:)</span>) &#123;<br>        <span class="hljs-keyword">return</span> [NSMethodSignature signatureWithObjCTypes:<span class="hljs-string">&quot;v@:@&quot;</span>];<br>    &#125;<br>    <span class="hljs-keyword">return</span> [<span class="hljs-keyword">super</span> methodSignatureForSelector:aSelector];<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3></li>
+</ol>
+<ul>
+<li>适用于把操作给另外一个类来实现</li>
+<li>利用分类，防止应用程序因为未处理消息而崩溃</li>
+<li>Jspatch </li>
+<li>Aspects</li>
+<li>BlocksKit</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/">Objective-C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/iOS/">iOS</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BA%95%E5%B1%82/">底层</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/01/iOS%E5%BA%95%E5%B1%82-Block/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Block</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/01/iOS%E5%BA%95%E5%B1%82-RunLoop/">
+                        <span class="hidden-mobile">iOS底层-RunLoop</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

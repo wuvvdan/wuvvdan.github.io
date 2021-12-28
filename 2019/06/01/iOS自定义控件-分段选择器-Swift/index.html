@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS自定义控件-分段选择器-Swift - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS自定义控件-分段选择器-Swift">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-06-01 10:00" pubdate>
+        2019年6月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS自定义控件-分段选择器-Swift</h1>
+            
+            <div class="markdown-body">
+              <p><img src="https://upload-images.jianshu.io/upload_images/3334769-3932cbca22e906ac.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="镇楼专用"><br>废话不多说，直接上代码</p>
+<h5 id="1、数据源方法"><a href="#1、数据源方法" class="headerlink" title="1、数据源方法"></a>1、数据源方法</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-comment">// MARK: ============ SegmentSelectorManagerDataSource ============</span><br><span class="hljs-keyword">@objc</span> <span class="hljs-class"><span class="hljs-keyword">protocol</span>  <span class="hljs-title">SegmentSelectorManagerDataSource</span>:<span class="hljs-title">NSObjectProtocol</span> </span>&#123;<br>    <br>    <span class="hljs-comment">/// 主要配置 -&gt; 必须要实现</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">nameOfSliderItems</span>(<span class="hljs-params">segemntControl</span>:<span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">Array</span>&lt;<span class="hljs-type">String</span>&gt;<br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">childViewControllers</span>(<span class="hljs-params">segemntControl</span>:<span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">Array</span>&lt;<span class="hljs-type">UIViewController</span>&gt;<br>    <br>    <span class="hljs-comment">/// 字体颜色配置 -&gt; 有默认</span><br>    <span class="hljs-keyword">@objc</span> <span class="hljs-keyword">optional</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">colorOfSlider</span>(<span class="hljs-params">segemntControl</span>:<span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">UIColor</span><br>    <span class="hljs-keyword">@objc</span> <span class="hljs-keyword">optional</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">colorOfTopView</span>(<span class="hljs-params">segemntControl</span>:<span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">UIColor</span><br>    <br>    <span class="hljs-comment">/// 背景颜色配置 -&gt; 有默认</span><br>    <span class="hljs-keyword">@objc</span> <span class="hljs-keyword">optional</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">colorOfSliderItemsTitle</span>(<span class="hljs-params">segemntControl</span>:<span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">UIColor</span><br>    <span class="hljs-keyword">@objc</span> <span class="hljs-keyword">optional</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">colorOfHighlightedSliderItemsTitle</span>(<span class="hljs-params">segemntControl</span>:<span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">UIColor</span><br>    <br>    <span class="hljs-comment">/// 高度配置 -&gt; 有默认</span><br>    <span class="hljs-keyword">@objc</span> <span class="hljs-keyword">optional</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">heightOfTopView</span>(<span class="hljs-params">segemntControl</span>:<span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">CGFloat</span><br>    <span class="hljs-keyword">@objc</span> <span class="hljs-keyword">optional</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">heightOfSlider</span>(<span class="hljs-params">segemntControl</span>:<span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">CGFloat</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h5 id="2、代理方法"><a href="#2、代理方法" class="headerlink" title="2、代理方法"></a>2、代理方法</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-comment">// MARK: ============ SegmentSelectorManagerDelegate ============</span><br><span class="hljs-class"><span class="hljs-keyword">protocol</span> <span class="hljs-title">SegmentSelectorManagerDelegate</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">slideView</span>(<span class="hljs-params">sliderView</span>:<span class="hljs-type">SegmentSelectorManager</span>, <span class="hljs-params">didSelectItemAtIndex</span>:<span class="hljs-type">Int</span>)</span> -&gt; <span class="hljs-type">Void</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h5 id="3、页面实现"><a href="#3、页面实现" class="headerlink" title="3、页面实现"></a>3、页面实现</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">init</span>(<span class="hljs-params">frame</span>: <span class="hljs-type">CGRect</span>)</span> &#123;<br>        <span class="hljs-keyword">super</span>.<span class="hljs-keyword">init</span>(frame: frame)<br>    &#125;<br>    <br>    <span class="hljs-keyword">required</span> <span class="hljs-function"><span class="hljs-keyword">init?</span>(<span class="hljs-params">coder</span> <span class="hljs-params">aDecoder</span>: <span class="hljs-type">NSCoder</span>)</span> &#123;<br>        <span class="hljs-built_in">fatalError</span>(<span class="hljs-string">&quot;init(coder:) has not been implemented&quot;</span>)<br>    &#125;<br>    <br>    <span class="hljs-comment">/// 数据源</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">weak</span> <span class="hljs-keyword">var</span> dataSource:<span class="hljs-type">SegmentSelectorManagerDataSource</span>? &#123;<br>        <span class="hljs-keyword">didSet</span> &#123;<br>            <span class="hljs-comment">// 名称数组</span><br>            namesOfSlideItems <span class="hljs-operator">=</span> dataSource<span class="hljs-operator">?</span>.nameOfSliderItems(segemntControl: <span class="hljs-keyword">self</span>)<br>            <span class="hljs-comment">// 控制器数组</span><br>            childControllersArray <span class="hljs-operator">=</span> dataSource<span class="hljs-operator">?</span>.childViewControllers(segemntControl: <span class="hljs-keyword">self</span>)<br>            <br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> ds <span class="hljs-operator">=</span> dataSource &#123;<br><br>                <span class="hljs-keyword">if</span> (ds.responds(to: #selector(ds.colorOfHighlightedSliderItemsTitle(segemntControl:)))) &#123;<br>                    <span class="hljs-comment">//按钮字体颜色默认</span><br>                    colorOfSlideItemsTitle <span class="hljs-operator">=</span> ds.colorOfSliderItemsTitle<span class="hljs-operator">!</span>(segemntControl: <span class="hljs-keyword">self</span>)<br>                &#125;<br>            <br>                <span class="hljs-keyword">if</span> (ds.responds(to: #selector(ds.colorOfHighlightedSliderItemsTitle(segemntControl:)))) &#123;<br>                    <span class="hljs-comment">// 按钮字体颜色选中</span><br>                    colorOfHighlightedSlideItemsTitle <span class="hljs-operator">=</span> ds.colorOfHighlightedSliderItemsTitle<span class="hljs-operator">!</span>(segemntControl: <span class="hljs-keyword">self</span>)<br>                &#125;<br>                <br>                <span class="hljs-keyword">if</span> (ds.responds(to: #selector(ds.colorOfSlider(segemntControl:)))) &#123;<br>                    <span class="hljs-comment">// 指示器颜色</span><br>                    colorOfSlider <span class="hljs-operator">=</span> ds.colorOfSlider<span class="hljs-operator">!</span>(segemntControl: <span class="hljs-keyword">self</span>)<br>                &#125;<br>                <br>                <span class="hljs-keyword">if</span> ds.responds(to: #selector(ds.heightOfTopView(segemntControl:))) &#123;<br>                    <span class="hljs-comment">// 顶部视图高度</span><br>                    heightOfTopView <span class="hljs-operator">=</span> (ds.heightOfTopView<span class="hljs-operator">!</span>(segemntControl: <span class="hljs-keyword">self</span>))<br>                &#125;<br>                <br>                <span class="hljs-keyword">if</span> ds.responds(to: #selector(ds.heightOfTopView(segemntControl:))) &#123;<br>                    <span class="hljs-comment">// 指示器高度</span><br>                    heightOfSlider <span class="hljs-operator">=</span> (ds.heightOfSlider<span class="hljs-operator">!</span>(segemntControl: <span class="hljs-keyword">self</span>))<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 代理</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> delegate:<span class="hljs-type">SegmentSelectorManagerDelegate</span>?<br>    <br>    <span class="hljs-keyword">var</span> namesOfSlideItems: <span class="hljs-type">Array</span>&lt;<span class="hljs-type">String</span>&gt;? <span class="hljs-operator">=</span> []                           <span class="hljs-comment">// 名称数组</span><br>    <span class="hljs-keyword">var</span> colorOfSlider: <span class="hljs-type">UIColor</span>? <span class="hljs-operator">=</span>  <span class="hljs-type">UIColor</span>.orange                        <span class="hljs-comment">// 指示器颜色</span><br>    <span class="hljs-keyword">var</span> colorOfSlideView: <span class="hljs-type">UIColor</span>? <span class="hljs-operator">=</span> <span class="hljs-type">UIColor</span>.white                       <span class="hljs-comment">// 顶部视图颜色</span><br>    <span class="hljs-keyword">var</span> colorOfSlideItemsTitle: <span class="hljs-type">UIColor</span>? <span class="hljs-operator">=</span> <span class="hljs-type">UIColor</span>.gray                  <span class="hljs-comment">// 默认字体颜色</span><br>    <span class="hljs-keyword">var</span> colorOfHighlightedSlideItemsTitle: <span class="hljs-type">UIColor</span>? <span class="hljs-operator">=</span> <span class="hljs-type">UIColor</span>.orange     <span class="hljs-comment">// 选中字体颜色</span><br>    <span class="hljs-keyword">var</span> heightOfTopView:<span class="hljs-type">CGFloat</span> <span class="hljs-operator">=</span> <span class="hljs-number">45</span>                                     <span class="hljs-comment">// 顶部视图高度</span><br>    <span class="hljs-keyword">var</span> heightOfSlider:<span class="hljs-type">CGFloat</span> <span class="hljs-operator">=</span> <span class="hljs-number">2</span>                                       <span class="hljs-comment">// 指示器高度</span><br>    <span class="hljs-keyword">let</span> <span class="hljs-type">SliderThanSliderView_WidthRatio</span>:<span class="hljs-type">CGFloat</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>                      <span class="hljs-comment">// 按钮和指示器宽度比</span><br>    <span class="hljs-keyword">var</span> buttonsArray:<span class="hljs-type">Array</span>&lt;<span class="hljs-type">UIButton</span>&gt;? <span class="hljs-operator">=</span> []                               <span class="hljs-comment">// 所有按钮的数组</span><br>    <span class="hljs-keyword">var</span> childControllersArray:<span class="hljs-type">Array</span>&lt;<span class="hljs-type">UIViewController</span>&gt;? <span class="hljs-operator">=</span> []              <span class="hljs-comment">// 控制器数组</span><br>    <br>    <span class="hljs-keyword">let</span> <span class="hljs-type">SCREEN_WIDTH</span> <span class="hljs-operator">=</span> <span class="hljs-type">UIScreen</span>.main.bounds.size.width<br>    <span class="hljs-keyword">let</span> <span class="hljs-type">SCREEN_HEIGHT</span> <span class="hljs-operator">=</span> <span class="hljs-type">UIScreen</span>.main.bounds.height<br>    <br>    <span class="hljs-comment">/// 顶部View</span><br>    <span class="hljs-keyword">lazy</span> <span class="hljs-keyword">var</span> slideBar:<span class="hljs-type">UIView</span> <span class="hljs-operator">=</span> &#123;<br>        <span class="hljs-keyword">let</span> view <span class="hljs-operator">=</span> <span class="hljs-type">UIView</span>.<span class="hljs-keyword">init</span>()<br>        view.backgroundColor <span class="hljs-operator">=</span> colorOfSlideView<br>        addSubview(view)<br>        view.translatesAutoresizingMaskIntoConstraints <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>        view.leadingAnchor.constraint(equalTo: leadingAnchor).isActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        view.trailingAnchor.constraint(equalTo: trailingAnchor).isActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        view.topAnchor.constraint(equalTo: topAnchor).isActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        view.heightAnchor.constraint(equalToConstant: <span class="hljs-keyword">self</span>.heightOfTopView).isActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        <span class="hljs-keyword">return</span> view<br>    &#125;()<br>    <br>    <span class="hljs-comment">// 底部指示器</span><br>    <span class="hljs-keyword">var</span> slider:<span class="hljs-type">UIView</span>?<br>    <br>    <span class="hljs-comment">/// 控制器ScrollView</span><br>    <span class="hljs-keyword">lazy</span> <span class="hljs-keyword">var</span> contentScrollView:<span class="hljs-type">UIScrollView</span> <span class="hljs-operator">=</span> &#123;<br>        <span class="hljs-keyword">let</span> sc <span class="hljs-operator">=</span> <span class="hljs-type">UIScrollView</span>.<span class="hljs-keyword">init</span>()<br>        sc.isDirectionalLockEnabled <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        sc.backgroundColor <span class="hljs-operator">=</span> <span class="hljs-type">UIColor</span>.white<br>        sc.isPagingEnabled <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        sc.showsHorizontalScrollIndicator <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>        sc.delegate <span class="hljs-operator">=</span> <span class="hljs-keyword">self</span><br>        sc.bounces <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>        addSubview(sc)<br>        sc.translatesAutoresizingMaskIntoConstraints <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>        sc.leadingAnchor.constraint(equalTo: leadingAnchor).isActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        sc.trailingAnchor.constraint(equalTo: trailingAnchor).isActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        sc.topAnchor.constraint(equalTo: <span class="hljs-keyword">self</span>.slideBar.bottomAnchor).isActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        sc.bottomAnchor.constraint(equalTo: bottomAnchor).isActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        <span class="hljs-keyword">return</span> sc<br>    &#125;()<br></code></pre></td></tr></table></figure>
+<p>#####4、绘制页面UI</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><code class="hljs swift">    <span class="hljs-comment">// 获取当前页面的控制器</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewController</span>()</span>-&gt;<span class="hljs-type">UIViewController</span>? &#123;<br>        <span class="hljs-keyword">var</span> nextResponder: <span class="hljs-type">UIResponder</span>? <span class="hljs-operator">=</span> <span class="hljs-keyword">self</span><br>        <span class="hljs-keyword">repeat</span> &#123;<br>            nextResponder <span class="hljs-operator">=</span> nextResponder<span class="hljs-operator">?</span>.next<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> viewController <span class="hljs-operator">=</span> nextResponder <span class="hljs-keyword">as?</span> <span class="hljs-type">UIViewController</span> &#123;<br>                <span class="hljs-keyword">return</span> viewController<br>            &#125;<br>        &#125; <span class="hljs-keyword">while</span> nextResponder <span class="hljs-operator">!=</span> <span class="hljs-literal">nil</span><br>        <br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span><br>    &#125;<br><br><span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">layoutSubviews</span>()</span> &#123;<br>        <span class="hljs-keyword">super</span>.layoutSubviews()<br>        addSlider()<br>        addButton()<br>        addContentScrollView()<br>    &#125;<br><span class="hljs-comment">/// 添加按钮到顶部视图</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">addButton</span>()</span> &#123;<br>        <br>        <span class="hljs-keyword">let</span> numberOfItems:<span class="hljs-type">Int</span> <span class="hljs-operator">=</span> (namesOfSlideItems<span class="hljs-operator">?</span>.count)<span class="hljs-operator">!</span><br>        <span class="hljs-keyword">let</span> slideItemWidth <span class="hljs-operator">=</span> <span class="hljs-type">SCREEN_WIDTH</span> <span class="hljs-operator">/</span> <span class="hljs-type">CGFloat</span>(numberOfItems)<br>        <span class="hljs-keyword">let</span> sliderWidth <span class="hljs-operator">=</span> slideItemWidth <span class="hljs-operator">*</span> <span class="hljs-type">SliderThanSliderView_WidthRatio</span><br>        <span class="hljs-keyword">let</span> position_x <span class="hljs-operator">=</span> (slideItemWidth <span class="hljs-operator">-</span> sliderWidth) <span class="hljs-operator">/</span> <span class="hljs-number">2.0</span><br>        <br>        <span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> <span class="hljs-number">0</span><span class="hljs-operator">..&lt;</span>numberOfItems &#123;<br>            <span class="hljs-keyword">let</span> b <span class="hljs-operator">=</span> <span class="hljs-type">UIButton</span>.<span class="hljs-keyword">init</span>(type: .custom)<br>            b.tag <span class="hljs-operator">=</span> index<br>            b.setTitle(namesOfSlideItems<span class="hljs-operator">!</span>[index], for: .normal)<br>            b.setTitleColor(colorOfSlideItemsTitle, for: .normal)<br>            b.titleLabel<span class="hljs-operator">?</span>.textAlignment <span class="hljs-operator">=</span> .center<br>            b.addTarget(<span class="hljs-keyword">self</span>, action: #selector(buttonTouched(button:)), for: .touchUpInside)<br>            buttonsArray<span class="hljs-operator">?</span>.append(b)<br>            b.frame <span class="hljs-operator">=</span> <span class="hljs-type">CGRect</span>(x: position_x <span class="hljs-operator">+</span> slideItemWidth <span class="hljs-operator">*</span> <span class="hljs-type">CGFloat</span>(index),<br>                             y: <span class="hljs-number">5</span>,<br>                             width: sliderWidth,<br>                             height: heightOfTopView<span class="hljs-operator">-</span><span class="hljs-number">5</span>)<br>            slideBar.addSubview(b)<br>            <br>            <span class="hljs-keyword">if</span> index <span class="hljs-operator">==</span> <span class="hljs-number">0</span> &#123;<br>                b.setTitleColor(colorOfHighlightedSlideItemsTitle<span class="hljs-operator">!</span>, for: .normal)<br>            &#125;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 添加底部指示器到顶部视图</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">addSlider</span>()</span> &#123;<br>        <span class="hljs-keyword">let</span> slideItemWidth <span class="hljs-operator">=</span>  <span class="hljs-type">SCREEN_WIDTH</span> <span class="hljs-operator">/</span> <span class="hljs-type">CGFloat</span>((namesOfSlideItems<span class="hljs-operator">?</span>.count)<span class="hljs-operator">!</span>)<br>        <span class="hljs-keyword">let</span> sliderWidth <span class="hljs-operator">=</span> slideItemWidth <span class="hljs-operator">*</span> <span class="hljs-type">SliderThanSliderView_WidthRatio</span><br>        <span class="hljs-keyword">let</span> position_x <span class="hljs-operator">=</span> (slideItemWidth <span class="hljs-operator">-</span> sliderWidth) <span class="hljs-operator">/</span> <span class="hljs-number">2.0</span><br>        slideBar.addSubview(sliderView(frame: <span class="hljs-type">CGRect</span>(x: position_x,<br>                                                     y: heightOfTopView <span class="hljs-operator">-</span> heightOfSlider,<br>                                                     width: sliderWidth,<br>                                                     height: heightOfSlider)))<br>        slideBar.backgroundColor <span class="hljs-operator">=</span> colorOfSlideView<br>        slider<span class="hljs-operator">?</span>.backgroundColor <span class="hljs-operator">=</span> colorOfSlider<br>    &#125;<br>    <br>     <span class="hljs-comment">// 添加ScrollView</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">addContentScrollView</span>()</span> &#123;<br>        contentScrollView.contentSize <span class="hljs-operator">=</span> <span class="hljs-type">CGSize</span>(width: <span class="hljs-type">SCREEN_WIDTH</span> <span class="hljs-operator">*</span> <span class="hljs-type">CGFloat</span>((namesOfSlideItems<span class="hljs-operator">?</span>.count)<span class="hljs-operator">!</span>), height: <span class="hljs-number">0</span>)<br><br>        <span class="hljs-keyword">for</span> (index) <span class="hljs-keyword">in</span> (childControllersArray<span class="hljs-operator">?</span>.enumerated())<span class="hljs-operator">!</span> &#123;<br>            index.element.view.frame <span class="hljs-operator">=</span> <span class="hljs-type">CGRect</span>(x: <span class="hljs-type">CGFloat</span>(index.offset) <span class="hljs-operator">*</span> <span class="hljs-type">SCREEN_WIDTH</span>,<br>                                              y: <span class="hljs-number">0</span>,<br>                                              width: contentScrollView.frame.width,<br>                                              height: contentScrollView.frame.height)<br>            contentScrollView.addSubview(index.element.view)<br>            viewController()<span class="hljs-operator">?</span>.addChild(index.element)<br>            index.element.didMove(toParent: viewController())<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// vc滚动动画</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">animateSlider</span>(<span class="hljs-params">tag</span>:<span class="hljs-type">Int</span>)</span> -&gt; <span class="hljs-type">Void</span> &#123;<br>        contentScrollView.setContentOffset(<span class="hljs-type">CGPoint</span>(x: <span class="hljs-type">SCREEN_WIDTH</span> <span class="hljs-operator">*</span> <span class="hljs-type">CGFloat</span>(tag), y: <span class="hljs-number">0</span>), animated: <span class="hljs-literal">true</span>)<br>    &#125;<br>    <br>    <span class="hljs-comment">// 指示器滚动动画</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">animateSliderToPosition</span>(<span class="hljs-params">offset</span>:<span class="hljs-type">CGPoint</span>)</span> -&gt; <span class="hljs-type">Void</span> &#123;<br>        <br>        <span class="hljs-keyword">let</span> slideItemWidth <span class="hljs-operator">=</span>  <span class="hljs-type">SCREEN_WIDTH</span> <span class="hljs-operator">/</span> <span class="hljs-type">CGFloat</span>((namesOfSlideItems<span class="hljs-operator">?</span>.count)<span class="hljs-operator">!</span>)<br>        <span class="hljs-keyword">let</span> sliderWidth <span class="hljs-operator">=</span>  slideItemWidth <span class="hljs-operator">*</span> <span class="hljs-type">SliderThanSliderView_WidthRatio</span><br>        <span class="hljs-keyword">let</span> position_x <span class="hljs-operator">=</span>  (slideItemWidth <span class="hljs-operator">-</span> sliderWidth) <span class="hljs-operator">/</span> <span class="hljs-number">2.0</span><br>        <br>        <span class="hljs-keyword">let</span> newFrame <span class="hljs-operator">=</span> <span class="hljs-type">CGRect</span>(x: (offset.x <span class="hljs-operator">/</span> <span class="hljs-type">SCREEN_WIDTH</span>) <span class="hljs-operator">*</span> slideItemWidth <span class="hljs-operator">+</span> position_x,<br>                              y: (slider<span class="hljs-operator">?</span>.frame.origin.y)<span class="hljs-operator">!</span>,<br>                              width: (slider<span class="hljs-operator">?</span>.frame.width)<span class="hljs-operator">!</span>,<br>                              height: (slider<span class="hljs-operator">?</span>.frame.height)<span class="hljs-operator">!</span>)<br>        slider<span class="hljs-operator">?</span>.frame <span class="hljs-operator">=</span> newFrame<br>        <br>        <span class="hljs-keyword">for</span> (index) <span class="hljs-keyword">in</span> (buttonsArray<span class="hljs-operator">?</span>.enumerated())<span class="hljs-operator">!</span> &#123;<br>            index.element.setTitleColor(colorOfSlideItemsTitle, for: .normal)<br>        &#125;<br>        <br>        <span class="hljs-keyword">var</span> buttonTag <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br>        <span class="hljs-keyword">let</span> ratio <span class="hljs-operator">=</span> offset.x <span class="hljs-operator">/</span> <span class="hljs-type">SCREEN_WIDTH</span><br>        <span class="hljs-keyword">let</span> tempRation <span class="hljs-operator">=</span> <span class="hljs-type">Int</span>(ratio)<br>        <br>        <span class="hljs-keyword">let</span> decimal:<span class="hljs-type">CGFloat</span> <span class="hljs-operator">=</span> ratio <span class="hljs-operator">-</span> <span class="hljs-type">CGFloat</span>(tempRation)<br><br>        <span class="hljs-keyword">if</span> decimal <span class="hljs-operator">&gt;=</span> <span class="hljs-number">0.5</span> &#123;<br>            buttonTag <span class="hljs-operator">=</span> <span class="hljs-type">Int</span>(ratio) <span class="hljs-operator">+</span> <span class="hljs-number">1</span><br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            buttonTag <span class="hljs-operator">=</span> <span class="hljs-type">Int</span>(ratio)<br>        &#125;<br>        <br>        buttonsArray<span class="hljs-operator">!</span>[buttonTag].setTitleColor(colorOfHighlightedSlideItemsTitle, for: .normal)<br>    &#125;<br>    <br>    <span class="hljs-comment">/// 根据frame初始化指示器</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">sliderView</span>(<span class="hljs-params">frame</span>:<span class="hljs-type">CGRect</span>)</span> -&gt; <span class="hljs-type">UIView</span> &#123;<br>        slider <span class="hljs-operator">=</span> <span class="hljs-type">UIView</span>.<span class="hljs-keyword">init</span>(frame: frame)<br>        <span class="hljs-keyword">return</span> slider<span class="hljs-operator">!</span><br>    &#125;<br>   <br>    <span class="hljs-comment">/// 点击事件</span><br>    <span class="hljs-keyword">@objc</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">buttonTouched</span>(<span class="hljs-params">button</span>:<span class="hljs-type">UIButton</span>)</span> &#123;<br>        delegate<span class="hljs-operator">?</span>.slideView(sliderView: <span class="hljs-keyword">self</span>, didSelectItemAtIndex: button.tag)<br>        animateSlider(tag: tag)<br>        contentScrollView.setContentOffset(<span class="hljs-type">CGPoint</span>(x: <span class="hljs-type">SCREEN_WIDTH</span> <span class="hljs-operator">*</span> <span class="hljs-type">CGFloat</span>(button.tag), y: <span class="hljs-number">0</span>), animated: <span class="hljs-literal">true</span>)<br>    &#125;<br></code></pre></td></tr></table></figure>
+<h5 id="5、使用Extension实现UIScrollViewDidScrollDelegate"><a href="#5、使用Extension实现UIScrollViewDidScrollDelegate" class="headerlink" title="5、使用Extension实现UIScrollViewDidScrollDelegate"></a>5、使用Extension实现UIScrollViewDidScrollDelegate</h5><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">// MARK: ============ UIScrollViewDidScrollDelegate ============</span><br>extension SegmentSelectorManager:UIScrollViewDelegate &#123;<br>    func scroll<span class="hljs-constructor">ViewDidScroll(<span class="hljs-params">_</span> <span class="hljs-params">scrollView</span>: UIScrollView)</span> &#123;<br>        animate<span class="hljs-constructor">SliderToPosition(<span class="hljs-params">offset</span>: <span class="hljs-params">scrollView</span>.<span class="hljs-params">contentOffset</span>)</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h5 id="6、使用方法-实例代码"><a href="#6、使用方法-实例代码" class="headerlink" title="6、使用方法(实例代码)"></a>6、使用方法(实例代码)</h5><figure class="highlight roboconf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs roboconf">override func setupSubViewsProperties() &#123;<br>        <span class="hljs-attribute">segmentView = SegmentSelectorManager.init(frame</span>: CGRect<span class="hljs-variable">.zero</span>)<br>        segmentView?<span class="hljs-variable">.delegate</span> = self<br>        segmentView?<span class="hljs-variable">.dataSource</span> = self<br>        view<span class="hljs-variable">.addSubview</span>(segmentView!)<br>    &#125;<br>    <br>    override func setupSubViewsConstrains() &#123;<br>        if let seg = segmentView &#123;<br>            seg<span class="hljs-variable">.translatesAutoresizingMaskIntoConstraints</span> = false<br>            seg<span class="hljs-variable">.leadingAnchor</span><span class="hljs-variable">.constraint</span>(equalTo: view<span class="hljs-variable">.leadingAnchor</span>)<span class="hljs-variable">.isActive</span> = true<br>            seg<span class="hljs-variable">.trailingAnchor</span><span class="hljs-variable">.constraint</span>(equalTo: view<span class="hljs-variable">.trailingAnchor</span>)<span class="hljs-variable">.isActive</span> = true<br>            seg<span class="hljs-variable">.bottomAnchor</span><span class="hljs-variable">.constraint</span>(equalTo: view<span class="hljs-variable">.bottomAnchor</span>, constant: -kTabBarHeight)<span class="hljs-variable">.isActive</span> = true<br>            seg<span class="hljs-variable">.topAnchor</span><span class="hljs-variable">.constraint</span>(equalTo: wd_navgationBar_normal<span class="hljs-variable">.bottomAnchor</span>)<span class="hljs-variable">.isActive</span> = true<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">HotPlayController</span>: <span class="hljs-title">SegmentSelectorManagerDataSource</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">nameOfSliderItems</span>(<span class="hljs-params">segemntControl</span>: <span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">Array</span>&lt;<span class="hljs-type">String</span>&gt; &#123;<br>        <span class="hljs-keyword">return</span> [<span class="hljs-string">&quot;正在热映&quot;</span>, <span class="hljs-string">&quot;即将上映&quot;</span>]<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">childViewControllers</span>(<span class="hljs-params">segemntControl</span>: <span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">Array</span>&lt;<span class="hljs-type">UIViewController</span>&gt; &#123;<br>        <span class="hljs-keyword">return</span> [<span class="hljs-type">HotPlayingController</span>(), <span class="hljs-type">HotWillPlayViewController</span>()]<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">heightOfTopView</span>(<span class="hljs-params">segemntControl</span>: <span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">CGFloat</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">45</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">heightOfSlider</span>(<span class="hljs-params">segemntControl</span>: <span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">CGFloat</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">3</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">colorOfSlider</span>(<span class="hljs-params">segemntControl</span> <span class="hljs-params">slider</span>: <span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">UIColor</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">UIColor</span>.wd_init(r: <span class="hljs-number">73</span>, g: <span class="hljs-number">73</span>, b: <span class="hljs-number">73</span>)<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">colorOfTopView</span>(<span class="hljs-params">segemntControl</span>: <span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">UIColor</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">UIColor</span>.white<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">colorOfSliderItemsTitle</span>(<span class="hljs-params">segemntControl</span>: <span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">UIColor</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">UIColor</span>.gray<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">colorOfHighlightedSliderItemsTitle</span>(<span class="hljs-params">segemntControl</span>: <span class="hljs-type">SegmentSelectorManager</span>)</span> -&gt; <span class="hljs-type">UIColor</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">UIColor</span>.wd_init(r: <span class="hljs-number">73</span>, g: <span class="hljs-number">73</span>, b: <span class="hljs-number">73</span>)<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">HotPlayController</span>: <span class="hljs-title">SegmentSelectorManagerDelegate</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">slideView</span>(<span class="hljs-params">sliderView</span>: <span class="hljs-type">SegmentSelectorManager</span>, <span class="hljs-params">didSelectItemAtIndex</span>: <span class="hljs-type">Int</span>)</span> &#123;<br>        <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h5 id="7、效果图"><a href="#7、效果图" class="headerlink" title="7、效果图"></a>7、效果图</h5><p><img src="https://upload-images.jianshu.io/upload_images/3334769-115a441c7def0de0.gif?imageMogr2/auto-orient/strip" srcset="/img/loading.gif" lazyload alt="效果图.gif"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/Swift/">Swift</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/Swift/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/">自定义控件</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/">自定义控件</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/01/iOS%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6-%E5%BC%80%E5%B1%8F%E5%B9%BF%E5%91%8A/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS自定义控件-分段选择器-Swift</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/05/01/iOS%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6-%E4%BB%BFQQ%E4%BE%A7%E8%BE%B9%E8%8F%9C%E5%8D%95/">
+                        <span class="hidden-mobile">iOS自定义控件-仿QQ侧边菜单</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

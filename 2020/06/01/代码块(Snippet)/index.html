@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS代码块(Snippet) - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS代码块(Snippet)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-06-01 10:00" pubdate>
+        2020年6月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      585 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      8
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS代码块(Snippet)</h1>
+            
+            <div class="markdown-body">
+              <p><img src="https://upload-images.jianshu.io/upload_images/3334769-b07622a36a646add.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="镇楼专用"></p>
+<p>代码块(Snippet)，方便了代码快速创建。</p>
+<h4 id="管理：在新版Xcode中管理页面在编译器的右上角"><a href="#管理：在新版Xcode中管理页面在编译器的右上角" class="headerlink" title="管理：在新版Xcode中管理页面在编译器的右上角"></a>管理：在新版Xcode中管理页面在编译器的右上角</h4><p><img src="https://upload-images.jianshu.io/upload_images/3334769-80379a923c19ef74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="代码块管理"></p>
+<h4 id="添加：选中代码鼠标右击"><a href="#添加：选中代码鼠标右击" class="headerlink" title="添加：选中代码鼠标右击"></a>添加：选中代码鼠标右击</h4><p><img src="https://upload-images.jianshu.io/upload_images/3334769-52aa3439524de38c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="添加"></p>
+<h4 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h4><p><img src="https://upload-images.jianshu.io/upload_images/3334769-df39d293cbb6e8b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="编辑"></p>
+<ol>
+<li><p>Title：标题。 </p>
+</li>
+<li><p>Summary：描述文字。 </p>
+</li>
+<li><p>Platform：可以使用的平台（如iOS、Mac OS）。 </p>
+</li>
+<li><p>Language：可以在哪些语言中使用（如 Objective-C、Swift）。 </p>
+</li>
+<li><p>Completion Shortcut：快捷方式，以字母开头（支持少数符号，如@）。 </p>
+</li>
+<li><p>Completion Scopes：作用范围，一般写在正确的位置拖动即可，Xcode会自行选择好。</p>
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs clean">@property (nonatomic, strong) &lt;#ClassName#&gt; *&lt;#<span class="hljs-keyword">class</span>#&gt;; <span class="hljs-comment">///&lt; &lt;#注释#&gt;</span><br>@property (nonatomic, assign) &lt;#DataType#&gt; &lt;#name#&gt;; <span class="hljs-comment">///&lt; &lt;#注释#&gt;</span><br>@property (nonatomic, copy) &lt;#ClassName#&gt; *&lt;#name#&gt;; <span class="hljs-comment">///&lt; &lt;#注释#&gt;</span><br>@property (nonatomic, weak) id&lt;&lt;#delegateOrDataSouce#&gt;&gt; &lt;#delegateOrDataSouce#&gt;; <span class="hljs-comment">///&lt; &lt;#注释#&gt;</span><br>@property (nonatomic, weak) &lt;#Class#&gt; *&lt;#name#&gt;; <span class="hljs-comment">///&lt; &lt;#注释#&gt;</span><br></code></pre></td></tr></table></figure>
+<h4 id="常用注释"><a href="#常用注释" class="headerlink" title="常用注释"></a>常用注释</h4></li>
+<li><p>顶部注释</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/** &lt;#属性注释#&gt; */</span><br></code></pre></td></tr></table></figure></li>
+<li><p>右侧注释</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment"><span class="hljs-doctag">///</span><span class="hljs-doctag">&lt; &lt;#注释#&gt;</span></span><br></code></pre></td></tr></table></figure></li>
+<li><p>简述顶部注释</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs 1c">/** &lt;<span class="hljs-meta">#简要描述#&gt;</span><br> * &lt;<span class="hljs-meta">#详细描述#&gt;</span><br> */<br></code></pre></td></tr></table></figure></li>
+<li><p>Pragma</p>
+</li>
+</ol>
+<ul>
+<li>有分割线<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark <span class="hljs-meta-string">&lt;#mark#&gt;</span></span><br></code></pre></td></tr></table></figure></li>
+<li>无分割线<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - <span class="hljs-meta-string">&lt;#mark&gt;</span> 或 <span class="hljs-comment">// MARK: &lt;#mark#&gt;</span></span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<ol start="5">
+<li><p>Warning(警告)</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">warning</span> <span class="hljs-meta-string">&lt;#message#&gt;</span></span><br></code></pre></td></tr></table></figure></li>
+<li><p>???(不确定)</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> ???: &lt;<span class="hljs-comment">#???#&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>!!!(警告)</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> !!!: &lt;<span class="hljs-comment">#???#&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>FIXME(需要修改的地方)</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span> FIXME: &lt;<span class="hljs-comment">#Fix详情#&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>常用方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 页面控件配置</span><br>- (<span class="hljs-keyword">void</span>)setupSubViewsProperties &#123;<br>    <br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 页面控件布局</span><br>- (<span class="hljs-keyword">void</span>)setupSubViewsConstraint &#123;<br>    <br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>枚举</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs elm">typedef <span class="hljs-type">NS_ENUM</span>(<span class="hljs-type">NSInteger</span>, &lt;#<span class="hljs-type">TypeName</span>#&gt;) &#123;<br>    <br>&#125;;<br><br>typedef <span class="hljs-type">NS_OPTIONS</span>(<span class="hljs-type">NSUInteger</span>, &lt;#<span class="hljs-type">TypeName</span>#&gt;) &#123;<br>                <br>&#125;;<br></code></pre></td></tr></table></figure></li>
+<li><p>IFDEBUG</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs clean">#<span class="hljs-keyword">if</span> DEBUG<br>&lt;#TODO#&gt;<br>#else<br>&lt;#TODO#&gt;<br>#endif<br></code></pre></td></tr></table></figure></li>
+<li><p>快捷初始化UILabel</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nix">UILabel *<span class="hljs-attr">l</span> = [[UILabel alloc] init];<br>l.<span class="hljs-attr">font</span> = [UIFont &lt;<span class="hljs-comment">#font#&gt;];</span><br>l.<span class="hljs-attr">text</span> = @<span class="hljs-string">&quot;&lt;#conent#&gt;&quot;</span>;<br>l.<span class="hljs-attr">textColor</span> = [UIColor &lt;<span class="hljs-comment">#textColor#&gt;];</span><br>l.<span class="hljs-attr">numberOfLines</span> = <span class="hljs-number">0</span>;<br>[&lt;<span class="hljs-comment">#view#&gt; addSubview:l];</span><br></code></pre></td></tr></table></figure></li>
+<li><p>快捷初始化UIButton</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">UIButton *<span class="hljs-keyword">b </span>= [UIButton <span class="hljs-keyword">buttonWithType:UIButtonTypeCustom];</span><br><span class="hljs-keyword"></span><span class="hljs-keyword">b.backgroundColor </span>= [UIColor &lt;<span class="hljs-comment">#backgroundColor#&gt;];</span><br><span class="hljs-keyword">b.titleLabel.font </span>= [UIFont &lt;<span class="hljs-comment">#font#&gt;];</span><br>[<span class="hljs-keyword">b </span>setTitle:&lt;<span class="hljs-comment">#title#&gt; forState:UIControlStateNormal];</span><br>[<span class="hljs-keyword">b </span>setTitleColor:[UIColor &lt;<span class="hljs-comment">#titleColor#&gt;] forState:UIControlStateNormal];</span><br>[<span class="hljs-keyword">b </span>setImage:[UIImage imageNamed:&lt;<span class="hljs-comment">#(nonnull NSString *)#&gt;] forState:UIControlStateNormal]</span><br>[<span class="hljs-keyword">b </span><span class="hljs-keyword">addTarget:self </span>action:@selector(<span class="hljs-keyword">didTapped&lt;#Button </span>Name<span class="hljs-comment">#&gt;:) forControlEvents:UIControlEventTouchUpInside];</span><br>[&lt;<span class="hljs-comment">#view#&gt; addSubview:b];</span><br></code></pre></td></tr></table></figure></li>
+<li><p>UIButton 点击事件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/** &lt;#ButtonName#&gt;点击事件 */</span><br>- (void)didTapped&lt;<span class="hljs-comment">#ButtonName#&gt;:(UIButton *)sender &#123;</span><br>    <br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>Notification事件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/** &lt;#Notification Name#&gt;通知事件 */</span><br>- (void)didReceive&lt;<span class="hljs-comment">#Notification Name#&gt;:(NSNotification *)notification &#123;</span><br>    <br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>UIGestureRecognizer触摸事件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/** &lt;#GestureRecognizer Name#&gt;触摸事件 */</span><br>- (void)didRecognized&lt;<span class="hljs-comment">#GestureRecognizer Name#&gt;:(UIGestureRecognizer *)recognizer &#123;</span><br>    <br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h4><p>这也是为了个人意见，其他还有很多可以做成代码块的，例如CGD，TableViewDataSource等等，希望短短的文章可以让你代码可以写的更好。</p>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7/">开发技巧</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Snippet/">Snippet</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7/">开发技巧</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/01/iOS%E5%BA%95%E5%B1%82-RunLoop/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS底层-RunLoop</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/01/%E5%88%A9%E7%94%A8UIDocument%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE/">
+                        <span class="hidden-mobile">利用UIDocument保存数据</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

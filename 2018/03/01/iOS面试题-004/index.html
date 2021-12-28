@@ -1,0 +1,762 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS 面试题（四） - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS 面试题（四）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-03-01 10:00" pubdate>
+        2018年3月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      43
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS 面试题（四）</h1>
+            
+            <div class="markdown-body">
+              <p>1、swift和oc的区别</p>
+<p>2、编译链接</p>
+<p>3、synthesize &amp; denamic</p>
+<p>4、在项目开发中常用的开发工具有哪些？</p>
+<p>5、UITableView &amp; UICollection</p>
+<p>6、NSProxy &amp; NSObject</p>
+<p>7、Object &amp; Swift</p>
+<p>8、传值通知 &amp; 推送通知（本地&amp;远程）</p>
+<p>9、第三方库 &amp; 第三方平台</p>
+<p>10、NSCache &amp; NSDcitionary</p>
+<p>11、 UIView的setNeedsDisplay和setNeedsLayout方法</p>
+<p>12、UILayer &amp; UIView</p>
+<p>13、layoutSubViews &amp; drawRects</p>
+<p>14、UDID &amp; UUID</p>
+<p>15、CPU &amp; GPU</p>
+<p>16、点（pt）&amp; 像素（px）</p>
+<p>17、属性与成员变量</p>
+<p>18、int和NSInteger的区别</p>
+<p>（1）import和include</p>
+<p>（2）@class</p>
+<p>（3）全局 &amp; 静态变量</p>
+<p>19、类和对象</p>
+<p>（1）分类拓展协议中哪些可以声明属性?</p>
+<p>（2）继承和类别的区别</p>
+<p>（3）分类的作用</p>
+<p>（4）分类的局限性</p>
+<p>20、category &amp; extension</p>
+<p>21、Foundation</p>
+<p>（1）字符串</p>
+<p>（2）字符串截取</p>
+<p>（3）格式</p>
+<p>22、NSArray和NSDictionary</p>
+<p>（1）iOS遍历数组/字典的方法</p>
+<p>（2）NSValue NSNumber</p>
+<p>（3）其它</p>
+<p>（4）如何避免循环引用</p>
+<p>23、CFSocket使用有哪几个步骤</p>
+<p>24、Core Foundation中提供了哪几种操作Socket的方法？</p>
+<p>25、解析XML文件有哪几种方式？</p>
+<p>26、什么是沙盒模型？哪些操作是属于私有api范畴?</p>
+<p>27、在一个对象的方法里面：self.name= “object”；和 name =”object” 有什么不同吗?</p>
+<p>28、请简要说明viewDidLoad和viewDidUnload何时调用</p>
+<p>29、创建控制器、视图的方式</p>
+<p>30、简述内存分区情况</p>
+<p>31、队列和栈有什么区别</p>
+<p>32、iOS的系统架构</p>
+<p>33、控件主要响应3种事件</p>
+<p>34、xib文件的构成分为哪3个图标？都具有什么功能</p>
+<p>35、简述视图控件器的生命周期</p>
+<p>36、app 项目的生命周期</p>
+<p>（1）应用的生命周期</p>
+<p>（2）简要说明一下APP的启动过程，main文件说起，main函数中有什么函数？作用是什么？</p>
+<p>（3）UIApplicationMain函数作用</p>
+<p>（4）main函数作用</p>
+<p>37、 动画有基本类型有哪几种；表视图有哪几种基本样式。</p>
+<p>38、实现简单的表格显示需要设置UITableView的什么属性、实现什么协议？</p>
+<p>39、Cocoa Touch提供了哪几种Core Animation过渡类型？</p>
+<p>40、UIView与CLayer有什么区别？</p>
+<p>41、Quatrz 2D的绘图功能的三个核心概念是什么并简述其作用</p>
+<p>42、iPhone OS主要提供了几种播放音频的方法？</p>
+<p>43、使用AVAudioPlayer类调用哪个框架、使用步骤？</p>
+<p>44、有哪几种手势通知方法、写清楚方法名？</p>
+<p>45、ViewController的didReceiveMemoryWarning怎么被调用</p>
+<p>46、什么时候用delegate,什么时候用Notification?</p>
+<p>47、用预处理指令#define声明一个常数，用以表明1年中有多少秒（忽略闰年问题）</p>
+<p>48、写一个”标准”宏MIN ，这个宏输入两个参数并返回较小的一个。</p>
+<p>49、关键字const有什么含意？修饰类呢?static的作用,用于类呢?还有extern c的作用</p>
+<p>50、关键字volatile有什么含意?并给出三个不同的例子</p>
+<p>51、一个参数既可以是const还可以是volatile吗？ 一个指针可以是volatile 吗？解释为什么。</p>
+<p>52、static 关键字的作用</p>
+<p>53、列举几种进程的同步机制，并比较其优缺点。</p>
+<p>54、进程之间通信的途径</p>
+<p>55、进程死锁的原因</p>
+<p>56、死锁的4个必要条件</p>
+<p>57、死锁的处理</p>
+<p>58、cocoa touch框架</p>
+<p>59、自动释放池是什么,如何工作</p>
+<p>60、sprintf,strcpy,memcpy使用上有什么要注意的地方</p>
+<p>61、你了解svn,cvs等版本控制工具么？</p>
+<p>62、什么是push</p>
+<p>63、静态链接库</p>
+<p>64、OC三大特性</p>
+<p>（1）封装_点语法</p>
+<p>（2）继承</p>
+<p>（3）多态</p>
+<p>65、OC中如何实现多态</p>
+<p>66、Objective-C的优缺点</p>
+<p>67、对于OC,你认为最大的优点和最大的不足是什么？对于不足之处，现在有没有可用的方法绕过这些不足来实现需求。如果可以话，有没有考虑或者实现过重新实现OC的功能，如果有，具体怎么做？</p>
+<p>68、oc中可修改和不可以修改类型</p>
+<p>69、我们说的oc是动态运行时语言是什么意思?</p>
+<p>70、通知和协议的不同之处?</p>
+<p>71、什么是推送消息?</p>
+<p>72、关于多态性</p>
+<p>73、什么是谓词?</p>
+<p>74、做过的项目是否涉及网络访问功能，使用什么对象完成网络功能?</p>
+<p>75、简单介绍下NSURLConnection类及+sendSynchronousRequest:returningResponse:error:与– initWithRequest:delegate:两个方法的区别?</p>
+<p>76、谈谈Object-C的内存管理方式及过程？</p>
+<p>77、Object-C有私有方法吗？私有变量呢？</p>
+<p>78、说说响应链</p>
+<p>79、时间传递 &amp; 响应者链</p>
+<p>80、frame和bounds有什么不同?</p>
+<p>81、方法和选择器有何不同?</p>
+<p>82、OC的垃圾回收机制?</p>
+<p>83、什么是延迟加载?</p>
+<p>84、是否在一个视图控制器中嵌入两个tableview控制器?</p>
+<p>85、一个tableView是否可以关联两个不同的数据源?你会怎么处理?</p>
+<p>86、什么时候使用NSMutableArray，什么时候使用NSArray?</p>
+<p>87、给出委托方法的实例，并且说出UITableVIew的Data Source方法</p>
+<p>88、在应用中可以创建多少autorelease对象，是否有限制?</p>
+<p>89、如果我们不创建内存池，是否有内存池提供给我们?</p>
+<p>90、什么时候需要在程序中创建内存池?</p>
+<p>91、类NSObject的那些方法经常被使用?</p>
+<p>92、什么是简便构造方法?</p>
+<p>93、如何使用Xcode设计通用应用?</p>
+<p>94、 UIView的动画效果有那些?</p>
+<p>95、Object-C有多继承吗？没有的话用什么代替？cocoa 中所有的类都是NSObject 的子类</p>
+<p>96、内存管理 Autorelease、retain、copy、assign的set方法和含义？</p>
+<p>97、C和obj-c 如何混用</p>
+<p>98、类别的作用?继承和类别在实现中有何区别?</p>
+<p>99、类别和类扩展的区别。</p>
+<p>100、oc中的协议和java中的接口概念有何不同?</p>
+<p>101、深拷贝与前拷贝区别</p>
+<p>（1）什么是深拷贝浅拷贝</p>
+<p>（2）字符串什么时候使用copy,strong</p>
+<p>（3）字符串所在内存区域</p>
+<p>（4）mutablecopy和copy @property(copy) NSMutableArray *arr;这样写有什么问题</p>
+<p>（5）如何让自定义类可以使用copy修饰符</p>
+<p>102、对于语句NSString*obj = [[NSData alloc] init]; obj在编译时和运行时分别时什么类型的对象？</p>
+<p>103、#import 跟#include 又什么区别，@class呢, ＃import&lt;&gt; 跟 #import””又什么区别？</p>
+<p>104、Objective-C的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方法用继承好还是分类好?为什么?</p>
+<p>105、 #import 跟#include 又什么区别，@class呢, #import&lt;&gt; 跟 #import””又什么区别?</p>
+<p>106、写一个setter方法用于完成@property (nonatomic,retain)NSString name,写一个setter方法用于完成@property(nonatomic，copy)NSString name</p>
+<p>107、常见的Objective-C的数据类型有那些， 和C的基本数据类型有什么区别?如：NSInteger和int</p>
+<p>108、id 声明的对象有什么特性?</p>
+<p>109、Objective-C如何对内存管理的,说说你的看法和解决方法?</p>
+<p>110、原子(atomic)跟非原子(non-atomic)属性有什么区别?</p>
+<p>111、看下面的程序,第一个NSLog会输出什么?这时str的retainCount是多少?第二个和第三个呢? 为什么?</p>
+<p>112、内存管理的几条原则时什么?按照默认法则.那些关键字生成的对象需要手动释放?在和property结合的时候怎样有效的避免内存泄露?</p>
+<p>113、如何对iOS设备进行性能测试?</p>
+<p>114、设计模式</p>
+<p>（1）mvc模式</p>
+<p>（2）单例模式</p>
+<p>（3）mvvm模式</p>
+<p>（4）观察者模式</p>
+<p>（5）工厂模式</p>
+<p>（6）代理模式</p>
+<p>（7）策略模式</p>
+<p>（8）适配器模式</p>
+<p>（9）模版模式</p>
+<p>（10）外观模式</p>
+<p>（11）创建模式</p>
+<p>（12）MVP模式</p>
+<p>115、MVVM模式原理分析</p>
+<p>116、说说常用的几种传值方式</p>
+<p>117、什么时候用delegate，什么时候用Notification</p>
+<p>118、对于单例的理解</p>
+<p>119、从设计模式角度分析代理，通知和KVO区别？ios SDK 提供 的framework使用了哪些设计模式，为什么使用？有哪些好处和坏处?</p>
+<p>120、KVO，NSNotification，delegate及block区别</p>
+<p>121、运行时（runTime）</p>
+<p>122、runtime/消息转发机制</p>
+<p>（1）runtime</p>
+<p>1.1、什么是runtime</p>
+<p>1.2、runtime干什么用，使用场景</p>
+<p>（2）消息机制</p>
+<p>2.1、消息转发的原理</p>
+<p>2.2、SEL isa super cmd 是什么</p>
+<p>（3）动态绑定</p>
+<p>123、使用bugly进行崩溃分析</p>
+<p>124、jenkens 持续打包</p>
+<p>125、KVO &amp; KVC</p>
+<p>（1）底层实现</p>
+<p>（2）KVO概述</p>
+<p>（3）KVC概述</p>
+<p>126、什么是KVO和KVC?</p>
+<p>KVO和KVC</p>
+<p>（1）如何调用私有变量，如何修改系统的只读属性，KVC的查找顺序</p>
+<p>（2）什么是键-值,键路径是什么</p>
+<p>（3）kvo的实现机制</p>
+<p>（4）KVO计算属性，设置依赖键</p>
+<p>（5）KVO集合属性</p>
+<p>（6）kvo使用场景</p>
+<p>127、SDWebImage(SDWebImage的实现机制）</p>
+<p>（1）主要功能</p>
+<p>（2）缓存</p>
+<p>（3）内存缓存与磁盘缓存</p>
+<p>128、框架 SDWebimage的缓存机制</p>
+<p>129、网络安全</p>
+<p>密码的安全原则</p>
+<p>130、多线程</p>
+<p>（1）多线程概念</p>
+<p>（2）多线程的作用</p>
+<p>（3）使用场景</p>
+<p>131、NSOperationQueue和GCD的区别是什么</p>
+<p>132、GCD与NSThread的区别</p>
+<p>133、进程和线程的区别与联系是什么?</p>
+<p>134、别异步执行两个耗时操作，等两次耗时操作都执行完毕后,再回到主线程执行操作. 使用队列组(dispatch_group_t)快速,高效的实现上述需求</p>
+<p>135、在项目什么时候选择使用GCD，什么时候选择NSOperation?</p>
+<p>136、对比iOS中的多线程技术</p>
+<p>137、多线程优缺点</p>
+<p>138、iOS中的延迟操作</p>
+<p>139、串行队列同步执行和异步主队列</p>
+<p>140、资源抢夺解决方案</p>
+<p>141、dispatch_barrier_async的作用是什么？</p>
+<p>142、在多线程Core Data中，NSC,MOC,NSObjectModel哪些需要在线程中创建或者传递？你是用什么策越来实现的？</p>
+<p>143、+(void)load与 +(void)initialize区别load 和 initialize方法的区别</p>
+<p>144、http的post与区别与联系，实践中如何选择它们？</p>
+<p>145、说说关于UDP/TCP的区别？</p>
+<p>146、http和scoket通信的区别?socket连接相关库,TCP,UDP的连接方法,HTTP的几种常用方式?</p>
+<p>147、HTTP请求常用的几种方式</p>
+<p>148、block</p>
+<p>（1）使用block时什么情况会发生引用循环，如何解决？</p>
+<p>（2）在block内如何修改block外部变量？</p>
+<p>（3）Block &amp; MRC-Block</p>
+<p>（4）什么是block</p>
+<p>（5）block 实现原理</p>
+<p>（6）关于block</p>
+<p>（7）使用block和使用delegate完成委托模式有什么优点</p>
+<p>（8）多线程与block</p>
+<p>（9）谈谈对Block 的理解?并写出一个使用Block执行UIVew动画?</p>
+<p>（10）写出上面代码的Block的定义（接上题）</p>
+<p>149、Weak、strong、copy、assign 使用</p>
+<p>（1）什么情况使用 weak 关键字，相比 assign 有什么不同？</p>
+<p>（2）怎么用 copy 关键字？</p>
+<p>（3）weak &amp; strong</p>
+<p>（4）这个写法会出什么问题： @property (copy) NSMutableArray *array</p>
+<p>（5） 如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？</p>
+<p>（6） @property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的</p>
+<p>（7）ivar、getter、setter 是如何生成并添加到这个类中的?</p>
+<p>（8）用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</p>
+<p>（9）@protocol 和 category 中如何使用 @property</p>
+<p>（10）runtime如何通过selector找到对应的IMP地址？</p>
+<p>（11）retain和copy区别</p>
+<p>（12）copy和strong的使用？</p>
+<p>（13）NSString和NSMutableString，前者线程安全，后者线程不安全。</p>
+<p>（14）readwrite，readonly，assign，retain，copy，weak ,strong,nonatomic 属性的作用</p>
+<p>150、OC与JS的交互（iOS与H5混编）</p>
+<p>TableView性能优化</p>
+<p>UITableView核心思想</p>
+<p>UITableView的优化主要从三个方面入手：</p>
+<p>151、TableView为什么会卡？</p>
+<p>152、UITableView</p>
+<p>（1）UITableView最核心的思想</p>
+<p>（2）定义高度</p>
+<p>（3）自定义高度原理</p>
+<p>（4）老生常谈之UITableView的性能优化</p>
+<p>（5）cell高度的计算</p>
+<p>（5.1）定高的cell和动态高度的cell</p>
+<p>（6）TableView渲染</p>
+<p>（7）减少视图的数目</p>
+<p>（8）减少多余的绘制操作</p>
+<p>（9）不要给cell动态添加subView</p>
+<p>（10）异步化UI，不要阻塞主线程</p>
+<p>（11）滑动时按需加载对应的内容</p>
+<p>（12）离屏渲染的问题</p>
+<p>（13）离屏渲染优化方案</p>
+<p>153、环信SDK使用</p>
+<p>154、蓝牙</p>
+<p>155、在iPhone应用中如何保存数据?</p>
+<p>156、什么是coredata?</p>
+<p>157、 什么是NSManagedObject模型?</p>
+<p>158、什么是NSManagedobjectContext?</p>
+<p>159、 iOS平台怎么做数据的持久化?coredata 和sqlite有无必然联系？coredata是一个关系型数据库吗？</p>
+<p>160、CoreData &amp; SQLite3</p>
+<p>161、数据存储</p>
+<p>（1）数据存储技术</p>
+<p>（1.1）数据存储的几种方式</p>
+<p>（1.2）各自特点（面试考点）</p>
+<p>（1.3）偏好设置（面试考点）</p>
+<p>（1.4）归档（面试考点）</p>
+<p>（2）数据库技术（SQLite&amp;CoreData）</p>
+<p>162、Objective-C堆和栈的区别？</p>
+<p>163、内存泄露 &amp; 内存溢出</p>
+<p>164、堆 &amp; 栈</p>
+<p>（1）堆栈空间分配区别</p>
+<p>（2）堆栈缓存方式区别</p>
+<p>（3）堆栈数据结构区别</p>
+<p>165、内存管理</p>
+<p>（1）内存区域</p>
+<p>（1.1）堆和栈的区别</p>
+<p>（1.2）iOS内存区域</p>
+<p>（2）字符串的内存管理</p>
+<p>（3）你是如何优化内存管理</p>
+<p>（4）循环引用</p>
+<p>（5）autorelease的使用</p>
+<p>（5.1）工厂方法为什么不释放对象</p>
+<p>（5.2）ARC下autorelease的使用场景</p>
+<p>（5.3）自动释放池如何工作</p>
+<p>（5.4）避免内存峰值</p>
+<p>（5.5）ARC和MRC的混用</p>
+<p>（5.6）NSTimer的内存管理</p>
+<p>（5.7）ARC的实现原理</p>
+<p>166、Runloop</p>
+<p>167、fmmpeg框架</p>
+<p>168、fmdb框架</p>
+<p>169、320框架</p>
+<p>170、UIKit和CoreAnimation和CoreGraphics的关系是什么？在开发中是否使用过CoreAnimation和CoreGraphics?</p>
+<p>171、trasform</p>
+<p>172、点讲动画和layer ,view的区别</p>
+<p>173、图层与视图</p>
+<p>174、平行的层级关系</p>
+<p>175、图层的能力</p>
+<p>176、使用图层</p>
+<p>177、核心绘图</p>
+<p>（1）View和layer的区别</p>
+<p>（2）new和alloc init的区别</p>
+<p>178、动画</p>
+<p>179、UICollectionView</p>
+<p>（1）何实现瀑布流,流水布局</p>
+<p>（2）和UITableView的使用区别</p>
+<p>180、UIImage</p>
+<p>181、webview</p>
+<p>182、描述九宫格算法</p>
+<p>183、实现图片轮播图</p>
+<p>184、iOS网络框架</p>
+<p>185、网络</p>
+<p>（1）网络基础</p>
+<p>（2）网络传输</p>
+<p>（3）AFN</p>
+<p>186、AFNetworking &amp; ASIHttpRequest &amp; MKNetWorking</p>
+<p>（1）底层实现</p>
+<p>（2）对服务器返回的数据处理</p>
+<p>（3）监听请求过程</p>
+<p>（4）在文件下载和文件上传的使用难易度</p>
+<p>（5）网络监控</p>
+<p>（6）ASI提供的其他实用功能</p>
+<p>（7）MKNetworkKit</p>
+<p>187、性能优化</p>
+<p>188、算法</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/03/01/iOS%E9%9D%A2%E8%AF%95%E9%A2%98-003/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS 面试题（三）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/02/01/iOS%E9%9D%A2%E8%AF%95%E9%A2%98-002/">
+                        <span class="hidden-mobile">iOS 面试题（二）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,596 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>RxSwift学习日常（基础介绍） - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="RxSwift学习日常（基础介绍）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-03-01 10:00" pubdate>
+        2020年3月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      82
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RxSwift学习日常（基础介绍）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Observable-介绍"><a href="#Observable-介绍" class="headerlink" title="Observable 介绍"></a>Observable 介绍</h1><h2 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a>Observable<T></h2><ul>
+<li>Observable<T> 这个类就是 Rx 框架的基础，我们可以称它为可观察序列。它的作用就是可以异步地产生一系列的 Event（事件），即一个 Observable<T> 对象会随着时间推移不定期地发出 event(element : T) 这样一个东西。</li>
+<li>而且这些 Event 还可以携带数据，它的泛型 <T> 就是用来指定这个 Event 携带的数据的类型。</li>
+<li>有了可观察序列，我们还需要有一个 Observer（订阅者）来订阅它，这样这个订阅者才能收到 Observable<T> 不时发出的 Event。<h2 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h2>查看 RxSwift 源码可以发现，事件 Event 的定义如下：</li>
+</ul>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Event&lt;Element&gt; &#123;<br>    <span class="hljs-comment">/// Next element is produced.</span><br>    <span class="hljs-keyword">case</span> next(Element)<br> <br>    <span class="hljs-comment">/// Sequence terminated with an error.</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-keyword">error</span>(Swift.Error)<br> <br>    <span class="hljs-comment">/// Sequence completed successfully.</span><br>    <span class="hljs-keyword">case</span> completed<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可以看到 Event 就是一个枚举，也就是说一个 Observable 是可以发出 3 种不同类型的 Event 事件：</p>
+<ul>
+<li>next：next 事件就是那个可以携带数据 <T> 的事件，可以说它就是一个“最正常”的事件。</li>
+<li>error：error 事件表示一个错误，它可以携带具体的错误内容，一旦 Observable 发出了 error event，则这个 Observable 就等于终止了，以后它再也不会发出 event 事件了。</li>
+<li>completed：completed 事件表示 Observable 发出的事件正常地结束了，跟 error 一样，一旦 Observable 发出了 completed event，则这个 Observable 就等于终止了，以后它再也不会发出 event 事件了<h2 id="Observable-与-Sequence比较"><a href="#Observable-与-Sequence比较" class="headerlink" title="Observable 与 Sequence比较"></a>Observable 与 Sequence比较</h2>(1)、为更好地理解，我们可以把每一个 Observable 的实例想象成于一个 Swift 中的 Sequence：</li>
+<li>即一个 Observable（ObservableType）相当于一个序列 Sequence（SequenceType）。</li>
+<li>ObservableType.subscribe(_:) 方法其实就相当于 SequenceType.generate()。</li>
+</ul>
+<p>(2)、但它们之间还是有许多区别的：</p>
+<ul>
+<li>Swift 中的 SequenceType 是同步的循环，而 Observable 是异步的。</li>
+<li>Observable 对象会在有任何 Event 时候，自动将 Event 作为一个参数通过 ObservableType.subscribe(_:) 发出，并不需要使用 next 方法。<h2 id="创建-Observable-序列"><a href="#创建-Observable-序列" class="headerlink" title="创建 Observable 序列"></a>创建 Observable 序列</h2><h3 id="just-方法"><a href="#just-方法" class="headerlink" title="just() 方法"></a>just() 方法</h3>（1）该方法通过传入一个默认值来初始化。<br><br>（2）下面样例我们显式地标注出了 observable 的类型为 Observable<Int>，即指定了这个 Observable 所发出的事件携带的数据类型必须是 Int 类型的。</li>
+</ul>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean"><span class="hljs-keyword">let</span> observable = Observable&lt;<span class="hljs-built_in">Int</span>&gt;.just(<span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="of-方法"><a href="#of-方法" class="headerlink" title="of() 方法"></a>of() 方法</h3><p>（1）该方法可以接受可变数量的参数（必需要是同类型的）<br><br>（2）下面样例中我没有显式地声明出 Observable 的泛型类型，Swift 也会自动推断类型。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">let</span> observable = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Observable</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="from-方法"><a href="#from-方法" class="headerlink" title="from() 方法"></a>from() 方法</h3><p>（1）该方法需要一个数组参数。<br><br>（2）下面样例中数据里的元素就会被当做这个 Observable 所发出 event 携带的数据内容，最终效果同上面饿 of() 样例是一样的。</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean"><span class="hljs-keyword">let</span> observable = Observable.<span class="hljs-keyword">from</span>([<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>])<br></code></pre></td></tr></table></figure>
+<h3 id="empty-方法"><a href="#empty-方法" class="headerlink" title="empty() 方法"></a>empty() 方法</h3><p>该方法创建一个空内容的 Observable 序列。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">let</span> observable = Observable<span class="hljs-symbol">&lt;Int&gt;</span>.<span class="hljs-built_in">empty</span>()<br></code></pre></td></tr></table></figure>
+<h3 id="never-方法"><a href="#never-方法" class="headerlink" title="never() 方法"></a>never() 方法</h3><p>该方法创建一个永远不会发出 Event（也不会终止）的 Observable 序列。</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean"><span class="hljs-keyword">let</span> observable = Observable&lt;<span class="hljs-built_in">Int</span>&gt;.never()<br></code></pre></td></tr></table></figure>
+<h3 id="error-方法"><a href="#error-方法" class="headerlink" title="error() 方法"></a>error() 方法</h3><p>该方法创建一个不做任何操作，而是直接发送一个错误的 Observable 序列。</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-keyword">enum</span> MyError: <span class="hljs-built_in">Error</span> &#123;<br>    <span class="hljs-keyword">case</span> A<br>    <span class="hljs-keyword">case</span> B<br>&#125;<br>         <br><span class="hljs-keyword">let</span> observable = Observable&lt;Int&gt;.error(MyError.A)<br></code></pre></td></tr></table></figure>
+<h3 id="range-方法"><a href="#range-方法" class="headerlink" title="range() 方法"></a>range() 方法</h3><p>（1）该方法通过指定起始和结束数值，创建一个以这个范围内所有值作为初始值的 Observable 序列。<br><br>（2）下面样例中，两种方法创建的 Observable 序列都是一样的。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//使用range()</span><br><span class="hljs-keyword">let</span> observable = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Observable</span>.</span></span>range(start: <span class="hljs-number">1</span>, count: <span class="hljs-number">5</span>)<br> <br><span class="hljs-comment">//使用of()</span><br><span class="hljs-keyword">let</span> observable = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Observable</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> ,<span class="hljs-number">4</span> ,<span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="repeatElement-方法"><a href="#repeatElement-方法" class="headerlink" title="repeatElement() 方法"></a>repeatElement() 方法</h3><p>该方法创建一个可以无限发出给定元素的 Event 的 Observable 序列（永不终止）。 </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">let</span> observable = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Observable</span>.</span></span>repeat<span class="hljs-constructor">Element(1)</span><br></code></pre></td></tr></table></figure>
+<h3 id="generate-方法"><a href="#generate-方法" class="headerlink" title="generate() 方法"></a>generate() 方法</h3><p>（1）该方法创建一个只有当提供的所有的判断条件都为 true 的时候，才会给出动作的 Observable 序列。<br><br>（2）下面样例中，两种方法创建的 Observable 序列都是一样的。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//使用generate()方法</span><br><span class="hljs-keyword">let</span> observable = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Observable</span>.</span></span>generate(<br>    initialState: <span class="hljs-number">0</span>,<br>    condition: &#123; $<span class="hljs-number">0</span> &lt;= <span class="hljs-number">10</span> &#125;,<br>    iterate: &#123; $<span class="hljs-number">0</span> + <span class="hljs-number">2</span> &#125;<br>)<br> <br><span class="hljs-comment">//使用of()方法</span><br><span class="hljs-keyword">let</span> observable = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Observable</span>.</span></span><span class="hljs-keyword">of</span>(<span class="hljs-number">0</span> , <span class="hljs-number">2</span> ,<span class="hljs-number">4</span> ,<span class="hljs-number">6</span> ,<span class="hljs-number">8</span> ,<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="create-方法"><a href="#create-方法" class="headerlink" title="create() 方法"></a>create() 方法</h3><p>（1）该方法接受一个 block 形式的参数，任务是对每一个过来的订阅进行处理。<br><br>（2）下面是一个简单的样例。为方便演示，这里增加了订阅相关代码（关于订阅我之后会详细介绍的）。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span>这个block有一个回调参数observer就是订阅这个Observable对象的订阅者<br><span class="hljs-regexp">//</span>当一个订阅者订阅这个Observable对象的时候，就会将订阅者作为参数传入这个block来执行一些内容<br>let observable = Observable&lt;String&gt;.create&#123;observer <span class="hljs-keyword">in</span><br>    <span class="hljs-regexp">//</span>对订阅者发出了.<span class="hljs-keyword">next</span>事件，且携带了一个数据<span class="hljs-string">&quot;hangge.com&quot;</span><br>    observer.onNext(<span class="hljs-string">&quot;hangge.com&quot;</span>)<br>    <span class="hljs-regexp">//</span>对订阅者发出了.completed事件<br>    observer.onCompleted()<br>    <span class="hljs-regexp">//</span>因为一个订阅行为会有一个Disposable类型的返回值，所以在结尾一定要returen一个Disposable<br>    return Disposables.create()<br>&#125;<br> <br><span class="hljs-regexp">//</span>订阅测试<br>observable.subscribe &#123;<br>    print(<span class="hljs-variable">$0</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="deferred-方法"><a href="#deferred-方法" class="headerlink" title="deferred() 方法"></a>deferred() 方法</h3><p>该个方法相当于是创建一个 Observable 工厂，通过传入一个 block 来执行延迟 Observable 序列创建的行为，而这个 block 里就是真正的实例化序列对象的地方。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">//用于标记是奇数、还是偶数</span><br><span class="hljs-keyword">var</span> isOdd = <span class="hljs-literal">true</span><br> <br><span class="hljs-comment">//使用deferred()方法延迟Observable序列的初始化，通过传入的block来实现Observable序列的初始化并且返回。</span><br><span class="hljs-keyword">let</span> factory : Observable&lt;Int&gt; = Observable.deferred &#123;<br>     <br>    <span class="hljs-comment">//让每次执行这个block时候都会让奇、偶数进行交替</span><br>    isOdd = !isOdd<br>     <br>    <span class="hljs-comment">//根据isOdd参数，决定创建并返回的是奇数Observable、还是偶数Observable</span><br>    <span class="hljs-keyword">if</span> isOdd &#123;<br>        <span class="hljs-keyword">return</span> Observable.of(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span> ,<span class="hljs-number">7</span>)<br>    &#125;<span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> Observable.of(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>)<br>    &#125;<br>&#125;<br> <br><span class="hljs-comment">//第1次订阅测试</span><br>factory.subscribe &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-string">&quot;\(isOdd)&quot;</span>, <span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;</span><br><span class="hljs-function"> </span><br><span class="hljs-function"><span class="hljs-comment">//第2次订阅测试</span></span><br><span class="hljs-function">factory.subscribe</span> &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-string">&quot;\(isOdd)&quot;</span>, <span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+<h3 id="interval-方法"><a href="#interval-方法" class="headerlink" title="interval() 方法"></a>interval() 方法</h3><p>（1）这个方法创建的 Observable 序列每隔一段设定的时间，会发出一个索引数的元素。而且它会一直发送下去。<br><br>（2）下面方法让其每 1 秒发送一次，并且是在主线程（MainScheduler）发送。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mel">let observable = Observable&lt;Int&gt;.interval(<span class="hljs-number">1</span>, scheduler: MainScheduler.<span class="hljs-keyword">instance</span>)<br>observable.subscribe &#123; <span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span><br>    <span class="hljs-keyword">print</span>(<span class="hljs-keyword">event</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="timer-方法"><a href="#timer-方法" class="headerlink" title="timer() 方法"></a>timer() 方法</h3><p>（1）这个方法有两种用法，一种是创建的 Observable 序列在经过设定的一段时间后，产生唯一的一个元素。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mel"><span class="hljs-comment">//5秒种后发出唯一的一个元素0</span><br>let observable = Observable&lt;Int&gt;.timer(<span class="hljs-number">5</span>, scheduler: MainScheduler.<span class="hljs-keyword">instance</span>)<br>observable.subscribe &#123; <span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span><br>    <span class="hljs-keyword">print</span>(<span class="hljs-keyword">event</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>（2）另一种是创建的 Observable 序列在经过设定的一段时间后，每隔一段时间产生一个元素。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mel"><span class="hljs-comment">//延时5秒种后，每隔1秒钟发出一个元素</span><br>let observable = Observable&lt;Int&gt;.timer(<span class="hljs-number">5</span>, period: <span class="hljs-number">1</span>, scheduler: MainScheduler.<span class="hljs-keyword">instance</span>)<br>observable.subscribe &#123; <span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span><br>    <span class="hljs-keyword">print</span>(<span class="hljs-keyword">event</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="订阅-Observable"><a href="#订阅-Observable" class="headerlink" title="订阅 Observable"></a>订阅 Observable</h1><h3 id="第一种用法："><a href="#第一种用法：" class="headerlink" title="第一种用法："></a>第一种用法：</h3><p>（1）我们使用 subscribe() 订阅了一个 Observable 对象，该方法的 block 的回调参数就是被发出的 event 事件，我们将其直接打印出来。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">let</span> observable = Observable.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br>         <br>observable.subscribe &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>输入结果可以看出</p>
+<ul>
+<li>初始化 Observable 序列时设置的默认值都按顺序通过 .next 事件发送出来。</li>
+<li>当 Observable 序列的初始数据都发送完毕，它还会自动发一个 .completed 事件出来。<br></li>
+</ul>
+<p>（2）如果想要获取到这个事件里的数据，可以通过 event.element 得到。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">let</span> observable = Observable.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br>         <br>observable.subscribe &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-keyword">event</span>.element</span>)</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+<h3 id="第二种用法："><a href="#第二种用法：" class="headerlink" title="第二种用法："></a>第二种用法：</h3><p>（1）RxSwift 还提供了另一个 subscribe 方法，它可以把 event 进行分类：</p>
+<ul>
+<li>通过不同的 block 回调处理不同类型的 event。（其中 onDisposed 表示订阅行为被 dispose 后的回调，这个我后面会说）</li>
+<li>同时会把 event 携带的数据直接解包出来作为参数，方便我们使用。<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs routeros">let observable = Observable.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br>         <br>observable.subscribe(onNext: &#123; element <span class="hljs-keyword">in</span><br>    <span class="hljs-builtin-name">print</span>(element)<br>&#125;, onError: &#123; <span class="hljs-builtin-name">error</span> <span class="hljs-keyword">in</span><br>    <span class="hljs-builtin-name">print</span>(error)<br>&#125;, onCompleted: &#123;<br>    <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;completed&quot;</span>)<br>&#125;, onDisposed: &#123;<br>    <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;disposed&quot;</span>)<br>&#125;)<br></code></pre></td></tr></table></figure>
+2）subscribe() 方法的 onNext、onError、onCompleted 和 onDisposed 这四个回调 block 参数都是有默认值的，即它们都是可选的。所以我们也可以只处理 onNext 而不管其他的情况。<figure class="highlight golo"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs golo"><span class="hljs-keyword">let</span> observable = <span class="hljs-keyword">Observable</span>.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br>         <br>observable.subscribe(onNext: &#123; element <span class="hljs-keyword">in</span><br>    <span class="hljs-keyword">print</span>(element)<br>&#125;)<br></code></pre></td></tr></table></figure>
+<h1 id="监听事件的生命周期"><a href="#监听事件的生命周期" class="headerlink" title="监听事件的生命周期"></a>监听事件的生命周期</h1><h3 id="1、-doOn-介绍"><a href="#1、-doOn-介绍" class="headerlink" title="1、 doOn 介绍"></a>1、 doOn 介绍</h3>（1）我们可以使用 doOn 方法来监听事件的生命周期，它会在每一次事件发送前被调用。<br><br>（2）同时它和 subscribe 一样，可以通过不同的 block 回调处理不同类型的 event。比如：</li>
+<li>do(onNext:) 方法就是在 subscribe(onNext:) 前调用</li>
+<li>而 do(onCompleted:) 方法则会在 subscribe(onCompleted:) 前面调用。</li>
+</ul>
+<h3 id="使用样例"><a href="#使用样例" class="headerlink" title="使用样例"></a>使用样例</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs routeros">let observable = Observable.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br> <br>observable<br>    .<span class="hljs-keyword">do</span>(onNext: &#123; element <span class="hljs-keyword">in</span><br>        <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;Intercepted Next：&quot;</span>, element)<br>    &#125;, onError: &#123; <span class="hljs-builtin-name">error</span> <span class="hljs-keyword">in</span><br>        <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;Intercepted Error：&quot;</span>, error)<br>    &#125;, onCompleted: &#123;<br>        <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;Intercepted Completed&quot;</span>)<br>    &#125;, onDispose: &#123;<br>        <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;Intercepted Disposed&quot;</span>)<br>    &#125;)<br>    .subscribe(onNext: &#123; element <span class="hljs-keyword">in</span><br>        <span class="hljs-builtin-name">print</span>(element)<br>    &#125;, onError: &#123; <span class="hljs-builtin-name">error</span> <span class="hljs-keyword">in</span><br>        <span class="hljs-builtin-name">print</span>(error)<br>    &#125;, onCompleted: &#123;<br>        <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;completed&quot;</span>)<br>    &#125;, onDisposed: &#123;<br>        <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;disposed&quot;</span>)<br>    &#125;)<br></code></pre></td></tr></table></figure>
+<h1 id="Observable-的销毁（Dispose）"><a href="#Observable-的销毁（Dispose）" class="headerlink" title="Observable 的销毁（Dispose）"></a>Observable 的销毁（Dispose）</h1><h3 id="1、Observable-从创建到终结流程"><a href="#1、Observable-从创建到终结流程" class="headerlink" title="1、Observable 从创建到终结流程"></a>1、Observable 从创建到终结流程</h3><p>（1）一个 Observable 序列被创建出来后它不会马上就开始被激活从而发出 Event，而是要等到它被某个人订阅了才会激活它。<br><br>（2）而 Observable 序列激活之后要一直等到它发出了 .error 或者 .completed 的 event 后，它才被终结。</p>
+<h3 id="2、dispose-方法"><a href="#2、dispose-方法" class="headerlink" title="2、dispose() 方法"></a>2、dispose() 方法</h3><p>（1）使用该方法我们可以手动取消一个订阅行为。<br><br>（2）如果我们觉得这个订阅结束了不再需要了，就可以调用 dispose() 方法把这个订阅给销毁掉，防止内存泄漏。<br><br>（2）当一个订阅行为被 dispose 了，那么之后 observable 如果再发出 event，这个已经 dispose 的订阅就收不到消息了。下面是一个简单的使用样例。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">let</span> observable = Observable.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br>         <br><span class="hljs-comment">//使用subscription常量存储这个订阅方法</span><br><span class="hljs-keyword">let</span> subscription = observable.subscribe &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;</span><br><span class="hljs-function">         </span><br><span class="hljs-function"><span class="hljs-comment">//调用这个订阅的dispose()方法</span></span><br><span class="hljs-function">subscription.<span class="hljs-title">dispose</span>(<span class="hljs-params"></span>)</span><br></code></pre></td></tr></table></figure>
+<h3 id="3、DisposeBag"><a href="#3、DisposeBag" class="headerlink" title="3、DisposeBag"></a>3、DisposeBag</h3><p>除了 dispose() 方法之外，我们更经常用到的是一个叫 DisposeBag 的对象来管理多个订阅行为的销毁：<br>我们可以把一个 DisposeBag 对象看成一个垃圾袋，把用过的订阅行为都放进去。<br>而这个 DisposeBag 就会在自己快要 dealloc 的时候，对它里面的所有订阅行为都调用 dispose() 方法。<br>下面是一个简单的使用样例。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">let</span> disposeBag = DisposeBag()<br>         <br><span class="hljs-comment">//第1个Observable，及其订阅</span><br><span class="hljs-keyword">let</span> observable1 = Observable.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br>observable1.subscribe &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;.<span class="hljs-title">disposed</span>(<span class="hljs-params"><span class="hljs-keyword">by</span>: disposeBag</span>)</span><br><span class="hljs-function"> </span><br><span class="hljs-function"><span class="hljs-comment">//第2个Observable，及其订阅</span></span><br><span class="hljs-function"><span class="hljs-keyword">let</span> observable2</span> = Observable.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br>observable2.subscribe &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;.<span class="hljs-title">disposed</span>(<span class="hljs-params"><span class="hljs-keyword">by</span>: disposeBag</span>)</span><br></code></pre></td></tr></table></figure>
+<h1 id="观察者（Observer）介绍"><a href="#观察者（Observer）介绍" class="headerlink" title="观察者（Observer）介绍"></a>观察者（Observer）介绍</h1><p>观察者（Observer）的作用就是监听事件，然后对这个事件做出响应。或者说任何响应事件的行为都是观察者。比如：</p>
+<ul>
+<li>当我们点击按钮，弹出一个提示框。那么这个“弹出一个提示框”就是观察者 Observer<Void></li>
+<li>当我们请求一个远程的 json 数据后，将其打印出来。那么这个“打印 json 数据”就是观察者 Observer<JSON></li>
+</ul>
+<h1 id="直接在-subscribe、bind-方法中创建观察者"><a href="#直接在-subscribe、bind-方法中创建观察者" class="headerlink" title="直接在 subscribe、bind 方法中创建观察者"></a>直接在 subscribe、bind 方法中创建观察者</h1><h3 id="1-在-subscribe-方法中创建"><a href="#1-在-subscribe-方法中创建" class="headerlink" title="1. 在 subscribe 方法中创建"></a>1. 在 subscribe 方法中创建</h3><p>（1）创建观察者最直接的方法就是在 Observable 的 subscribe 方法后面描述当事件发生时，需要如何做出响应。<br><br>（2）比如下面的样例，观察者就是由后面的 onNext，onError，onCompleted 这些闭包构建出来的。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs routeros">let observable = Observable.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br>          <br>observable.subscribe(onNext: &#123; element <span class="hljs-keyword">in</span><br>    <span class="hljs-builtin-name">print</span>(element)<br>&#125;, onError: &#123; <span class="hljs-builtin-name">error</span> <span class="hljs-keyword">in</span><br>    <span class="hljs-builtin-name">print</span>(error)<br>&#125;, onCompleted: &#123;<br>    <span class="hljs-builtin-name">print</span>(<span class="hljs-string">&quot;completed&quot;</span>)<br>&#125;)<br></code></pre></td></tr></table></figure>
+<h3 id="2-在-bind-方法中创建"><a href="#2-在-bind-方法中创建" class="headerlink" title="2. 在 bind 方法中创建"></a>2. 在 bind 方法中创建</h3><p>下面代码我们创建一个定时生成索引数的 Observable 序列，并将索引数不断显示在 label 标签上：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> RxCocoa<br> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewController</span>: <span class="hljs-title">UIViewController</span> </span>&#123;<br>     <br>    <span class="hljs-keyword">@IBOutlet</span> <span class="hljs-keyword">weak</span> <span class="hljs-keyword">var</span> label: <span class="hljs-type">UILabel</span>!<br>     <br>    <span class="hljs-keyword">let</span> disposeBag <span class="hljs-operator">=</span> <span class="hljs-type">DisposeBag</span>()<br>     <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewDidLoad</span>()</span> &#123;<br>         <br>        <span class="hljs-comment">//Observable序列（每隔1秒钟发出一个索引数）</span><br>        <span class="hljs-keyword">let</span> observable <span class="hljs-operator">=</span> <span class="hljs-type">Observable</span>&lt;<span class="hljs-type">Int</span>&gt;.interval(<span class="hljs-number">1</span>, scheduler: <span class="hljs-type">MainScheduler</span>.instance)<br> <br>        observable<br>            .map &#123; <span class="hljs-string">&quot;当前索引数：<span class="hljs-subst">\(<span class="hljs-variable">$0</span> )</span>&quot;</span>&#125;<br>            .bind &#123; [<span class="hljs-keyword">weak</span> <span class="hljs-keyword">self</span>](text) <span class="hljs-keyword">in</span><br>                <span class="hljs-comment">//收到发出的索引数后显示到label上</span><br>                <span class="hljs-keyword">self</span><span class="hljs-operator">?</span>.label.text <span class="hljs-operator">=</span> text<br>            &#125;<br>            .disposed(by: disposeBag)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="使用-AnyObserver-创建观察者"><a href="#使用-AnyObserver-创建观察者" class="headerlink" title="使用 AnyObserver 创建观察者"></a>使用 AnyObserver 创建观察者</h1><p>AnyObserver 可以用来描叙任意一种观察者。</p>
+<h3 id="1、配合-subscribe-方法使用"><a href="#1、配合-subscribe-方法使用" class="headerlink" title="1、配合 subscribe 方法使用"></a>1、配合 subscribe 方法使用</h3><p>比如上面第一个样例我们可以改成如下代码：</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs mel"><span class="hljs-comment">//观察者</span><br>let observer: AnyObserver&lt;String&gt; = AnyObserver &#123; (<span class="hljs-keyword">event</span>) <span class="hljs-keyword">in</span><br>    <span class="hljs-keyword">switch</span> <span class="hljs-keyword">event</span> &#123;<br>    <span class="hljs-keyword">case</span> .next(let data):<br>        <span class="hljs-keyword">print</span>(data)<br>    <span class="hljs-keyword">case</span> .<span class="hljs-keyword">error</span>(let <span class="hljs-keyword">error</span>):<br>        <span class="hljs-keyword">print</span>(<span class="hljs-keyword">error</span>)<br>    <span class="hljs-keyword">case</span> .completed:<br>        <span class="hljs-keyword">print</span>(<span class="hljs-string">&quot;completed&quot;</span>)<br>    &#125;<br>&#125;<br> <br>let observable = Observable.of(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>)<br>observable.subscribe(observer)<br></code></pre></td></tr></table></figure>
+<h3 id="2、配合-bindTo-方法使用"><a href="#2、配合-bindTo-方法使用" class="headerlink" title="2、配合 bindTo 方法使用"></a>2、配合 bindTo 方法使用</h3><p>也可配合 Observable 的数据绑定方法（bindTo）使用。比如上面的第二个样例我可以改成如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> RxCocoa<br> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewController</span>: <span class="hljs-title">UIViewController</span> </span>&#123;<br>     <br>    <span class="hljs-keyword">@IBOutlet</span> <span class="hljs-keyword">weak</span> <span class="hljs-keyword">var</span> label: <span class="hljs-type">UILabel</span>!<br>     <br>    <span class="hljs-keyword">let</span> disposeBag <span class="hljs-operator">=</span> <span class="hljs-type">DisposeBag</span>()<br>     <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewDidLoad</span>()</span> &#123;<br>         <br>        <span class="hljs-comment">//观察者</span><br>        <span class="hljs-keyword">let</span> observer: <span class="hljs-type">AnyObserver</span>&lt;<span class="hljs-type">String</span>&gt; <span class="hljs-operator">=</span> <span class="hljs-type">AnyObserver</span> &#123; [<span class="hljs-keyword">weak</span> <span class="hljs-keyword">self</span>] (event) <span class="hljs-keyword">in</span><br>            <span class="hljs-keyword">switch</span> event &#123;<br>            <span class="hljs-keyword">case</span> .next(<span class="hljs-keyword">let</span> text):<br>                <span class="hljs-comment">//收到发出的索引数后显示到label上</span><br>                <span class="hljs-keyword">self</span><span class="hljs-operator">?</span>.label.text <span class="hljs-operator">=</span> text<br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-keyword">break</span><br>            &#125;<br>        &#125;<br>         <br>        <span class="hljs-comment">//Observable序列（每隔1秒钟发出一个索引数）</span><br>        <span class="hljs-keyword">let</span> observable <span class="hljs-operator">=</span> <span class="hljs-type">Observable</span>&lt;<span class="hljs-type">Int</span>&gt;.interval(<span class="hljs-number">1</span>, scheduler: <span class="hljs-type">MainScheduler</span>.instance)<br>        observable<br>            .map &#123; <span class="hljs-string">&quot;当前索引数：<span class="hljs-subst">\(<span class="hljs-variable">$0</span> )</span>&quot;</span>&#125;<br>            .bind(to: observer)<br>            .disposed(by: disposeBag)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="使用-Binder-创建观察者"><a href="#使用-Binder-创建观察者" class="headerlink" title="使用 Binder 创建观察者"></a>使用 Binder 创建观察者</h1><h3 id="1、基本介绍"><a href="#1、基本介绍" class="headerlink" title="1、基本介绍"></a>1、基本介绍</h3><p>（1）相较于 AnyObserver 的大而全，Binder 更专注于特定的场景。Binder 主要有以下两个特征：</p>
+<ul>
+<li>不会处理错误事件</li>
+<li>确保绑定都是在给定 Scheduler 上执行（默认 MainScheduler）</li>
+</ul>
+<p>（2）一旦产生错误事件，在调试环境下将执行 fatalError，在发布环境下将打印错误信息。</p>
+<h3 id="使用样例-1"><a href="#使用样例-1" class="headerlink" title="使用样例"></a>使用样例</h3><p>（1）在上面序列数显示样例中，label 标签的文字显示就是一个典型的 UI 观察者。它在响应事件时，只会处理 next 事件，而且更新 UI 的操作需要在主线程上执行。那么这种情况下更好的方案就是使用 Binder。<br><br>（2）上面的样例我们改用 Binder 会简单许多：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> RxCocoa<br> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewController</span>: <span class="hljs-title">UIViewController</span> </span>&#123;<br>     <br>    <span class="hljs-keyword">@IBOutlet</span> <span class="hljs-keyword">weak</span> <span class="hljs-keyword">var</span> label: <span class="hljs-type">UILabel</span>!<br>     <br>    <span class="hljs-keyword">let</span> disposeBag <span class="hljs-operator">=</span> <span class="hljs-type">DisposeBag</span>()<br>     <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewDidLoad</span>()</span> &#123;<br>                 <br>        <span class="hljs-comment">//观察者</span><br>        <span class="hljs-keyword">let</span> observer: <span class="hljs-type">Binder</span>&lt;<span class="hljs-type">String</span>&gt; <span class="hljs-operator">=</span> <span class="hljs-type">Binder</span>(label) &#123; (view, text) <span class="hljs-keyword">in</span><br>            <span class="hljs-comment">//收到发出的索引数后显示到label上</span><br>            view.text <span class="hljs-operator">=</span> text<br>        &#125;<br>         <br>        <span class="hljs-comment">//Observable序列（每隔1秒钟发出一个索引数）</span><br>        <span class="hljs-keyword">let</span> observable <span class="hljs-operator">=</span> <span class="hljs-type">Observable</span>&lt;<span class="hljs-type">Int</span>&gt;.interval(<span class="hljs-number">1</span>, scheduler: <span class="hljs-type">MainScheduler</span>.instance)<br>        observable<br>            .map &#123; <span class="hljs-string">&quot;当前索引数：<span class="hljs-subst">\(<span class="hljs-variable">$0</span> )</span>&quot;</span>&#125;<br>            .bind(to: observer)<br>            .disposed(by: disposeBag)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="附：Binder-在-RxCocoa-中的应用"><a href="#附：Binder-在-RxCocoa-中的应用" class="headerlink" title="附：Binder 在 RxCocoa 中的应用"></a>附：Binder 在 RxCocoa 中的应用</h3><p>（1）其实 RxCocoa 在对许多 UI 控件进行扩展时，就利用 Binder 将控件属性变成观查者，比如 UIControl+Rx.swift 中的 isEnabled 属性便是一个 observer ：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> UIKit<br> <br><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">Reactive</span> <span class="hljs-title">where</span> <span class="hljs-title">Base</span>: <span class="hljs-title">UIControl</span> </span>&#123;<br>     <br>    <span class="hljs-comment">/// Bindable sink for `enabled` property.</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> isEnabled: <span class="hljs-type">Binder</span>&lt;<span class="hljs-type">Bool</span>&gt; &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">Binder</span>(<span class="hljs-keyword">self</span>.base) &#123; control, value <span class="hljs-keyword">in</span><br>            control.isEnabled <span class="hljs-operator">=</span> value<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>（2）因此我们可以将序列直接绑定到它上面。比如下面样例，button 会在可用、不可用这两种状态间交替变换（每隔一秒）。</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-comment">//Observable序列（每隔1秒钟发出一个索引数）</span><br><span class="hljs-keyword">let</span> observable = Observable&lt;Int&gt;.interval(<span class="hljs-number">1</span>, scheduler: MainScheduler.instance)<br>observable<br>    .<span class="hljs-built_in">map</span> &#123; $<span class="hljs-number">0</span> % <span class="hljs-number">2</span> == <span class="hljs-number">0</span> &#125;<br>    .bind(<span class="hljs-keyword">to</span>: button.<span class="hljs-literal">rx</span>.isEnabled)<br>    .disposed(<span class="hljs-keyword">by</span>: disposeBag)<br></code></pre></td></tr></table></figure>
+<h1 id="自定义可绑定属性"><a href="#自定义可绑定属性" class="headerlink" title="自定义可绑定属性"></a>自定义可绑定属性</h1><p>有时我们想让 UI 控件创建出来后默认就有一些观察者，而不必每次都为它们单独去创建观察者。比如我们想要让所有的 UIlabel 都有个 fontSize 可绑定属性，它会根据事件值自动改变标签的字体大小。</p>
+<h3 id="方式一：通过对-UI-类进行扩展"><a href="#方式一：通过对-UI-类进行扩展" class="headerlink" title="方式一：通过对 UI 类进行扩展"></a>方式一：通过对 UI 类进行扩展</h3><p>这里我们通过对 UILabel 进行扩展，增加了一个 fontSize 可绑定属性。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> RxCocoa<br> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewController</span>: <span class="hljs-title">UIViewController</span> </span>&#123;<br>     <br>    <span class="hljs-keyword">@IBOutlet</span> <span class="hljs-keyword">weak</span> <span class="hljs-keyword">var</span> label: <span class="hljs-type">UILabel</span>!<br>     <br>    <span class="hljs-keyword">let</span> disposeBag <span class="hljs-operator">=</span> <span class="hljs-type">DisposeBag</span>()<br>     <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewDidLoad</span>()</span> &#123;<br>         <br>        <span class="hljs-comment">//Observable序列（每隔0.5秒钟发出一个索引数）</span><br>        <span class="hljs-keyword">let</span> observable <span class="hljs-operator">=</span> <span class="hljs-type">Observable</span>&lt;<span class="hljs-type">Int</span>&gt;.interval(<span class="hljs-number">0.5</span>, scheduler: <span class="hljs-type">MainScheduler</span>.instance)<br>        observable<br>            .map &#123; <span class="hljs-type">CGFloat</span>(<span class="hljs-variable">$0</span>) &#125;<br>            .bind(to: label.fontSize) <span class="hljs-comment">//根据索引数不断变放大字体</span><br>            .disposed(by: disposeBag)<br>    &#125;<br>&#125;<br> <br><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">UILabel</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> fontSize: <span class="hljs-type">Binder</span>&lt;<span class="hljs-type">CGFloat</span>&gt; &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">Binder</span>(<span class="hljs-keyword">self</span>) &#123; label, fontSize <span class="hljs-keyword">in</span><br>            label.font <span class="hljs-operator">=</span> <span class="hljs-type">UIFont</span>.systemFont(ofSize: fontSize)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="方式二：通过对-Reactive-类进行扩展"><a href="#方式二：通过对-Reactive-类进行扩展" class="headerlink" title="方式二：通过对 Reactive 类进行扩展"></a>方式二：通过对 Reactive 类进行扩展</h3><p>既然使用了 RxSwift，那么更规范的写法应该是对 Reactive 进行扩展。这里同样是给 UILabel 增加了一个 fontSize 可绑定属性。<br><br>（注意：这种方式下，我们绑定属性时要写成 label.rx.fontSize）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> RxCocoa<br> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewController</span>: <span class="hljs-title">UIViewController</span> </span>&#123;<br>     <br>    <span class="hljs-keyword">@IBOutlet</span> <span class="hljs-keyword">weak</span> <span class="hljs-keyword">var</span> label: <span class="hljs-type">UILabel</span>!<br>     <br>    <span class="hljs-keyword">let</span> disposeBag <span class="hljs-operator">=</span> <span class="hljs-type">DisposeBag</span>()<br>     <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewDidLoad</span>()</span> &#123;<br>         <br>        <span class="hljs-comment">//Observable序列（每隔0.5秒钟发出一个索引数）</span><br>        <span class="hljs-keyword">let</span> observable <span class="hljs-operator">=</span> <span class="hljs-type">Observable</span>&lt;<span class="hljs-type">Int</span>&gt;.interval(<span class="hljs-number">0.5</span>, scheduler: <span class="hljs-type">MainScheduler</span>.instance)<br>        observable<br>            .map &#123; <span class="hljs-type">CGFloat</span>(<span class="hljs-variable">$0</span>) &#125;<br>            .bind(to: label.rx.fontSize) <span class="hljs-comment">//根据索引数不断变放大字体</span><br>            .disposed(by: disposeBag)<br>    &#125;<br>&#125;<br> <br><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">Reactive</span> <span class="hljs-title">where</span> <span class="hljs-title">Base</span>: <span class="hljs-title">UILabel</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> fontSize: <span class="hljs-type">Binder</span>&lt;<span class="hljs-type">CGFloat</span>&gt; &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">Binder</span>(<span class="hljs-keyword">self</span>.base) &#123; label, fontSize <span class="hljs-keyword">in</span><br>            label.font <span class="hljs-operator">=</span> <span class="hljs-type">UIFont</span>.systemFont(ofSize: fontSize)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="RxSwift-自带的可绑定属性（UI-观察者）"><a href="#RxSwift-自带的可绑定属性（UI-观察者）" class="headerlink" title="RxSwift 自带的可绑定属性（UI 观察者）"></a>RxSwift 自带的可绑定属性（UI 观察者）</h1><p>（1）其实 RxSwift 已经为我们提供许多常用的可绑定属性。比如 UILabel 就有 text 和 attributedText 这两个可绑定属性。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> UIKit<br> <br><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">Reactive</span> <span class="hljs-title">where</span> <span class="hljs-title">Base</span>: <span class="hljs-title">UILabel</span> </span>&#123;<br>     <br>    <span class="hljs-comment">/// Bindable sink for `text` property.</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> text: <span class="hljs-type">Binder</span>&lt;<span class="hljs-type">String</span>?&gt; &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">Binder</span>(<span class="hljs-keyword">self</span>.base) &#123; label, text <span class="hljs-keyword">in</span><br>            label.text <span class="hljs-operator">=</span> text<br>        &#125;<br>    &#125;<br> <br>    <span class="hljs-comment">/// Bindable sink for `attributedText` property.</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> attributedText: <span class="hljs-type">Binder</span>&lt;<span class="hljs-type">NSAttributedString</span>?&gt; &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-type">Binder</span>(<span class="hljs-keyword">self</span>.base) &#123; label, text <span class="hljs-keyword">in</span><br>            label.attributedText <span class="hljs-operator">=</span> text<br>        &#125;<br>    &#125;<br>     <br>&#125;<br></code></pre></td></tr></table></figure>
+<p>（2）那么上文那个定时显示索引数的样例，我们其实不需要自定义 UI 观察者，直接使用 RxSwift 提供的绑定属性即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> RxCocoa<br> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewController</span>: <span class="hljs-title">UIViewController</span> </span>&#123;<br>     <br>    <span class="hljs-keyword">@IBOutlet</span> <span class="hljs-keyword">weak</span> <span class="hljs-keyword">var</span> label: <span class="hljs-type">UILabel</span>!<br>     <br>    <span class="hljs-keyword">let</span> disposeBag <span class="hljs-operator">=</span> <span class="hljs-type">DisposeBag</span>()<br>     <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewDidLoad</span>()</span> &#123;<br>         <br>        <span class="hljs-comment">//Observable序列（每隔1秒钟发出一个索引数）</span><br>        <span class="hljs-keyword">let</span> observable <span class="hljs-operator">=</span> <span class="hljs-type">Observable</span>&lt;<span class="hljs-type">Int</span>&gt;.interval(<span class="hljs-number">1</span>, scheduler: <span class="hljs-type">MainScheduler</span>.instance)<br>        observable<br>            .map &#123; <span class="hljs-string">&quot;当前索引数：<span class="hljs-subst">\(<span class="hljs-variable">$0</span> )</span>&quot;</span>&#125;<br>            .bind(to: label.rx.text) <span class="hljs-comment">//收到发出的索引数后显示到label上</span><br>            .disposed(by: disposeBag)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="Subjects-介绍"><a href="#Subjects-介绍" class="headerlink" title="Subjects 介绍"></a>Subjects 介绍</h1><h3 id="Subjects-基本介绍"><a href="#Subjects-基本介绍" class="headerlink" title="Subjects 基本介绍"></a>Subjects 基本介绍</h3><p>（1）Subjects 既是订阅者，也是 Observable：</p>
+<ul>
+<li>说它是订阅者，是因为它能够动态地接收新的值。</li>
+<li>说它又是一个 Observable，是因为当 Subjects 有了新的值之后，就会通过 Event 将新值发出给他的所有订阅者。</li>
+</ul>
+<p>（2）一共有四种 Subjects，分别为：PublishSubject、BehaviorSubject、ReplaySubject、Variable。他们之间既有各自的特点，也有相同之处：</p>
+<ul>
+<li>首先他们都是 Observable，他们的订阅者都能收到他们发出的新的 Event。</li>
+<li>直到 Subject 发出 .complete 或者 .error 的 Event 后，该 Subject 便终结了，同时它也就不会再发出 .next 事件。</li>
+<li> 对于那些在 Subject 终结后再订阅他的订阅者，也能收到 subject 发出的一条 .complete 或 .error 的 event，告诉这个新的订阅者它已经终结了。</li>
+<li>他们之间最大的区别只是在于：当一个新的订阅者刚订阅它的时候，能不能收到 Subject 以前发出过的旧 Event，如果能的话又能收到多少个。</li>
+</ul>
+<p>（3）Subject 常用的几个方法：</p>
+<ul>
+<li>onNext(:)：是 on(.next(:)) 的简便写法。该方法相当于 subject 接收到一个 .next 事件。</li>
+<li>onError(:)：是 on(.error(:)) 的简便写法。该方法相当于 subject 接收到一个 .error 事件。</li>
+<li>onCompleted()：是 on(.completed) 的简便写法。该方法相当于 subject 接收到一个 .completed 事件。</li>
+</ul>
+<h3 id="PublishSubject"><a href="#PublishSubject" class="headerlink" title="PublishSubject"></a>PublishSubject</h3><p>（1）基本介绍</p>
+<ul>
+<li>PublishSubject 是最普通的 Subject，它不需要初始值就能创建。</li>
+<li>PublishSubject 的订阅者从他们开始订阅的时间点起，可以收到订阅后 Subject 发出的新 Event，而不会收到他们在订阅前已发出的 Event。<br>（2）时序图</li>
+<li>最上面一条是 BehaviorSubject。</li>
+<li>下面两条分别表示两个新的订阅，它们订阅的时间点不同，可以发现 BehaviorSubject 的订阅者一开始就能收到 BehaviorSubjects 之前发出的一个 Event。<br><img src="https://upload-images.jianshu.io/upload_images/3334769-516513ae6b34d5b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="时序图"><br><br>（3）使用样例<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">let</span> disposeBag = <span class="hljs-constructor">DisposeBag()</span><br> <br><span class="hljs-comment">//创建一个BehaviorSubject</span><br><span class="hljs-keyword">let</span> subject = <span class="hljs-constructor">BehaviorSubject(<span class="hljs-params">value</span>: <span class="hljs-string">&quot;111&quot;</span>)</span><br> <br><span class="hljs-comment">//第1次订阅subject</span><br>subject.subscribe &#123; event <span class="hljs-keyword">in</span><br>    print(<span class="hljs-string">&quot;第1次订阅：&quot;</span>, event)<br>&#125;.disposed(by: disposeBag)<br> <br><span class="hljs-comment">//发送next事件</span><br>subject.on<span class="hljs-constructor">Next(<span class="hljs-string">&quot;222&quot;</span>)</span><br> <br><span class="hljs-comment">//发送error事件</span><br>subject.on<span class="hljs-constructor">Error(NSError(<span class="hljs-params">domain</span>: <span class="hljs-string">&quot;local&quot;</span>, <span class="hljs-params">code</span>: 0, <span class="hljs-params">userInfo</span>: <span class="hljs-params">nil</span>)</span>)<br> <br><span class="hljs-comment">//第2次订阅subject</span><br>subject.subscribe &#123; event <span class="hljs-keyword">in</span><br>    print(<span class="hljs-string">&quot;第2次订阅：&quot;</span>, event)<br>&#125;.disposed(by: disposeBag)<br></code></pre></td></tr></table></figure>
+<h3 id="ReplaySubject"><a href="#ReplaySubject" class="headerlink" title="ReplaySubject"></a>ReplaySubject</h3>（1）基本介绍</li>
+<li>ReplaySubject 在创建时候需要设置一个 bufferSize，表示它对于它发送过的 event 的缓存个数。</li>
+<li>比如一个 ReplaySubject 的 bufferSize 设置为 2，它发出了 3 个 .next 的 event，那么它会将后两个（最近的两个）event 给缓存起来。此时如果有一个 subscriber 订阅了这个 ReplaySubject，那么这个 subscriber 就会立即收到前面缓存的两个 .next 的 event。</li>
+<li>如果一个 subscriber 订阅已经结束的 ReplaySubject，除了会收到缓存的 .next 的 event 外，还会收到那个终结的 .error 或者 .complete 的 event。</li>
+</ul>
+<p>（2）时序图</p>
+<ul>
+<li>最上面一条是 ReplaySubject（bufferSize 设为为 2）。</li>
+<li>下面两条分别表示两个新的订阅，它们订阅的时间点不同。可以发现 ReplaySubject 的订阅者一开始就能收到 ReplaySubject 之前发出的两个 Event（如果有的话）。<br><img src="https://upload-images.jianshu.io/upload_images/3334769-4dec2ddcf714e9ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="时序图"><br><br>（3）使用样例<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">let</span> disposeBag = DisposeBag()<br> <br><span class="hljs-comment">//创建一个bufferSize为2的ReplaySubject</span><br><span class="hljs-keyword">let</span> subject = ReplaySubject&lt;String&gt;.create(bufferSize: <span class="hljs-number">2</span>)<br> <br><span class="hljs-comment">//连续发送3个next事件</span><br>subject.onNext(<span class="hljs-string">&quot;111&quot;</span>)<br>subject.onNext(<span class="hljs-string">&quot;222&quot;</span>)<br>subject.onNext(<span class="hljs-string">&quot;333&quot;</span>)<br> <br><span class="hljs-comment">//第1次订阅subject</span><br>subject.subscribe &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-string">&quot;第1次订阅：&quot;</span>, <span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;.<span class="hljs-title">disposed</span>(<span class="hljs-params"><span class="hljs-keyword">by</span>: disposeBag</span>)</span><br><span class="hljs-function"> </span><br><span class="hljs-function"><span class="hljs-comment">//再发送1个next事件</span></span><br><span class="hljs-function">subject.<span class="hljs-title">onNext</span>(<span class="hljs-params"><span class="hljs-string">&quot;444&quot;</span></span>)</span><br><span class="hljs-function"> </span><br><span class="hljs-function"><span class="hljs-comment">//第2次订阅subject</span></span><br><span class="hljs-function">subject.subscribe</span> &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-string">&quot;第2次订阅：&quot;</span>, <span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;.<span class="hljs-title">disposed</span>(<span class="hljs-params"><span class="hljs-keyword">by</span>: disposeBag</span>)</span><br><span class="hljs-function"> </span><br><span class="hljs-function"><span class="hljs-comment">//让subject结束</span></span><br><span class="hljs-function">subject.<span class="hljs-title">onCompleted</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function"> </span><br><span class="hljs-function"><span class="hljs-comment">//第3次订阅subject</span></span><br><span class="hljs-function">subject.subscribe</span> &#123; <span class="hljs-function"><span class="hljs-keyword">event</span> <span class="hljs-keyword">in</span></span><br><span class="hljs-function">    <span class="hljs-title">print</span>(<span class="hljs-params"><span class="hljs-string">&quot;第3次订阅：&quot;</span>, <span class="hljs-keyword">event</span></span>)</span><br><span class="hljs-function">&#125;.<span class="hljs-title">disposed</span>(<span class="hljs-params"><span class="hljs-keyword">by</span>: disposeBag</span>)</span><br></code></pre></td></tr></table></figure>
+<h3 id="Variable"><a href="#Variable" class="headerlink" title="Variable"></a>Variable</h3>（注意：由于 Variable 在之后版本中将被废弃，建议使用 Varible 的地方都改用下面介绍的 BehaviorRelay 作为替代。）<br><br>（1）基本介绍</li>
+<li>Variable 其实就是对 BehaviorSubject 的封装，所以它也必须要通过一个默认的初始值进行创建。</li>
+<li>Variable 具有 BehaviorSubject 的功能，能够向它的订阅者发出上一个 event 以及之后新创建的 event。</li>
+<li>不同的是，Variable 还把会把当前发出的值保存为自己的状态。同时它会在销毁时自动发送 .complete 的 event，不需要也不能手动给 Variables 发送 completed 或者 error 事件来结束它。</li>
+<li>简单地说就是 Variable 有一个 value 属性，我们改变这个 value 属性的值就相当于调用一般 Subjects 的 onNext() 方法，而这个最新的 onNext() 的值就被保存在 value 属性里了，直到我们再次修改它。<blockquote>
+<p>注意：<br><br>Variables 本身没有 subscribe() 方法，但是所有 Subjects 都有一个 asObservable() 方法。我们可以使用这个方法返回这个 Variable 的 Observable 类型，拿到这个 Observable 类型我们就能订阅它了。</p>
+</blockquote>
+</li>
+</ul>
+<p>（2）使用样例</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs ceylon"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> RxCocoa<br> <br><span class="hljs-keyword">class</span> ViewController: UIViewController &#123;<br>     <br>    override func viewDidLoad() &#123;<br>        <span class="hljs-keyword">super</span>.viewDidLoad()<br> <br>        <span class="hljs-keyword">let</span> disposeBag = DisposeBag()<br>         <br>        <span class="hljs-comment">//创建一个初始值为111的Variable</span><br>        <span class="hljs-keyword">let</span> <span class="hljs-keyword">variable</span> = Variable(<span class="hljs-string">&quot;111&quot;</span>)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        <span class="hljs-keyword">variable</span>.<span class="hljs-keyword">value</span> = <span class="hljs-string">&quot;222&quot;</span><br>         <br>        <span class="hljs-comment">//第1次订阅</span><br>        <span class="hljs-keyword">variable</span>.asObservable().subscribe &#123;<br>            print(<span class="hljs-string">&quot;第1次订阅：&quot;</span>, <span class="hljs-number">$0</span>)<br>        &#125;.disposed(<span class="hljs-meta">by</span>: disposeBag)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        <span class="hljs-keyword">variable</span>.<span class="hljs-keyword">value</span> = <span class="hljs-string">&quot;333&quot;</span><br>         <br>        <span class="hljs-comment">//第2次订阅</span><br>        <span class="hljs-keyword">variable</span>.asObservable().subscribe &#123;<br>            print(<span class="hljs-string">&quot;第2次订阅：&quot;</span>, <span class="hljs-number">$0</span>)<br>        &#125;.disposed(<span class="hljs-meta">by</span>: disposeBag)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        <span class="hljs-keyword">variable</span>.<span class="hljs-keyword">value</span> = <span class="hljs-string">&quot;444&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="BehaviorRelay"><a href="#BehaviorRelay" class="headerlink" title="BehaviorRelay"></a>BehaviorRelay</h3><p>（1）基本介绍</p>
+<ul>
+<li>BehaviorRelay 是作为 Variable 的替代者出现的。它的本质其实也是对 BehaviorSubject 的封装，所以它也必须要通过一个默认的初始值进行创建。</li>
+<li>BehaviorRelay 具有 BehaviorSubject 的功能，能够向它的订阅者发出上一个 event 以及之后新创建的 event。</li>
+<li>与 BehaviorSubject 不同的是，不需要也不能手动给 BehaviorReply 发送 completed 或者 error 事件来结束它（BehaviorRelay 会在销毁时也不会自动发送 .complete 的 event）。</li>
+<li>BehaviorRelay 有一个 value 属性，我们通过这个属性可以获取最新值。而通过它的 accept() 方法可以对值进行修改。</li>
+</ul>
+<p>（2）上面的 Variable 样例我们可以改用成 BehaviorRelay，代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> RxSwift<br><span class="hljs-keyword">import</span> RxCocoa<br> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewController</span>: <span class="hljs-title">UIViewController</span> </span>&#123;<br>     <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">viewDidLoad</span>()</span> &#123;<br>        <span class="hljs-keyword">super</span>.viewDidLoad()<br>         <br>        <span class="hljs-keyword">let</span> disposeBag <span class="hljs-operator">=</span> <span class="hljs-type">DisposeBag</span>()<br>         <br>        <span class="hljs-comment">//创建一个初始值为111的BehaviorRelay</span><br>        <span class="hljs-keyword">let</span> subject <span class="hljs-operator">=</span> <span class="hljs-type">BehaviorRelay</span>&lt;<span class="hljs-type">String</span>&gt;(value: <span class="hljs-string">&quot;111&quot;</span>)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        subject.accept(<span class="hljs-string">&quot;222&quot;</span>)<br>         <br>        <span class="hljs-comment">//第1次订阅</span><br>        subject.asObservable().subscribe &#123;<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;第1次订阅：&quot;</span>, <span class="hljs-variable">$0</span>)<br>            &#125;.disposed(by: disposeBag)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        subject.accept(<span class="hljs-string">&quot;333&quot;</span>)<br>         <br>        <span class="hljs-comment">//第2次订阅</span><br>        subject.asObservable().subscribe &#123;<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;第2次订阅：&quot;</span>, <span class="hljs-variable">$0</span>)<br>            &#125;.disposed(by: disposeBag)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        subject.accept(<span class="hljs-string">&quot;444&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>（3）如果想将新值合并到原值上，可以通过 accept() 方法与 value 属性配合来实现。（这个常用在表格上拉加载功能上，BehaviorRelay 用来保存所有加载到的数据）</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs stylus">import UIKit<br>import RxSwift<br>import RxCocoa<br> <br>class ViewController: UIViewController &#123;<br>     <br>    override func viewDidLoad() &#123;<br>        super<span class="hljs-selector-class">.viewDidLoad</span>()<br>         <br>        let disposeBag = DisposeBag()<br>         <br>        <span class="hljs-comment">//创建一个初始值为包含一个元素的数组的BehaviorRelay</span><br>        let subject = BehaviorRelay&lt;<span class="hljs-selector-attr">[String]</span>&gt;(value: <span class="hljs-selector-attr">[<span class="hljs-string">&quot;1&quot;</span>]</span>)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        subject<span class="hljs-selector-class">.accept</span>(subject<span class="hljs-selector-class">.value</span> + <span class="hljs-selector-attr">[<span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>]</span>)<br>         <br>        <span class="hljs-comment">//第1次订阅</span><br>        subject<span class="hljs-selector-class">.asObservable</span>()<span class="hljs-selector-class">.subscribe</span> &#123;<br>            print(<span class="hljs-string">&quot;第1次订阅：&quot;</span>, $<span class="hljs-number">0</span>)<br>            &#125;<span class="hljs-selector-class">.disposed</span>(by: disposeBag)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        subject<span class="hljs-selector-class">.accept</span>(subject<span class="hljs-selector-class">.value</span> + <span class="hljs-selector-attr">[<span class="hljs-string">&quot;4&quot;</span>, <span class="hljs-string">&quot;5&quot;</span>]</span>)<br>         <br>        <span class="hljs-comment">//第2次订阅</span><br>        subject<span class="hljs-selector-class">.asObservable</span>()<span class="hljs-selector-class">.subscribe</span> &#123;<br>            print(<span class="hljs-string">&quot;第2次订阅：&quot;</span>, $<span class="hljs-number">0</span>)<br>            &#125;<span class="hljs-selector-class">.disposed</span>(by: disposeBag)<br>         <br>        <span class="hljs-comment">//修改value值</span><br>        subject<span class="hljs-selector-class">.accept</span>(subject<span class="hljs-selector-class">.value</span> + <span class="hljs-selector-attr">[<span class="hljs-string">&quot;6&quot;</span>, <span class="hljs-string">&quot;7&quot;</span>]</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Swift/">Swift</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Swift/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Swift/iOS/SDK/">SDK</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/SDK/">SDK</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/04/01/iOS%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-YYCache/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS第三方库-YYCache</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/02/01/iOS%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-FMDB-%E6%A8%A1%E5%9E%8B%E8%BF%9B%E8%A1%8C%E5%AD%98%E5%8F%96(Model)/">
+                        <span class="hidden-mobile">iOS第三方库-FMDB-模型进行存取(Model)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

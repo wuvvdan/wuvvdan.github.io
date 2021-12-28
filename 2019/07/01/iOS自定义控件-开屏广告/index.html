@@ -1,0 +1,484 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS自定义控件-分段选择器-Swift - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS自定义控件-分段选择器-Swift">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-01 10:00" pubdate>
+        2019年7月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS自定义控件-分段选择器-Swift</h1>
+            
+            <div class="markdown-body">
+              <p>date: 2019-06-01 10:00:00</p>
+<p>tags: </p>
+<ul>
+<li>  自定义控件<br>categories:</li>
+<li>iOS</li>
+<li>Swift</li>
+<li>自定义控件</li>
+</ul>
+<hr>
+<p><img src="https://upload-images.jianshu.io/upload_images/3334769-b2036ea2521c628c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="专用整理图"></p>
+<p>很久没有去写博客了，最近由于公司需求变化，需要做一个新的开屏广告的页面，所以我就简单的去研究了一下。其中显示分为视频和图片，其中图片相比而言实现起来就简单的多了。</p>
+<h3 id="图片加载"><a href="#图片加载" class="headerlink" title="图片加载"></a>图片加载</h3><p>可以使用第三方的加载和缓存，例如：<code>SDWebImage</code>或者<code>Kingfisher</code>。当然也可以使用系统的<code>URLSession</code>下载到本地再进行读取加载。</p>
+<h3 id="视频加载"><a href="#视频加载" class="headerlink" title="视频加载"></a>视频加载</h3><p>我这边利用的就<code>URLSession </code>的<code>downloadTask</code>进行下载到本地再进行播放的。</p>
+<h3 id="视频下载的代码"><a href="#视频下载的代码" class="headerlink" title="视频下载的代码"></a>视频下载的代码</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">import UIKit<br><br><span class="hljs-comment">/// 保存URL地址进行匹配</span><br>fileprivate <span class="hljs-keyword">let</span> kURL_DOWNLOAD_PATH = <span class="hljs-string">&quot;WDDownloadUrlPath&quot;</span><br><span class="hljs-comment">/// 保存路径</span><br>fileprivate <span class="hljs-keyword">let</span> kDOCUMENTS_PATH = <span class="hljs-constructor">NSHomeDirectory()</span> + <span class="hljs-string">&quot;/Documents/Advertisement.mp4&quot;</span><br><br>fileprivate <span class="hljs-keyword">class</span> UserDefaultsTools &#123;<br>    <span class="hljs-comment">// 设置地址</span><br>    static func wd<span class="hljs-constructor">_set(<span class="hljs-params">value</span>: String)</span> &#123;<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">UserDefaults</span>.</span></span>standard.set<span class="hljs-constructor">Value(<span class="hljs-params">value</span>, <span class="hljs-params">forKey</span>: <span class="hljs-params">kURL_DOWNLOAD_PATH</span>)</span><br>    &#125;<br>    <br>    <span class="hljs-comment">// 读取地址</span><br>    static func wd<span class="hljs-constructor">_get()</span> -&gt; String &#123;<br>        return <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">UserDefaults</span>.</span></span>standard.<span class="hljs-keyword">object</span>(forKey: kURL_DOWNLOAD_PATH) <span class="hljs-keyword">as</span>? String ?? <span class="hljs-string">&quot;&quot;</span><br>    &#125;<br>&#125;<br><br>fileprivate <span class="hljs-keyword">class</span> FileManagerTools &#123;<br>    <span class="hljs-comment">// 是否存在文件</span><br>    static func is<span class="hljs-constructor">ExistFile(<span class="hljs-params">atPath</span>: String)</span> -&gt; Bool &#123;<br>        return <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManager</span>.</span></span>default.file<span class="hljs-constructor">Exists(<span class="hljs-params">atPath</span>: <span class="hljs-params">atPath</span>)</span><br>    &#125;<br>    <br>    <span class="hljs-comment">// 移动文件</span><br>    static func move<span class="hljs-constructor">File(<span class="hljs-params">fromPath</span>: String, <span class="hljs-params">toPath</span>: String)</span> &#123;<br>        <span class="hljs-keyword">try</span>! <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManager</span>.</span></span>default.move<span class="hljs-constructor">Item(<span class="hljs-params">atPath</span>: <span class="hljs-params">fromPath</span>, <span class="hljs-params">toPath</span>: <span class="hljs-params">toPath</span>)</span><br>    &#125;<br>    <br>    <span class="hljs-comment">// 删除文件</span><br>    static func delete<span class="hljs-constructor">File(<span class="hljs-params">atPath</span>: String)</span> &#123;<br>        <span class="hljs-keyword">try</span>! <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManager</span>.</span></span>default.remove<span class="hljs-constructor">Item(<span class="hljs-params">atPath</span>: <span class="hljs-params">atPath</span>)</span><br>    &#125;<br>    <br>    <span class="hljs-comment">// 文件大小</span><br>    static func file<span class="hljs-constructor">Size(<span class="hljs-params">atPath</span>: String)</span> -&gt; Float &#123;<br>        <span class="hljs-keyword">if</span> self.is<span class="hljs-constructor">ExistFile(<span class="hljs-params">atPath</span>: <span class="hljs-params">kDOCUMENTS_PATH</span>)</span> &#123;<br>            <span class="hljs-keyword">let</span> attributes = <span class="hljs-keyword">try</span>! <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManager</span>.</span></span>default.attributes<span class="hljs-constructor">OfItem(<span class="hljs-params">atPath</span>: <span class="hljs-params">atPath</span>)</span><br>            <span class="hljs-keyword">let</span> size = attributes<span class="hljs-literal">[F<span class="hljs-identifier">ileAttributeKey</span>.<span class="hljs-identifier">size</span>]</span> <span class="hljs-keyword">as</span>! Int<br>            return <span class="hljs-constructor">Float(<span class="hljs-params">size</span>)</span><br>        &#125;<br>        return <span class="hljs-number">0</span><br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> WDLaunchADDownloader: NSObject &#123;<br>    <span class="hljs-comment">/// 下载视频的路径</span><br>    <span class="hljs-keyword">private</span> var downloadUrlPath: String = <span class="hljs-string">&quot;&quot;</span><br>    <span class="hljs-comment">/// 下载的Session</span><br>    <span class="hljs-keyword">private</span> var session: URLSession!<br>    <span class="hljs-comment">/// 下载的任务</span><br>    <span class="hljs-keyword">private</span> var downloadTask: URLSessionDownloadTask!<br>    <span class="hljs-comment">/// 记录是否在下载</span><br>    <span class="hljs-keyword">private</span> var downloading: Bool = <span class="hljs-literal">false</span><br>    <span class="hljs-comment">/// 记录已下载的数据</span><br>    <span class="hljs-keyword">private</span> var downloadData: Data?<br><br>    <span class="hljs-comment">/* 下载视频 */</span><br>    static func download<span class="hljs-constructor">Video(<span class="hljs-params">path</span>: String)</span> -&gt; String &#123;<br>        <span class="hljs-keyword">let</span> downloader = <span class="hljs-constructor">WDLaunchADDownloader()</span><br>        return downloader.setup<span class="hljs-constructor">Download(<span class="hljs-params">with</span>: <span class="hljs-params">path</span>)</span><br>    &#125;<br>    <br>    <span class="hljs-keyword">private</span> func setup<span class="hljs-constructor">Download(<span class="hljs-params">with</span> <span class="hljs-params">path</span>: String)</span> -&gt; String &#123;<br>        downloadUrlPath = path <span class="hljs-comment">// 获取视频播放网络路径</span><br><br>        <span class="hljs-keyword">let</span> configuration = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">URLSessionConfiguration</span>.</span></span>default<br>        configuration.isDiscretionary = <span class="hljs-literal">true</span><br>        session = <span class="hljs-constructor">URLSession(<span class="hljs-params">configuration</span>: <span class="hljs-params">configuration</span>, <span class="hljs-params">delegate</span>: <span class="hljs-params">self</span>, <span class="hljs-params">delegateQueue</span>: <span class="hljs-params">nil</span>)</span><br>        <br>        <span class="hljs-keyword">let</span> request = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">URLRequest</span>.</span></span>init(url: <span class="hljs-constructor">URL(<span class="hljs-params">string</span>: <span class="hljs-params">path</span>)</span>!)<br>        downloadTask = session.download<span class="hljs-constructor">Task(<span class="hljs-params">with</span>: <span class="hljs-params">request</span>)</span><br>        <br>        <span class="hljs-comment">// 网址不同，删除原本的，下载最新的</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">UserDefaultsTools</span>.</span></span>wd<span class="hljs-constructor">_get()</span> != path &#123;<br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">UserDefaultsTools</span>.</span></span>wd<span class="hljs-constructor">_set(<span class="hljs-params">value</span>: <span class="hljs-string">&quot;&quot;</span>)</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManagerTools</span>.</span></span>is<span class="hljs-constructor">ExistFile(<span class="hljs-params">atPath</span>: <span class="hljs-params">kDOCUMENTS_PATH</span>)</span> &#123;<br>                <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManagerTools</span>.</span></span>delete<span class="hljs-constructor">File(<span class="hljs-params">atPath</span>: <span class="hljs-params">kDOCUMENTS_PATH</span>)</span><br>            &#125;<br>            <span class="hljs-comment">// 开始下载</span><br>            start<span class="hljs-constructor">Download()</span><br>        &#125;<br>        <br>        <span class="hljs-comment">// 如果已存在文件 就加载视频 否则加载图片</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManagerTools</span>.</span></span>is<span class="hljs-constructor">ExistFile(<span class="hljs-params">atPath</span>: <span class="hljs-params">kDOCUMENTS_PATH</span>)</span> &#123;<br>            return kDOCUMENTS_PATH<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            return <span class="hljs-string">&quot;&quot;</span><br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// MARK: - 开始下载</span><br>    <span class="hljs-keyword">private</span> func start<span class="hljs-constructor">Download()</span> &#123;<br>        downloading = <span class="hljs-literal">true</span><br>        downloadTask.resume<span class="hljs-literal">()</span><br>    &#125;<br>    <br>    <span class="hljs-comment">// MARK: - 暂停下载</span><br>    <span class="hljs-keyword">private</span> func pause<span class="hljs-constructor">Download()</span> &#123;<br>        downloadTask.cancel &#123; <span class="hljs-literal">[<span class="hljs-identifier">weak</span> <span class="hljs-identifier">self</span>]</span> (resumeData) <span class="hljs-keyword">in</span><br>            self?.downloadData = resumeData<br>        &#125;<br>        downloading = <span class="hljs-literal">false</span><br>    &#125;<br>&#125;<br><br>extension WDLaunchADDownloader: URLSessionDownloadDelegate &#123;<br>    <span class="hljs-comment">// 下载代理方法，下载结束</span><br>    func url<span class="hljs-constructor">Session(<span class="hljs-params">_</span> <span class="hljs-params">session</span>: URLSession, <span class="hljs-params">downloadTask</span>: URLSessionDownloadTask, <span class="hljs-params">didFinishDownloadingTo</span> <span class="hljs-params">location</span>: URL)</span> &#123;<br>        <span class="hljs-keyword">let</span> locationPath = location.path<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManagerTools</span>.</span></span>move<span class="hljs-constructor">File(<span class="hljs-params">fromPath</span>: <span class="hljs-params">locationPath</span>, <span class="hljs-params">toPath</span>: <span class="hljs-params">kDOCUMENTS_PATH</span>)</span><br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">UserDefaultsTools</span>.</span></span>wd<span class="hljs-constructor">_set(<span class="hljs-params">value</span>: <span class="hljs-params">downloadUrlPath</span>)</span><br>    &#125;<br>    <br>    <span class="hljs-comment">// 下载代理方法，监听下载进度</span><br>    func url<span class="hljs-constructor">Session(<span class="hljs-params">_</span> <span class="hljs-params">session</span>: URLSession, <span class="hljs-params">downloadTask</span>: URLSessionDownloadTask, <span class="hljs-params">didWriteData</span> <span class="hljs-params">bytesWritten</span>: Int64, <span class="hljs-params">totalBytesWritten</span>: Int64, <span class="hljs-params">totalBytesExpectedToWrite</span>: Int64)</span> &#123;<br>        <span class="hljs-keyword">if</span> <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">FileManagerTools</span>.</span></span>file<span class="hljs-constructor">Size(<span class="hljs-params">atPath</span>: <span class="hljs-params">kDOCUMENTS_PATH</span>)</span> &gt;= <span class="hljs-constructor">Float(<span class="hljs-params">totalBytesExpectedToWrite</span>)</span> &#123;<br>            pause<span class="hljs-constructor">Download()</span><br>            return<br>        &#125;<br>        print(<span class="hljs-constructor">String(<span class="hljs-params">format</span>: <span class="hljs-string">&quot;🍉 Advertising Video Download Progress: %0.2f&quot;</span>, Float(<span class="hljs-params">totalBytesWritten</span>)</span><span class="hljs-operator"> / </span><span class="hljs-constructor">Float(<span class="hljs-params">totalBytesExpectedToWrite</span>)</span>))<br>    &#125;<br>    <br>    <span class="hljs-comment">// 如果下载失败了</span><br>    func url<span class="hljs-constructor">Session(<span class="hljs-params">_</span> <span class="hljs-params">session</span>: URLSession, <span class="hljs-params">task</span>: URLSessionTask, <span class="hljs-params">didCompleteWithError</span> <span class="hljs-params">error</span>: Error?)</span> &#123;<br>        <span class="hljs-keyword">if</span> error != nil &#123;<br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">UserDefaultsTools</span>.</span></span>wd<span class="hljs-constructor">_set(<span class="hljs-params">value</span>: <span class="hljs-string">&quot;&quot;</span>)</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="视频播放代码"><a href="#视频播放代码" class="headerlink" title="视频播放代码"></a>视频播放代码</h3><p>其中获取到加载的种类(图片、视频)，页面进行相应的布局</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><span class="hljs-keyword">import</span> AVFoundation<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WDLaunchADPlayerManager</span>: <span class="hljs-title">NSObject</span> </span>&#123;<br>    <br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">let</span> share <span class="hljs-operator">=</span> <span class="hljs-type">WDLaunchADPlayerManager</span>()<br>    <br>    <span class="hljs-keyword">var</span> playerItem: <span class="hljs-type">AVPlayerItem</span>!<br>    <span class="hljs-keyword">var</span> player: <span class="hljs-type">AVPlayer</span>!<br>    <span class="hljs-keyword">var</span> playerLayer: <span class="hljs-type">CALayer</span>!<br>    <br>    <span class="hljs-comment">// 开始播放 &lt;播放下载好再本地文件夹里面的视频文件&gt;</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">playItem</span>(<span class="hljs-params">with</span> <span class="hljs-params">url</span>: <span class="hljs-type">String</span>)</span> &#123;<br>        playerItem <span class="hljs-operator">=</span> <span class="hljs-type">AVPlayerItem</span>(url: <span class="hljs-type">URL</span>(fileURLWithPath: url))<br>        player <span class="hljs-operator">=</span> <span class="hljs-type">AVPlayer</span>(playerItem: playerItem)<br>        playerLayer <span class="hljs-operator">=</span> <span class="hljs-type">AVPlayerLayer</span>(player: player)<br>        player.usesExternalPlaybackWhileExternalScreenIsActive <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>        player.play()<br>        player.volume <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <span class="hljs-comment">// 静音播放</span><br>    &#125;<br>    <br>    <span class="hljs-comment">// 停止播放</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">stopPlay</span>()</span> &#123;<br>        player.pause()<br>        player <span class="hljs-operator">=</span> <span class="hljs-literal">nil</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="页面显示"><a href="#页面显示" class="headerlink" title="页面显示"></a>页面显示</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">import UIKit<br>import SDWebImage<br><br><span class="hljs-keyword">class</span> WDLaunchADController: UIViewController &#123;<br>    <br>    <span class="hljs-comment">/// 播放器的layer层</span><br>    <span class="hljs-keyword">private</span> var playerLayer: CALayer = <span class="hljs-constructor">CALayer()</span><br>    <br>    <span class="hljs-comment">/// 图片加载</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> imageView: UIImageView = &#123;<br>        <span class="hljs-keyword">let</span> imageV = <span class="hljs-constructor">UIImageView()</span><br>        imageV.contentMode = .scaleAspectFill<br>        imageV.clipsToBounds = <span class="hljs-literal">true</span><br>        return imageV<br>    &#125;<span class="hljs-literal">()</span><br>    <br>    deinit &#123;<br>        print(<span class="hljs-string">&quot;==[\(type(of: self))] deinit==&quot;</span>)<br>    &#125;<br>    <br>    override func view<span class="hljs-constructor">DidLoad()</span> &#123;<br>        super.view<span class="hljs-constructor">DidLoad()</span><br>        view.backgroundColor = .white<br>    &#125;<br>    <br>    <span class="hljs-comment">// 配置页面样式</span><br>    func setup(<span class="hljs-keyword">with</span> adType: WDLaunchADType, url: String, bottomLogoView: UIView? = <span class="hljs-constructor">UIView()</span>, bottomLogoViewHeight: CGFloat = <span class="hljs-number">180</span>) &#123;<br>        <span class="hljs-keyword">if</span> adType<span class="hljs-operator"> == </span>.image &#123;<br>            imageView.isUserInteractionEnabled = <span class="hljs-literal">true</span><br>            view.add<span class="hljs-constructor">Subview(<span class="hljs-params">imageView</span>)</span><br>            imageView.sd<span class="hljs-constructor">_setImage(<span class="hljs-params">with</span>: URL(<span class="hljs-params">string</span>: <span class="hljs-params">url</span>)</span>, completed: nil)<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">WDLaunchADPlayerManager</span>.</span></span>share.play<span class="hljs-constructor">Item(<span class="hljs-params">with</span>: <span class="hljs-params">url</span>)</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> layer = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">WDLaunchADPlayerManager</span>.</span></span>share.playerLayer &#123;<br>                self.view.layer.add<span class="hljs-constructor">Sublayer(<span class="hljs-params">layer</span>)</span><br>                playerLayer = layer<br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> logoView = bottomLogoView &#123;<br>            view.add<span class="hljs-constructor">Subview(<span class="hljs-params">logoView</span>)</span><br>            logoView.frame = <span class="hljs-constructor">CGRect(<span class="hljs-params">x</span>: 0, <span class="hljs-params">y</span>: <span class="hljs-params">view</span>.<span class="hljs-params">frame</span>.<span class="hljs-params">height</span> - <span class="hljs-params">bottomLogoViewHeight</span>, <span class="hljs-params">width</span>: <span class="hljs-params">view</span>.<span class="hljs-params">frame</span>.<span class="hljs-params">width</span>, <span class="hljs-params">height</span>: <span class="hljs-params">bottomLogoViewHeight</span>)</span><br>            <span class="hljs-keyword">if</span> adType<span class="hljs-operator"> == </span>.image &#123;<br>                imageView.frame = <span class="hljs-constructor">CGRect(<span class="hljs-params">x</span>: 0, <span class="hljs-params">y</span>: 0, <span class="hljs-params">width</span>: <span class="hljs-params">view</span>.<span class="hljs-params">frame</span>.<span class="hljs-params">width</span>, <span class="hljs-params">height</span>: <span class="hljs-params">view</span>.<span class="hljs-params">frame</span>.<span class="hljs-params">height</span> - <span class="hljs-params">bottomLogoViewHeight</span>)</span><br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                playerLayer.frame = <span class="hljs-constructor">CGRect(<span class="hljs-params">x</span>: 0, <span class="hljs-params">y</span>: 0, <span class="hljs-params">width</span>: <span class="hljs-params">view</span>.<span class="hljs-params">frame</span>.<span class="hljs-params">width</span>, <span class="hljs-params">height</span>: <span class="hljs-params">view</span>.<span class="hljs-params">frame</span>.<span class="hljs-params">height</span>)</span><br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">if</span> adType<span class="hljs-operator"> == </span>.image &#123;<br>                imageView.frame = view.bounds<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                playerLayer.frame = view.bounds<br>            &#125;<br>        &#125;<br>    &#125;<br>        <br>    override var shouldAutorotate: Bool &#123;<br>        return <span class="hljs-literal">false</span><br>    &#125;<br>    <br>    override var prefersHomeIndicatorAutoHidden: Bool &#123;<br>        return <span class="hljs-literal">false</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="加载控制代码"><a href="#加载控制代码" class="headerlink" title="加载控制代码"></a>加载控制代码</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">import</span> UIKit<br><br><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">WDLaunchADType</span> </span>&#123;<br>    <span class="hljs-keyword">case</span> image<br>    <span class="hljs-keyword">case</span> video<br>&#125;<br><br><span class="hljs-comment">/// 是否是刘海屏系列</span><br><span class="hljs-keyword">var</span> kIS_IPHONEX: <span class="hljs-type">Bool</span> &#123;<br>    <span class="hljs-keyword">var</span> iPhoneX <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-type">UIDevice</span>.current.userInterfaceIdiom <span class="hljs-operator">!=</span> .phone &#123;<br>        <span class="hljs-keyword">return</span> iPhoneX<br>    &#125;<br>    <br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">#available</span>(<span class="hljs-keyword">iOS</span> <span class="hljs-number">11.0</span>, <span class="hljs-operator">*</span>) &#123;<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> mainWindow <span class="hljs-operator">=</span> <span class="hljs-type">UIApplication</span>.shared.delegate<span class="hljs-operator">?</span>.window &#123;<br>            <span class="hljs-keyword">if</span> (mainWindow<span class="hljs-operator">?</span>.safeAreaInsets.bottom)<span class="hljs-operator">!</span> <span class="hljs-operator">&gt;</span> <span class="hljs-type">CGFloat</span>(<span class="hljs-number">0.0</span>) &#123;<br>                iPhoneX <span class="hljs-operator">=</span> <span class="hljs-literal">true</span><br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> iPhoneX<br>&#125;<br><br><span class="hljs-comment">/// 状态栏高度</span><br><span class="hljs-keyword">var</span> kSTATUS_HEIGHT: <span class="hljs-type">CGFloat</span> &#123;<br>    <span class="hljs-keyword">return</span> kIS_IPHONEX <span class="hljs-operator">?</span> <span class="hljs-type">UIApplication</span>.shared.statusBarFrame.height : <span class="hljs-number">22</span><br>&#125;<br><br><span class="hljs-comment">// MARK: - Main</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WDLaunchAD</span>: <span class="hljs-title">NSObject</span> </span>&#123;<br>    <span class="hljs-comment">// MARK: Public</span><br>    <span class="hljs-comment">/// 静态方法</span><br>    <span class="hljs-comment">///</span><br>    <span class="hljs-comment">/// - Parameters:</span><br>    <span class="hljs-comment">///   - adType: 广告类型 `图片` `视频&lt;无声音&gt;`</span><br>    <span class="hljs-comment">///   - url: 广告地址</span><br>    <span class="hljs-comment">///   - durition: 显示时间</span><br>    <span class="hljs-comment">///   - bottomView: 底部视图</span><br>    <span class="hljs-comment">///   - buttomViewHeight: 底部视图高度</span><br>    <span class="hljs-comment">///   - clickBlock: 广告点击事件回调</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">setup</span>(<span class="hljs-params">with</span> <span class="hljs-params">adType</span>: <span class="hljs-type">WDLaunchADType</span> <span class="hljs-operator">=</span> .image,</span><br><span class="hljs-function">                      <span class="hljs-params">url</span>: <span class="hljs-type">String</span>, <span class="hljs-params">durition</span>: <span class="hljs-type">Int</span>,</span><br><span class="hljs-function">                      <span class="hljs-params">bottomView</span>: <span class="hljs-type">UIView</span>? <span class="hljs-operator">=</span> <span class="hljs-type">UIView</span>(),</span><br><span class="hljs-function">                      <span class="hljs-params">buttomViewHeight</span>: <span class="hljs-type">CGFloat</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,</span><br><span class="hljs-function">                      <span class="hljs-params">clickBlock</span>: <span class="hljs-keyword">@escaping</span> (() -&gt; <span class="hljs-type">Void</span>))</span> &#123;<br>        <br>        <span class="hljs-keyword">let</span> manager <span class="hljs-operator">=</span> <span class="hljs-type">WDLaunchAD</span>()<br>        manager.show(with: adType, url: url, durition: durition, bottomView: bottomView, buttomViewHeight: buttomViewHeight ,clickBlock: clickBlock)<br>    &#125;<br>    <br>    <span class="hljs-comment">// MARK: Private</span><br>    <span class="hljs-comment">/// 页面显示的window根控制器，除了倒计时按钮，其他元素在控制器中配置</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> wdLaunchADViewController <span class="hljs-operator">=</span> <span class="hljs-type">WDLaunchADController</span>()<br>    <span class="hljs-comment">/// 显示的时间</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> timerInterval: <span class="hljs-type">Int</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br>    <span class="hljs-comment">/// 定时器</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> timer: <span class="hljs-type">Timer</span>?<br>    <span class="hljs-comment">/// 点击事件回调</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> clickBlockHandle: (() -&gt; <span class="hljs-type">Void</span>)<span class="hljs-operator">?</span><br>    <span class="hljs-comment">/// 页面显示的window</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> window: <span class="hljs-type">UIWindow</span> <span class="hljs-operator">=</span> &#123;<br>        <span class="hljs-keyword">let</span> window <span class="hljs-operator">=</span> <span class="hljs-type">UIWindow</span>.<span class="hljs-keyword">init</span>(frame: <span class="hljs-type">UIScreen</span>.main.bounds)<br>        window.rootViewController<span class="hljs-operator">?</span>.view.backgroundColor <span class="hljs-operator">=</span> .black<br>        window.rootViewController<span class="hljs-operator">?</span>.view.isUserInteractionEnabled <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>        window.windowLevel <span class="hljs-operator">=</span> <span class="hljs-type">UIWindow</span>.<span class="hljs-type">Level</span>.statusBar <span class="hljs-operator">+</span> <span class="hljs-number">1</span><br>        window.isHidden <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>        window.alpha <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> window<br>    &#125;()<br>    <span class="hljs-comment">/// 倒计时按钮</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> timeButton: <span class="hljs-type">UIButton</span> <span class="hljs-operator">=</span> &#123;<br>        <span class="hljs-keyword">let</span> button <span class="hljs-operator">=</span> <span class="hljs-type">UIButton</span>(type: .custom)<br>        button.backgroundColor <span class="hljs-operator">=</span> <span class="hljs-type">UIColor</span>(white: <span class="hljs-number">0</span>, alpha: <span class="hljs-number">0.5</span>)<br>        button.setTitleColor(.white, for: .normal)<br>        button.titleLabel<span class="hljs-operator">?</span>.font <span class="hljs-operator">=</span> <span class="hljs-type">UIFont</span>.systemFont(ofSize: <span class="hljs-number">15</span>)<br>        <span class="hljs-keyword">return</span> button<br>    &#125;()<br>&#125;<br><br><span class="hljs-comment">// MARK: - 页面初始化与销毁</span><br><span class="hljs-keyword">fileprivate</span> <span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">WDLaunchAD</span> </span>&#123;<br>    <span class="hljs-comment">// 控制器初始化页面</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">show</span>(<span class="hljs-params">with</span> <span class="hljs-params">adType</span>: <span class="hljs-type">WDLaunchADType</span>, <span class="hljs-params">url</span>: <span class="hljs-type">String</span>, <span class="hljs-params">durition</span>: <span class="hljs-type">Int</span>, <span class="hljs-params">bottomView</span>: <span class="hljs-type">UIView</span>?, <span class="hljs-params">buttomViewHeight</span>: <span class="hljs-type">CGFloat</span>, <span class="hljs-params">clickBlock</span>: <span class="hljs-keyword">@escaping</span> (() -&gt; <span class="hljs-type">Void</span>))</span> &#123;<br>        clickBlockHandle <span class="hljs-operator">=</span> clickBlock<br>        timerInterval <span class="hljs-operator">=</span> durition<br>        window.rootViewController <span class="hljs-operator">=</span> wdLaunchADViewController<br>        wdLaunchADViewController.view.addGestureRecognizer(<span class="hljs-type">UITapGestureRecognizer</span>.<span class="hljs-keyword">init</span>(target: <span class="hljs-keyword">self</span>, action: #selector(adGuestureTargetAction)))<br>        wdLaunchADViewController.setup(with: adType, url: url, bottomLogoView: bottomView, bottomLogoViewHeight: buttomViewHeight)<br>        addTimeButton()<br>        <br>        <span class="hljs-comment">// 开始倒计时</span><br>        <span class="hljs-type">DispatchQueue</span>.main.asyncAfter(deadline: .now() <span class="hljs-operator">+</span> <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-keyword">self</span>.timer <span class="hljs-operator">=</span> <span class="hljs-type">Timer</span>.scheduledTimer(timeInterval: <span class="hljs-number">1</span>, target: <span class="hljs-keyword">self</span>, selector: #selector(<span class="hljs-keyword">self</span>.timerDown(timer:)), userInfo: <span class="hljs-literal">nil</span>, repeats: <span class="hljs-literal">true</span>)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> timer <span class="hljs-operator">=</span> <span class="hljs-keyword">self</span>.timer &#123;<br>                timer.fire()<br>            &#125;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 移除定时器与视图</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">removeWindow</span>()</span> &#123;<br>        <span class="hljs-comment">// 停止播放视频</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-type">WDLaunchADPlayerManager</span>.share.player <span class="hljs-operator">!=</span> <span class="hljs-literal">nil</span>  &#123;<br>            <span class="hljs-type">WDLaunchADPlayerManager</span>.share.stopPlay()<br>        &#125;<br>        <br>        <span class="hljs-comment">// 停止倒计时并移除</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> timer <span class="hljs-operator">=</span> timer &#123;<br>            timer.invalidate()<br>        &#125;<br>        timer <span class="hljs-operator">=</span> <span class="hljs-literal">nil</span><br>        <br>        <span class="hljs-comment">// 移除当前视图</span><br>        <span class="hljs-type">UIView</span>.transition(with: window, duration: <span class="hljs-number">0.8</span>, options: <span class="hljs-type">UIView</span>.<span class="hljs-type">AnimationOptions</span>.curveEaseOut, animations: &#123;<br>            <span class="hljs-keyword">self</span>.window.alpha <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        &#125;) &#123; (finished) <span class="hljs-keyword">in</span><br>            <span class="hljs-keyword">self</span>.window.rootViewController <span class="hljs-operator">=</span> <span class="hljs-literal">nil</span><br>            <span class="hljs-keyword">self</span>.window.removeFromSuperview()<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// MARK: - 页面控件配置</span><br><span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">WDLaunchAD</span> </span>&#123;<br>    <span class="hljs-comment">// 配置时间按钮</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">addTimeButton</span>()</span> &#123;<br>        timeButton.setTitle(<span class="hljs-string">&quot;   跳过 <span class="hljs-subst">\(timerInterval)</span>   &quot;</span>, for: .normal)<br>        timeButton.addTarget(<span class="hljs-keyword">self</span>, action: #selector(buttonTargetAction(sender:)), for: .touchUpInside)<br>        window.addSubview(timeButton)<br>        timeButton.translatesAutoresizingMaskIntoConstraints <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>        window.addConstraints([<br>            <span class="hljs-type">NSLayoutConstraint</span>(item: timeButton, attribute: .trailing, relatedBy: .equal, toItem: window, attribute: .trailing, multiplier: <span class="hljs-number">1</span>, constant: <span class="hljs-operator">-</span><span class="hljs-number">15</span>),<br>            <span class="hljs-type">NSLayoutConstraint</span>(item: timeButton, attribute: .top, relatedBy: .equal, toItem: window, attribute: .top, multiplier: <span class="hljs-number">1</span>, constant: kSTATUS_HEIGHT),<br>        ])<br>        timeButton.layoutIfNeeded()<br>        timeButton.layer.cornerRadius <span class="hljs-operator">=</span> timeButton.frame.height <span class="hljs-operator">/</span> <span class="hljs-number">2.0</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// MARK: - 倒计时与倒计时点击事件</span><br><span class="hljs-keyword">@objc</span> <span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">WDLaunchAD</span> </span>&#123;<br>    <span class="hljs-comment">// 倒计时</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">timerDown</span>(<span class="hljs-params">timer</span>: <span class="hljs-type">Timer</span>)</span> &#123;<br>        timerInterval <span class="hljs-operator">-=</span> <span class="hljs-number">1</span><br>        timeButton.setTitle(<span class="hljs-string">&quot;   跳过 <span class="hljs-subst">\(timerInterval)</span>   &quot;</span>, for: .normal)<br>        <span class="hljs-keyword">if</span> timerInterval <span class="hljs-operator">==</span> <span class="hljs-number">0</span> &#123;<br>            removeWindow()<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 广告页移除</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">buttonTargetAction</span>(<span class="hljs-params">sender</span>: <span class="hljs-type">UIButton</span>)</span> &#123;<br>        removeWindow()<br>    &#125;<br>    <br>    <span class="hljs-comment">// 点击手势</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">adGuestureTargetAction</span>()</span> &#123;<br>        <span class="hljs-keyword">if</span> clickBlockHandle <span class="hljs-operator">!=</span> <span class="hljs-literal">nil</span> &#123;<br>            clickBlockHandle<span class="hljs-operator">!</span>()<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="加载方式"><a href="#加载方式" class="headerlink" title="加载方式"></a>加载方式</h3><p>在<code>AppDelgate</code>中的<code>didFinishLaunchingWithOptions</code>方法中调用方法。<br>我这为了适应变化的需要，提供了相对自由的显示方式</p>
+<p>底部的logo视图是可以自定义的，传入对应显示的高度即可。</p>
+<p>图片地址</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs perl">let imagePath = <span class="hljs-string">&quot;https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1567682065374&amp;di=4c2a4d2008a4e951b34b3d130db19d12&amp;imgtype=0&amp;src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201704%2F14%2F20170414155109_Cmz24.jpeg&quot;</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><p>仅显示图片</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">WDLaunchAD</span><span class="hljs-selector-class">.setup</span>(<span class="hljs-attribute">with</span>: .image, <span class="hljs-attribute">url</span>: imagePath, <span class="hljs-attribute">durition</span>: <span class="hljs-number">5</span>, <span class="hljs-attribute">bottomView</span>: WDLaunchADBottomLogoView(), <span class="hljs-attribute">buttomViewHeight</span>: <span class="hljs-number">180</span>) &#123;<br>    <span class="hljs-selector-tag">print</span>(<span class="hljs-string">&quot;✨ 点击了广告&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/3334769-d6fbb2567bb19116.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/375" srcset="/img/loading.gif" lazyload alt="仅显示图片"></p>
+</li>
+<li><p>显示图片与底部logo视图<br>底部视图代码</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-comment">// MARK: - 底部logo视图</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WDLaunchADBottomLogoView</span>: <span class="hljs-title">UIView</span> </span>&#123;<br>    <span class="hljs-comment">// logo</span><br>    <span class="hljs-keyword">let</span> logoImageView: <span class="hljs-type">UIImageView</span> <span class="hljs-operator">=</span> &#123;<br>        <span class="hljs-keyword">let</span> imageV <span class="hljs-operator">=</span> <span class="hljs-type">UIImageView</span>()<br>        imageV.image <span class="hljs-operator">=</span> <span class="hljs-type">UIImage</span>(named: <span class="hljs-string">&quot;nav-logo-4c7bbafe27adc892f3046e6978459bac&quot;</span>)<span class="hljs-operator">?</span>.withRenderingMode(.alwaysTemplate)<br>        imageV.tintColor <span class="hljs-operator">=</span> .red<br>        <span class="hljs-keyword">return</span> imageV<br>    &#125;()<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">init</span>(<span class="hljs-params">frame</span>: <span class="hljs-type">CGRect</span>)</span> &#123;<br>        <span class="hljs-keyword">super</span>.<span class="hljs-keyword">init</span>(frame: frame)<br>        setupSubviews()<br>        setupSubviewsLayouts()<br>    &#125;<br>    <br>    <span class="hljs-keyword">required</span> <span class="hljs-function"><span class="hljs-keyword">init?</span>(<span class="hljs-params">coder</span> <span class="hljs-params">aDecoder</span>: <span class="hljs-type">NSCoder</span>)</span> &#123;<br>        <span class="hljs-built_in">fatalError</span>(<span class="hljs-string">&quot;init(coder:) has not been implemented&quot;</span>)<br>    &#125;<br>&#125;<br><br><br><span class="hljs-comment">// MARK: 底部logo视图页面配置与布局</span><br><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">WDLaunchADBottomLogoView</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">setupSubviews</span>()</span> &#123;<br>        backgroundColor <span class="hljs-operator">=</span> .white<br>        addSubview(logoImageView)<br>        logoImageView.translatesAutoresizingMaskIntoConstraints <span class="hljs-operator">=</span> <span class="hljs-literal">false</span><br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">setupSubviewsLayouts</span>()</span> &#123;<br>        addConstraints([<br>            <span class="hljs-type">NSLayoutConstraint</span>(item: logoImageView, attribute: .centerX, relatedBy: .equal, toItem: <span class="hljs-keyword">self</span>, attribute: .centerX, multiplier: <span class="hljs-number">1</span>, constant: <span class="hljs-number">0</span>),<br>            <span class="hljs-type">NSLayoutConstraint</span>(item: logoImageView, attribute: .centerY, relatedBy: .equal, toItem: <span class="hljs-keyword">self</span>, attribute: .centerY, multiplier: <span class="hljs-number">1</span>, constant: <span class="hljs-number">0</span>)<br>        ])<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>加载代码</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">WDLaunchAD</span><span class="hljs-selector-class">.setup</span>(<span class="hljs-attribute">with</span>: .image, <span class="hljs-attribute">url</span>: imagePath, <span class="hljs-attribute">durition</span>: <span class="hljs-number">5</span>, <span class="hljs-attribute">bottomView</span>: WDLaunchADBottomLogoView(), <span class="hljs-attribute">buttomViewHeight</span>: <span class="hljs-number">180</span>) &#123;<br>    <span class="hljs-selector-tag">print</span>(<span class="hljs-string">&quot;✨ 点击了广告&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/3334769-50c5290afad2df1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/375" srcset="/img/loading.gif" lazyload alt="图片+底部logo视图"></p>
+</li>
+<li><p>加载视频<br>首先需要现在有网的环境缓存到本地，我这边的思想是，首次进入App默认加载图片，然后下载广告的视频到本地。再次进入的时候，判断是否是缓存的视频，是则进行播放。是否加载的<code>URL</code>与缓存的不同，则依旧加载图片，并下载最新<code>URL</code>下的视频。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">let</span> path = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">WDLaunchADDownloader</span>.</span></span>download<span class="hljs-constructor">Video(<span class="hljs-params">path</span>: <span class="hljs-string">&quot;http://wvideo.spriteapp.cn/video/2018/0514/eede6198571f11e8b5ca842b2b4c75ab_wpd.mp4&quot;</span>)</span><br>    <span class="hljs-keyword">if</span> path.count &gt; <span class="hljs-number">0</span> &#123;<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">WDLaunchAD</span>.</span></span>setup(<span class="hljs-keyword">with</span>: .video, url: path, durition: <span class="hljs-number">5</span>, bottomView: <span class="hljs-constructor">WDLaunchADBottomLogoView()</span>, buttomViewHeight: <span class="hljs-number">180</span>) &#123;<br>            print(<span class="hljs-string">&quot;✨ 点击了广告&quot;</span>)<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">WDLaunchAD</span>.</span></span>setup(<span class="hljs-keyword">with</span>: .image, url: imagePath, durition: <span class="hljs-number">5</span>, bottomView: <span class="hljs-constructor">WDLaunchADBottomLogoView()</span>, buttomViewHeight: <span class="hljs-number">180</span>) &#123;<br>            print(<span class="hljs-string">&quot;✨ 点击了广告&quot;</span>)<br>        &#125;<br> &#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>效果图，没有找到合适大小的视频就凑合着用了。</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/3334769-fad275cc7fe23ab3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/375" srcset="/img/loading.gif" lazyload alt="视频播放"></p>
+<blockquote>
+<p>说明:</p>
+<ol>
+<li>页面消失的动画，没有做过多的处理</li>
+<li>视频没有做循环播放</li>
+</ol>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/Swift/">Swift</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/Swift/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/">自定义控件</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/">自定义控件</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/01/iOS%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6-%E6%8F%90%E9%86%92%E6%9D%A1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS自定义控件：提醒条</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/06/01/iOS%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6-%E5%88%86%E6%AE%B5%E9%80%89%E6%8B%A9%E5%99%A8-Swift/">
+                        <span class="hidden-mobile">iOS自定义控件-分段选择器-Swift</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

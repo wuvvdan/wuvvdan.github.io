@@ -1,0 +1,531 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>iOS 面试题（八） - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="iOS 面试题（八）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-08-01 10:00" pubdate>
+        2018年8月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">iOS 面试题（八）</h1>
+            
+            <div class="markdown-body">
+              <p><img src="https://upload-images.jianshu.io/upload_images/3334769-f0679730c4864b7b.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="镇楼专用"></p>
+<h3 id="property"><a href="#property" class="headerlink" title="@property"></a>@property</h3><p>默认格式：<code>@syntheszie var = _var;</code></p>
+<p><code>ARC</code>中，默认修饰<br></p>
+<ul>
+<li>基本数据类型<code>@property (atomic, assign)</code><br></li>
+<li>对象数据类型<code>@property (atomic, strong)</code></li>
+</ul>
+<h3 id="修饰词解释"><a href="#修饰词解释" class="headerlink" title="修饰词解释"></a>修饰词解释</h3><ul>
+<li><p><code>nonatomic</code> 非原子性访问，不对set方法加锁，不是安全线程，但是性能高。</p>
+</li>
+<li><p><code>atomic</code> 原子性访问，对生成的 set 方法加互斥锁 @synchronized(锁对象），安全线程（不是绝对安全线程）,性能差。</p>
+</li>
+<li><p><code>strong</code>ARC中使用，修饰OC对象，<code>拥有关系</code>，引用计数器+1。</p>
+</li>
+<li><p><code>reatain</code>MRC中使用，修饰OC对象，<code>拥有关系</code>，引用计数器+1。</p>
+</li>
+<li><p><code>assign</code>修饰基础数据类型，直接赋值，<code>非拥有关系</code>，不使用引用计数器。</p>
+</li>
+<li><p><code>weak</code>修饰协议，控件，<code>非拥有关系</code>，指向的对象销毁，指针会自动置为nil，不使用引用计数器。</p>
+</li>
+<li><p><code>unsafe_unretained</code>与weak类似，不会自动nil化，如果所指向的内存区域被释放了，这个指针就是一个野指针。</p>
+</li>
+<li><p><code>copy</code>在 MRC 时是这样做的 release 旧对象( 旧对象的引用计数器 -1 ) , copy 新对象( 新对象的引用计数器 +1 ) , 然后指向新对象 .（新对象是指最终指向的那个对象，不管深拷贝还是浅拷贝），在 ARC 时是这么干的 copy 新对象( 新对象的引用计数器 +1 ) , 然后指向新对象。</p>
+</li>
+<li><p><code>readonly</code>只生成get方法，不想把暴露的属性被人随便替换时 , 可以使用。</p>
+</li>
+<li><p><code>readwrite</code>生成get/set方法。</p>
+</li>
+</ul>
+<h3 id="dynamic"><a href="#dynamic" class="headerlink" title="@dynamic"></a>@dynamic</h3><p>告诉编译器:属性的 setter 与 getter 方法由用户自己实现,不自动生成。(当然对于 readonly 的属性只需提供 getter 即可)</p>
+<h3 id="synthesize"><a href="#synthesize" class="headerlink" title="@synthesize"></a>@synthesize</h3><p>如果你没有手动实现 setter 方法和 getter 方法,那么编译器会自动为你加上这两个方法。</p>
+<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a>@synchronized</h3><p>线程同步锁</p>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>（1）什么情况使用 weak 关键字？相比 assign 有什么不同?</p>
+<ul>
+<li>使用<blockquote>
+<ol>
+<li>协议声明使用weak</li>
+<li>IBOutlet 使用weak</li>
+</ol>
+</blockquote>
+</li>
+<li>weak 和 assign 的不同点:<blockquote>
+<p>weak 策略在属性所指的对象遭到摧毁时,系统会将 weak 修饰的属性对象的指针指向 nil,在 OC 给 nil 发消息是不会有什么问题的;如果使用 assign 策略在属性所指的对象遭到摧毁时,属性对象指针还指向原来的对象,由于对象已经被销毁,这时候就产生了野指针,如果这时候在给此对象发送消息,很容造成程序奔溃assigin 可以用于修饰非 OC 对象,而 weak 必须用于 OC 对象。</p>
+</blockquote>
+</li>
+</ul>
+<p>（2）使用 atomic 一定是线程安全的吗?</p>
+<ul>
+<li>不是,atomic 的本意是指属性的存取方法是线程安全的,并不保证整个对象是线程安全的。<blockquote>
+<p>例如： 声明一个 NSMutableArray 的原子属性 stuff,此时 self.stuff 和 self.stuff =othersulf 都是线程安全的。但是,使用[self.stuff objectAtIndex:index]就不是线程安全的,需要用互斥锁来保证线程安全性。</p>
+</blockquote>
+</li>
+</ul>
+<p>（3）@synthesize 和 @dynamic 分别有什么作用</p>
+<ul>
+<li><p>@property 有两个对应的词,一个是@synthesize,一个是@dynamic。<br>如果@synthesize 和@dynamic 都没写,那么默认的就是<br>@syntheszie var = _var;</p>
+</li>
+<li><p>@synthesize 的语义是如果你没有手动实现 setter 方法和 getter 方法,那么编译器会自动为你加上这两个方法。</p>
+</li>
+<li><p>@dynamic 告诉编译器:属性的 setter 与 getter 方法由用户自己实现,不自动生成。(当然对于 readonly 的属性只需提供 getter 即可)</p>
+</li>
+<li><p>假如一个属性被声明为@dynamic var；然后你没有提供@setter 方法和@getter 方法,编译的时候没问题,但是当程序运行到 instance.var = someVar,由于缺 setter方法会导致程序崩溃;<br>或者当运行到 someVar = instance.var 时,由于缺 getter 方法同样会导致崩溃。</p>
+</li>
+</ul>
+<p>（4）ARC 下,不显式指定任何属性关键字时,默认的关键字都有哪些?</p>
+<ul>
+<li><p>基本数据：  <code>atomic,readwrite,assign</code></p>
+</li>
+<li><p>普通的 OC 对象: <code>atomic,readwrite,strong</code></p>
+</li>
+</ul>
+<p>（5）用@property 声明的 NSString(或 NSArray,NSDictionary)经常使用 copy 关键字,为什么?如果改用 strong 关键字,可能造成什么问题?</p>
+<blockquote>
+<p>因为父类指针可以指向子类对象,使用 copy 的目的是为了让本对象的属性不受外界影响,使用 copy 无论给我传入是一个可变对象还是不可对象,我本身持有的就是一个不可变的副本.</p>
+<p>如果我们使用是 strong,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么会影响该属性.</p>
+</blockquote>
+<p>（6）这个写法会出什么问题: @property(copy)NSMutableArray *array;</p>
+<blockquote>
+<p>因为 copy 策略拷贝出来的是一个不可变对象,然而却把它当成可变对象使用,很容易造成程序奔溃这里还有一个问题,该属性使用了同步锁,会在创建时生成一些额外的代码用于帮助编写多线程程序,这会带来性能问题,通过声明 nonatomic 可以节省这些虽然<br>很小但是不必要额外开销,在 iOS 开发中应该使用 nonatomic 替代 atomic.</p>
+</blockquote>
+<p>（7）如何让自定义类可以用 copy 修饰符?如何重写带 copy 关键字的 setter?</p>
+<blockquote>
+<p>若想令自己所写的对象具有拷贝功能,则需实现 NSCopying 协议。</p>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-comment">// 实现不可变版本拷贝</span><br>- (<span class="hljs-keyword">id</span>)copyWithZone:(<span class="hljs-built_in">NSZone</span> *)zone; <span class="hljs-comment">// 实现可变版本拷贝</span><br>- (<span class="hljs-keyword">id</span>)mutableCopyWithZone:(<span class="hljs-built_in">NSZone</span> *)zone;<br><span class="hljs-comment">// 重写带 copy 关键字的 setter</span><br>- (<span class="hljs-keyword">void</span>)setName:(<span class="hljs-built_in">NSString</span> *)name &#123;<br>    _name = [name <span class="hljs-keyword">copy</span>];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h3><h4 id="copy-和-mutableCopy"><a href="#copy-和-mutableCopy" class="headerlink" title="copy 和 mutableCopy"></a>copy 和 mutableCopy</h4><ul>
+<li><p><code>copy</code>拷贝出来的对象类型总是不可变类型(例如, NSString, NSDictionary, NSArray等等)</p>
+</li>
+<li><p><code>mutableCopy</code>拷贝出来的对象类型总是可变类型(例如, NSMutableString, NSMutableDictionary, NSMutableArray等等)</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><code>copy</code> 对于可变对象为深拷贝，对于不可变对象为浅拷贝</li>
+<li><code>mutableCopy</code> 始终是深拷贝</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/iOS/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/09/01/iOS%E5%8A%A8%E7%94%BB-Transition%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS动画-Transition转场动画</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/07/01/iOS%E9%9D%A2%E8%AF%95%E9%A2%98-007/">
+                        <span class="hidden-mobile">iOS 面试题（ 七）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

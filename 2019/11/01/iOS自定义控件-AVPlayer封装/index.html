@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/header.png">
+  <link rel="icon" href="/img/header.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+  <title>AVPlayer封装 - 今晚月色真美</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>今晚月色真美</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="AVPlayer封装">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-11-01 10:00" pubdate>
+        2019年11月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      41
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AVPlayer封装</h1>
+            
+            <div class="markdown-body">
+              <p><img src="https://upload-images.jianshu.io/upload_images/3334769-066df343391a04f5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="60920ddb4ccdca50074568b5ea54679f.jpg"></p>
+<p>最近在写关于音视频播放的案例，所以就趁机会研究了一下AVPlayer的内容。我封装的目前只能播放网络音视频。还未添加缓存，以后找机会研究一下再更新。代码中提供了音视频的上一曲、下一曲、暂停、开始、停止、单曲播放、顺序播放、随机播放等功能。代码写的不好，仅供参考~</p>
+<h3 id="代码接口文件"><a href="#代码接口文件" class="headerlink" title="代码接口文件"></a>代码接口文件</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;Foundation/Foundation.h&gt;</span></span><br><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;AVFoundation/AVFoundation.h&gt;</span></span><br><br><span class="hljs-built_in">NS_ASSUME_NONNULL_BEGIN</span><br><br><span class="hljs-comment">// 当前播放器的播放形式</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">NS_ENUM</span>(<span class="hljs-built_in">NSInteger</span>, MediaPlayType) &#123;<br>    MediaPlayTypeCycle,   <span class="hljs-comment">///&lt; 顺序</span><br>    MediaPlayTypeSingle,  <span class="hljs-comment">///&lt; 单曲循环</span><br>    MediaPlayTypeRandom   <span class="hljs-comment">///&lt; 随机播放</span><br>&#125;;<br><br><span class="hljs-comment">// 当前播放器的播放状态</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">NS_ENUM</span>(<span class="hljs-built_in">NSInteger</span>, MediaPlayStatus) &#123;<br>    MediaPlayStatusStop,        <span class="hljs-comment">///&lt; 停止播放</span><br>    MediaPlayStatusPause,       <span class="hljs-comment">///&lt; 暂停播放</span><br>    MediaPlayStatusPlaying      <span class="hljs-comment">///&lt; 正在播放</span><br>&#125;;<br><br><span class="hljs-comment">// 媒体加载状态</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">NS_ENUM</span>(<span class="hljs-built_in">NSInteger</span>, MediaLoadStatus) &#123;<br>    MediaLoadStatusReadyToPlay,  <span class="hljs-comment">///&lt; 准备播放</span><br>    MediaLoadStatusUnknown,      <span class="hljs-comment">///&lt; 未知</span><br>    MediaPlayStatusFailed        <span class="hljs-comment">///&lt; 失败</span><br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">@class</span> <span class="hljs-title">MediaPlyerManager</span>;</span><br><br><span class="hljs-class"><span class="hljs-keyword">@protocol</span> <span class="hljs-title">MediaPlyerManagerDelegate</span> &lt;<span class="hljs-title">NSObject</span>&gt;</span><br><span class="hljs-keyword">@optional</span><br><span class="hljs-comment">// 数据加载状态 根据状态进行播放或其他操作</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayer:(MediaPlyerManager *)playerManager playerItemStatus:(MediaLoadStatus)status;<br><span class="hljs-comment">// 缓冲进度</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayer:(MediaPlyerManager *)playerManager netBufferValue:(<span class="hljs-built_in">CGFloat</span>)value;<br><span class="hljs-comment">// 缓冲是否足够播放</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayer:(MediaPlyerManager *)playerManager bufferHasEnough:(<span class="hljs-built_in">BOOL</span>)enough;<br><span class="hljs-comment">// 当前播放的时间</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayer:(MediaPlyerManager *)playerManager currentPlayTime:(<span class="hljs-built_in">NSString</span> *)time currentPlayTimeValue:(<span class="hljs-built_in">CGFloat</span>)value;<br><span class="hljs-comment">// 播放总时间</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayer:(MediaPlyerManager *)playerManager mediaEndTime:(<span class="hljs-built_in">NSString</span> *)time mediaEndTimeValue:(<span class="hljs-built_in">CGFloat</span>)value;<br><span class="hljs-comment">// 播放结束</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayerCurrentMediaPlayFinish:(MediaPlyerManager *)playerManager;<br><span class="hljs-comment">// 播放状态</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayer:(MediaPlyerManager *)playerManager playeStatus:(MediaPlayStatus)status;<br><span class="hljs-comment">// 获取数据切换时获取正在播放的URL和当前的index</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayer:(MediaPlyerManager *)playerManager currentUrl:(<span class="hljs-built_in">NSString</span> *)url currentIndex:(<span class="hljs-built_in">NSInteger</span>)index;<br><span class="hljs-comment">// 为了配合手机后台播放 实时获取播放的进度，总的时间，当前的index&lt;通过index获取图片等信息&gt;</span><br>- (<span class="hljs-keyword">void</span>)MediaPlayer:(MediaPlyerManager *)playerManager currentProgressValue:(<span class="hljs-built_in">CGFloat</span>)value totalValue:(<span class="hljs-built_in">CGFloat</span>)totalValue currentIndex:(<span class="hljs-built_in">NSInteger</span>)index;<br><span class="hljs-keyword">@end</span><br><br><span class="hljs-keyword">typedef</span> MediaPlyerManager *(^playerCurrentTime)(<span class="hljs-built_in">NSString</span> *time);<br><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">MediaPlyerManager</span> : <span class="hljs-title">NSObject</span></span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">AVPlayer</span>                  *mediaPlayer;          <span class="hljs-comment">///&lt; 播放器</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">AVPlayerItem</span>              *meidaPlayerItem;      <span class="hljs-comment">///&lt; 播放器的CurrentItem</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">NSMutableArray</span>&lt;<span class="hljs-built_in">NSString</span>*&gt; *dataUrlArray;         <span class="hljs-comment">///&lt; 正在播放的列表数据</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readonly</span>) MediaPlayType              playType;             <span class="hljs-comment">///&lt; 当前播放类型</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readonly</span>) MediaPlayStatus            playStatus;           <span class="hljs-comment">///&lt; 当前播放状态</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">NSInteger</span>                  currentIndex;         <span class="hljs-comment">///&lt; 当前播放的索引</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">BOOL</span>                       isPlaying;            <span class="hljs-comment">///&lt; 是否在播放</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">CGFloat</span>                    curentPlayTimeValue;  <span class="hljs-comment">///&lt; 当前播放时间值</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">NSString</span>                    *curentPlayTime;       <span class="hljs-comment">///&lt; 当前播放时间</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">CGFloat</span>                    endPlayTimeValue;     <span class="hljs-comment">///&lt; 当前播放时间值</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>, <span class="hljs-keyword">readonly</span>) <span class="hljs-built_in">NSString</span>                    *endPlayTime;          <span class="hljs-comment">///&lt; 当前播放时间</span><br>+ (<span class="hljs-keyword">instancetype</span>)defaultManager;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> 列表播放 ⚠️&lt;默认不自动播放&gt;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> @param urls 文件路径数组</span><br><span class="hljs-comment"> @param delegate 回调代理</span><br><span class="hljs-comment"> @return MediaPlyerManager</span><br><span class="hljs-comment"> */</span><br>- (MediaPlyerManager *)playerWithUrls:(<span class="hljs-built_in">NSArray</span>&lt;<span class="hljs-built_in">NSString</span> *&gt; *)urls actionWithDelegate:(<span class="hljs-keyword">id</span>&lt;MediaPlyerManagerDelegate&gt;)delegate;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> 单个音视频播放 ⚠️&lt;默认不自动播放&gt;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> @param url 文件路径</span><br><span class="hljs-comment"> @param delegate 回调代理</span><br><span class="hljs-comment"> @return MediaPlyerManager</span><br><span class="hljs-comment"> */</span><br>- (MediaPlyerManager *)playerWithUrl:(<span class="hljs-built_in">NSString</span> *)url actionWithDelegate:(<span class="hljs-keyword">id</span>&lt;MediaPlyerManagerDelegate&gt;)delegate;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">    开始播放</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)play;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">    暂停播放</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)pause;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">    停止播放</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)stop;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">    下一曲</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)next;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">    上一曲</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)previous;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> 指定进度开始播放</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> @param progress 进度百分比</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)setupPlayerSeekToProgress:(<span class="hljs-built_in">CGFloat</span>)progress;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> 制定播放类型</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> @param type 类型</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)setupMediaPlayerType:(MediaPlayType)type;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> 指定播放的index</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> @param index 索引</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)setupPlayerIndex:(<span class="hljs-built_in">NSInteger</span>)index;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> 添加数据</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> @param files 文件数组</span><br><span class="hljs-comment"> @param index 索引</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)insertMediaFile:(<span class="hljs-built_in">NSArray</span>&lt;<span class="hljs-built_in">NSString</span> *&gt; *)files atIndex:(<span class="hljs-built_in">NSInteger</span>)index;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">    移除全部数据</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)removeAllFiles;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> 移除索引中的单个数据</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> @param index 索引</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)removeObjectAtIndex:(<span class="hljs-built_in">NSInteger</span>)index;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> 设置锁屏样式</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> @param coverImage 专辑图片</span><br><span class="hljs-comment"> @param size 显示大小</span><br><span class="hljs-comment"> @param title 标题</span><br><span class="hljs-comment"> @param author 专辑作者</span><br><span class="hljs-comment"> @param album 专辑名称</span><br><span class="hljs-comment"> @param currentTime 当前播放时间</span><br><span class="hljs-comment"> @param duration 播放总时长</span><br><span class="hljs-comment"> */</span><br>- (<span class="hljs-keyword">void</span>)setupLockScreenPlayInfo:(<span class="hljs-built_in">UIImage</span> *)coverImage<br>                      imageSize:(<span class="hljs-built_in">CGSize</span>)size<br>                          title:(<span class="hljs-built_in">NSString</span> *)title<br>                         ahthor:(<span class="hljs-built_in">NSString</span> *)author<br>                         album:(<span class="hljs-built_in">NSString</span> *)album<br>                currentPlayTime:(<span class="hljs-built_in">CGFloat</span>)currentTime<br>                       duration:(<span class="hljs-built_in">CGFloat</span>)duration;<br><span class="hljs-keyword">@end</span><br><br><span class="hljs-built_in">NS_ASSUME_NONNULL_END</span><br></code></pre></td></tr></table></figure>
+<h3 id="代码实现文件"><a href="#代码实现文件" class="headerlink" title="代码实现文件"></a>代码实现文件</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br></pre></td><td class="code"><pre><code class="hljs objectivec"><span class="hljs-meta">#import <span class="hljs-meta-string">&quot;MediaPlyerManager.h&quot;</span></span><br><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;MediaPlayer/MediaPlayer.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">MediaPlyerManager</span> ()</span><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>, <span class="hljs-keyword">readwrite</span>) <span class="hljs-built_in">NSMutableArray</span>&lt;<span class="hljs-built_in">NSString</span> *&gt; *dataUrlArray;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>, <span class="hljs-keyword">readwrite</span>) <span class="hljs-built_in">AVPlayer</span>                  *mediaPlayer;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readwrite</span>) <span class="hljs-built_in">BOOL</span>                      isPlaying;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>, <span class="hljs-keyword">readwrite</span>) <span class="hljs-built_in">AVPlayerItem</span>              *meidaPlayerItem;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readwrite</span>) MediaPlayType             playeType;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readwrite</span>) <span class="hljs-built_in">NSInteger</span>                 currentIndex;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readwrite</span>) MediaPlayStatus           playStatus;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readwrite</span>) <span class="hljs-built_in">CGFloat</span>                   curentPlayTimeValue;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>, <span class="hljs-keyword">readwrite</span>  ) <span class="hljs-built_in">NSString</span>                  *curentPlayTime;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">assign</span>, <span class="hljs-keyword">readwrite</span>) <span class="hljs-built_in">CGFloat</span>                   endPlayTimeValue;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">copy</span>, <span class="hljs-keyword">readwrite</span>  ) <span class="hljs-built_in">NSString</span>                  *endPlayTime;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">weak</span>             ) <span class="hljs-keyword">id</span> &lt;MediaPlyerManagerDelegate&gt; delegate;<br><span class="hljs-keyword">@end</span><br><br><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">MediaPlyerManager</span></span><br><br>+ (<span class="hljs-keyword">instancetype</span>)defaultManager &#123;<br>    <span class="hljs-keyword">static</span> <span class="hljs-built_in">dispatch_once_t</span> onceToken;<br>    <span class="hljs-keyword">static</span> MediaPlyerManager *manger;<br>    <span class="hljs-built_in">dispatch_once</span>(&amp;onceToken, ^&#123;<br>        manger = [[MediaPlyerManager alloc] init];<br>    &#125;);<br>    <span class="hljs-keyword">return</span> manger;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 初始化</span><br><br>- (MediaPlyerManager *)playerWithUrl:(<span class="hljs-built_in">NSString</span> *)url actionWithDelegate:(<span class="hljs-keyword">id</span>&lt;MediaPlyerManagerDelegate&gt;)delegate &#123;<br>    [<span class="hljs-keyword">self</span> playerWithUrls:@[url] actionWithDelegate:delegate];<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">self</span>;<br>&#125;<br><br>- (MediaPlyerManager *)playerWithUrls:(<span class="hljs-built_in">NSArray</span>&lt;<span class="hljs-built_in">NSString</span> *&gt; *)urls actionWithDelegate:(<span class="hljs-keyword">id</span>&lt;MediaPlyerManagerDelegate&gt;)delegate &#123;<br>    <span class="hljs-keyword">self</span>.delegate         = delegate;<br>    <span class="hljs-keyword">self</span>.currentIndex     = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">self</span>.dataUrlArray     = [<span class="hljs-built_in">NSMutableArray</span> array];<br>    <span class="hljs-built_in">NSMutableArray</span> *array = [<span class="hljs-built_in">NSMutableArray</span> arrayWithCapacity:urls.count];<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">NSString</span> *urlStr <span class="hljs-keyword">in</span> urls) &#123;<br>        [array addObject:[<span class="hljs-keyword">self</span> createPlayerItemWithUrl:urlStr]];<br>        [<span class="hljs-keyword">self</span>.dataUrlArray addObject:urlStr];<br>    &#125;<br>    <span class="hljs-keyword">self</span>.playeType = MediaPlayTypeCycle;<br>    <span class="hljs-keyword">self</span>.mediaPlayer = [[<span class="hljs-built_in">AVPlayer</span> alloc] initWithPlayerItem:array.firstObject];<br>    <span class="hljs-keyword">self</span>.meidaPlayerItem = <span class="hljs-keyword">self</span>.mediaPlayer.currentItem;<br>    [<span class="hljs-keyword">self</span> getCurrentIndex:<span class="hljs-keyword">self</span>.currentIndex];<br>    [<span class="hljs-keyword">self</span> addObserver];<br>    <br>    __<span class="hljs-keyword">weak</span> <span class="hljs-keyword">typeof</span>(<span class="hljs-keyword">self</span>) weakself = <span class="hljs-keyword">self</span>;<br>    [<span class="hljs-keyword">self</span>.mediaPlayer addPeriodicTimeObserverForInterval:<span class="hljs-built_in">CMTimeMake</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>) queue:<span class="hljs-literal">NULL</span> usingBlock:^(<span class="hljs-built_in">CMTime</span> time) &#123;<br>        <span class="hljs-built_in">NSString</span> *currentString = [weakself getStringFromCMTime:time];<br>        weakself.curentPlayTime = currentString;<br>        weakself.curentPlayTimeValue = (<span class="hljs-built_in">CGFloat</span>)time.value/time.timescale;        <br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 获取当前播放时间</span><br>        <span class="hljs-keyword">if</span> (weakself.delegate &amp;&amp; [weakself.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:currentPlayTime:currentPlayTimeValue:)]) &#123;<br>            [weakself.delegate MediaPlayer:weakself currentPlayTime:currentString currentPlayTimeValue:(<span class="hljs-built_in">CGFloat</span>)time.value/time.timescale];<br>        &#125;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 实时获取播放信息</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:currentProgressValue:totalValue:currentIndex:)]) &#123;<br>            [weakself.delegate MediaPlayer:weakself currentProgressValue:weakself.curentPlayTimeValue totalValue:weakself.endPlayTimeValue currentIndex:weakself.currentIndex];<br>        &#125;<br>    &#125;];<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">self</span>;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 播放结束</span><br><br>- (<span class="hljs-keyword">void</span>)playFinish:(<span class="hljs-built_in">NSNotification</span> *)notification &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayerCurrentMediaPlayFinish:)]) &#123;<br>        [<span class="hljs-keyword">self</span>.delegate MediaPlayerCurrentMediaPlayFinish:<span class="hljs-keyword">self</span>];<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.playeType == MediaPlayTypeSingle) &#123;<br>        [<span class="hljs-keyword">self</span>.mediaPlayer seekToTime:kCMTimeZero];<br>        [<span class="hljs-keyword">self</span> play];<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.currentIndex &lt; <span class="hljs-keyword">self</span>.dataUrlArray.count - <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-keyword">self</span>.currentIndex += <span class="hljs-number">1</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">self</span>.currentIndex = <span class="hljs-number">0</span>;<br>        &#125;<br>        [<span class="hljs-keyword">self</span>.mediaPlayer replaceCurrentItemWithPlayerItem:[<span class="hljs-keyword">self</span> createPlayerItemWithUrl:<span class="hljs-keyword">self</span>.dataUrlArray[<span class="hljs-keyword">self</span>.currentIndex]]];<br>        <span class="hljs-keyword">self</span>.meidaPlayerItem = <span class="hljs-keyword">self</span>.mediaPlayer.currentItem;<br>        [<span class="hljs-keyword">self</span> getCurrentIndex:<span class="hljs-keyword">self</span>.currentIndex];<br>        [<span class="hljs-keyword">self</span> play];<br>    &#125;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - KVO</span><br><br>- (<span class="hljs-keyword">void</span>)observeValueForKeyPath:(<span class="hljs-built_in">NSString</span> *)keyPath<br>                      ofObject:(<span class="hljs-keyword">id</span>)object<br>                        change:(<span class="hljs-built_in">NSDictionary</span>&lt;<span class="hljs-built_in">NSKeyValueChangeKey</span>,<span class="hljs-keyword">id</span>&gt; *)change<br>                       context:(<span class="hljs-keyword">void</span> *)context &#123;<br>    <br>    <span class="hljs-built_in">AVPlayerItem</span> *playerItem = object;<br>    <span class="hljs-keyword">if</span> ([keyPath isEqualToString:<span class="hljs-string">@&quot;status&quot;</span>]) &#123;<br>        MediaLoadStatus status = [change[<span class="hljs-string">@&quot;new&quot;</span>] integerValue];<br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 获取媒体加载状态</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:playerItemStatus:)]) &#123;<br>            [<span class="hljs-keyword">self</span>.delegate MediaPlayer:<span class="hljs-keyword">self</span> playerItemStatus:status];<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([keyPath isEqualToString:<span class="hljs-string">@&quot;loadedTimeRanges&quot;</span>]) &#123;<br>        <span class="hljs-built_in">NSArray</span> * timeRanges         = playerItem.loadedTimeRanges;<br>        <span class="hljs-built_in">CMTimeRange</span> timeRange        = [timeRanges.firstObject <span class="hljs-built_in">CMTimeRangeValue</span>];<br>        <span class="hljs-built_in">NSTimeInterval</span> totalLoadTime = <span class="hljs-built_in">CMTimeGetSeconds</span>(timeRange.start) \<br>                                                + <span class="hljs-built_in">CMTimeGetSeconds</span>(timeRange.duration);<br>        <span class="hljs-built_in">NSTimeInterval</span> duration      = <span class="hljs-built_in">CMTimeGetSeconds</span>(playerItem.duration);<br>        <span class="hljs-built_in">NSTimeInterval</span> scale         = totalLoadTime/duration;<br>        <br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 获取媒体总时间</span><br>        <span class="hljs-keyword">if</span> ((<span class="hljs-built_in">CGFloat</span>)duration/scale &gt;= <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">self</span>.endPlayTime = [<span class="hljs-keyword">self</span> getStringFromCMTime:playerItem.duration];<br>            <span class="hljs-keyword">self</span>.endPlayTimeValue = (<span class="hljs-built_in">CGFloat</span>)duration/scale;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:mediaEndTime:mediaEndTimeValue:)]) &#123;<br>                [<span class="hljs-keyword">self</span>.delegate MediaPlayer:<span class="hljs-keyword">self</span> mediaEndTime:[<span class="hljs-keyword">self</span> getStringFromCMTime:playerItem.duration] mediaEndTimeValue:(<span class="hljs-built_in">CGFloat</span>)duration/scale];<br>            &#125;<br>        &#125;<br>        <br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 缓冲百分比</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:netBufferValue:)]) &#123;<br>            [<span class="hljs-keyword">self</span>.delegate MediaPlayer:<span class="hljs-keyword">self</span> netBufferValue:scale];<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([keyPath isEqualToString:<span class="hljs-string">@&quot;playbackBufferEmpty&quot;</span>]) &#123;<br>        <br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 缓冲不足够播放</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:bufferHasEnough:)]) &#123;<br>            [<span class="hljs-keyword">self</span>.delegate MediaPlayer:<span class="hljs-keyword">self</span> bufferHasEnough:<span class="hljs-literal">false</span>];<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([keyPath isEqualToString:<span class="hljs-string">@&quot;playbackLikelyToKeepUp&quot;</span>]) &#123;<br>        <br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 缓冲足够播放</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:bufferHasEnough:)]) &#123;<br>            [<span class="hljs-keyword">self</span>.delegate MediaPlayer:<span class="hljs-keyword">self</span> bufferHasEnough:<span class="hljs-literal">true</span>];<br>        &#125;<br>    &#125;<br>&#125;<br><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 开始播放</span><br><br>- (<span class="hljs-keyword">void</span>)play &#123;<br>    [<span class="hljs-keyword">self</span>.mediaPlayer play];<br>    [<span class="hljs-keyword">self</span> getPlayStatus:MediaPlayStatusPlaying];<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 暂停播放</span><br><br>- (<span class="hljs-keyword">void</span>)pause &#123;<br>    [<span class="hljs-keyword">self</span>.mediaPlayer pause];<br>    [<span class="hljs-keyword">self</span> getPlayStatus:MediaPlayStatusPause];<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 停止播放</span><br><br>- (<span class="hljs-keyword">void</span>)stop &#123;<br>    [<span class="hljs-keyword">self</span>.mediaPlayer replaceCurrentItemWithPlayerItem:<span class="hljs-literal">nil</span>];<br>    [<span class="hljs-keyword">self</span> getPlayStatus:MediaPlayStatusStop];<br>    [<span class="hljs-keyword">self</span> removeObserver];<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 下一个</span><br><br>- (<span class="hljs-keyword">void</span>)next &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.playeType == MediaPlayTypeRandom) &#123;<br>        <span class="hljs-keyword">self</span>.currentIndex = (<span class="hljs-built_in">NSInteger</span>)arc4random_uniform((int32_t)(<span class="hljs-keyword">self</span>.dataUrlArray.count - <span class="hljs-number">1</span>));<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.currentIndex == <span class="hljs-keyword">self</span>.dataUrlArray.count - <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-keyword">self</span>.currentIndex = <span class="hljs-number">0</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">self</span>.currentIndex += <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125;<br>    [<span class="hljs-keyword">self</span>.mediaPlayer replaceCurrentItemWithPlayerItem:[<span class="hljs-keyword">self</span> createPlayerItemWithUrl:<span class="hljs-keyword">self</span>.dataUrlArray[<span class="hljs-keyword">self</span>.currentIndex]]];<br>    <span class="hljs-keyword">self</span>.meidaPlayerItem = <span class="hljs-keyword">self</span>.mediaPlayer.currentItem;<br>    [<span class="hljs-keyword">self</span> getCurrentIndex:<span class="hljs-keyword">self</span>.currentIndex];<br>    [<span class="hljs-keyword">self</span> addObserver];<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 上一个</span><br><br>- (<span class="hljs-keyword">void</span>)previous &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.playeType == MediaPlayTypeRandom) &#123;<br>        <span class="hljs-keyword">self</span>.currentIndex = (<span class="hljs-built_in">NSInteger</span>)arc4random_uniform((int32_t)(<span class="hljs-keyword">self</span>.dataUrlArray.count - <span class="hljs-number">1</span>));<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.currentIndex == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">self</span>.currentIndex = <span class="hljs-keyword">self</span>.dataUrlArray.count - <span class="hljs-number">1</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">self</span>.currentIndex -= <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125;<br>    [<span class="hljs-keyword">self</span>.mediaPlayer replaceCurrentItemWithPlayerItem:[<span class="hljs-keyword">self</span> createPlayerItemWithUrl:<span class="hljs-keyword">self</span>.dataUrlArray[<span class="hljs-keyword">self</span>.currentIndex]]];<br>    <span class="hljs-keyword">self</span>.meidaPlayerItem = <span class="hljs-keyword">self</span>.mediaPlayer.currentItem;<br>    [<span class="hljs-keyword">self</span> getCurrentIndex:<span class="hljs-keyword">self</span>.currentIndex];<br>    [<span class="hljs-keyword">self</span> addObserver];<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 播放状态</span><br><br>- (<span class="hljs-keyword">void</span>)getPlayStatus:(MediaPlayStatus)status &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:playeStatus:)]) &#123;<br>        [<span class="hljs-keyword">self</span>.delegate MediaPlayer:<span class="hljs-keyword">self</span> playeStatus:status];<br>    &#125;<br>    <span class="hljs-keyword">self</span>.playStatus = status;<br><br>    <span class="hljs-keyword">if</span> (status == MediaPlayStatusPlaying) &#123;<br>        <span class="hljs-keyword">self</span>.isPlaying = <span class="hljs-literal">true</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">self</span>.isPlaying = <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 根据index进行回调</span><br><br>- (<span class="hljs-keyword">void</span>)getCurrentIndex:(<span class="hljs-built_in">NSInteger</span>)index &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.delegate &amp;&amp; [<span class="hljs-keyword">self</span>.delegate respondsToSelector:<span class="hljs-keyword">@selector</span>(MediaPlayer:currentUrl:currentIndex:)]) &#123;<br>        [<span class="hljs-keyword">self</span>.delegate MediaPlayer:<span class="hljs-keyword">self</span> currentUrl:<span class="hljs-keyword">self</span>.dataUrlArray[index] currentIndex:index];<br>    &#125;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 设置播放进度百分比</span><br><br>- (<span class="hljs-keyword">void</span>)setupPlayerSeekToProgress:(<span class="hljs-built_in">CGFloat</span>)progress &#123;<br>    <span class="hljs-keyword">float</span> timeValue = progress * <span class="hljs-built_in">CMTimeGetSeconds</span>(<span class="hljs-keyword">self</span>.mediaPlayer.currentItem.duration);<br>    [<span class="hljs-keyword">self</span>.mediaPlayer seekToTime:<span class="hljs-built_in">CMTimeMake</span>(timeValue, <span class="hljs-number">1</span>)];<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 设置播放形式</span><br><br>- (<span class="hljs-keyword">void</span>)setupMediaPlayerType:(MediaPlayType)type &#123;<br>    <span class="hljs-keyword">self</span>.playeType = type;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 播放指定index的媒体</span><br><br>- (<span class="hljs-keyword">void</span>)setupPlayerIndex:(<span class="hljs-built_in">NSInteger</span>)index &#123;<br>    <span class="hljs-keyword">if</span> (index &gt; (<span class="hljs-keyword">self</span>.dataUrlArray.count - <span class="hljs-number">1</span>)) &#123;<br>        <span class="hljs-keyword">@throw</span> [<span class="hljs-built_in">NSException</span> exceptionWithName:<span class="hljs-string">@&quot;越界错误&quot;</span> reason:<span class="hljs-string">@&quot;index 不能超出URL数组的长度&quot;</span> userInfo:<span class="hljs-literal">nil</span>];<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-keyword">self</span>.currentIndex = index;<br>    [<span class="hljs-keyword">self</span>.mediaPlayer replaceCurrentItemWithPlayerItem:[<span class="hljs-keyword">self</span> createPlayerItemWithUrl:<span class="hljs-keyword">self</span>.dataUrlArray[<span class="hljs-keyword">self</span>.currentIndex]]];<br>    <span class="hljs-keyword">self</span>.meidaPlayerItem = <span class="hljs-keyword">self</span>.mediaPlayer.currentItem;<br>    [<span class="hljs-keyword">self</span> getCurrentIndex:<span class="hljs-keyword">self</span>.currentIndex];<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 插入数据</span><br><br>- (<span class="hljs-keyword">void</span>)insertMediaFile:(<span class="hljs-built_in">NSArray</span>&lt;<span class="hljs-built_in">NSString</span> *&gt; *)files atIndex:(<span class="hljs-built_in">NSInteger</span>)index &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">NSString</span> *urlStr <span class="hljs-keyword">in</span> files) &#123;<br>        <span class="hljs-built_in">NSInteger</span> i = [files indexOfObject:urlStr];<br>        [<span class="hljs-keyword">self</span>.dataUrlArray insertObject:urlStr atIndex:index + i];<br>    &#125;<br>    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-keyword">self</span>.currentIndex) &#123;<br>        <span class="hljs-keyword">self</span>.currentIndex += <span class="hljs-number">1</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 删除数据</span><br><br>- (<span class="hljs-keyword">void</span>)removeAllFiles &#123;<br>    [<span class="hljs-keyword">self</span> stop];<br>    [<span class="hljs-keyword">self</span>.dataUrlArray removeAllObjects];<br>    <span class="hljs-keyword">self</span>.dataUrlArray = [<span class="hljs-built_in">NSMutableArray</span> array];<br>    <span class="hljs-keyword">self</span>.currentIndex = <span class="hljs-number">0</span>;<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)removeObjectAtIndex:(<span class="hljs-built_in">NSInteger</span>)index &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.dataUrlArray.count == <span class="hljs-number">1</span>) &#123;<br>        [<span class="hljs-keyword">self</span> removeAllFiles];<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        [<span class="hljs-keyword">self</span>.dataUrlArray removeObjectAtIndex:index];<br>        <span class="hljs-keyword">if</span> (index == <span class="hljs-keyword">self</span>.currentIndex) &#123;<br>            <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-keyword">self</span>.currentIndex = <span class="hljs-number">0</span>;<br>                [<span class="hljs-keyword">self</span> next];<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">self</span>.currentIndex -= <span class="hljs-number">1</span>;<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.currentIndex &gt; index) &#123;<br>                <span class="hljs-keyword">self</span>.currentIndex -= <span class="hljs-number">1</span>;<br>            &#125; <br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - Utils</span><br><br>- (<span class="hljs-built_in">NSString</span> *)getStringFromCMTime:(<span class="hljs-built_in">CMTime</span>)time &#123;<br>    <span class="hljs-keyword">float</span> currentTimeValue       = (<span class="hljs-built_in">CGFloat</span>)time.value/time.timescale;<br>    <span class="hljs-built_in">NSDate</span> * currentDate         = [<span class="hljs-built_in">NSDate</span> dateWithTimeIntervalSince1970:currentTimeValue];<br>    <span class="hljs-built_in">NSCalendar</span> *calendar         = [[<span class="hljs-built_in">NSCalendar</span> alloc] initWithCalendarIdentifier:<span class="hljs-built_in">NSCalendarIdentifierGregorian</span>];<br>    <span class="hljs-built_in">NSInteger</span> unitFlags          = <span class="hljs-built_in">NSCalendarUnitHour</span> | <span class="hljs-built_in">NSCalendarUnitMinute</span> | <span class="hljs-built_in">NSCalendarUnitSecond</span>;<br>    <span class="hljs-built_in">NSDateComponents</span> *components = [calendar components:unitFlags fromDate:currentDate];<br>    <span class="hljs-keyword">if</span> (currentTimeValue &gt;= <span class="hljs-number">3600</span> ) &#123;<br>        <span class="hljs-keyword">return</span> [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;%02ld:%02ld:%02ld&quot;</span>, (<span class="hljs-keyword">long</span>)components.hour, (<span class="hljs-keyword">long</span>)components.minute, (<span class="hljs-keyword">long</span>)components.second];<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> [<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;%02ld:%02ld&quot;</span>, (<span class="hljs-keyword">long</span>)components.minute, (<span class="hljs-keyword">long</span>)components.second];<br>    &#125;<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)addObserver &#123;<br>    <span class="hljs-comment">// 监控状态属性</span><br>    [<span class="hljs-keyword">self</span>.meidaPlayerItem addObserver:<span class="hljs-keyword">self</span><br>                           forKeyPath:<span class="hljs-string">@&quot;status&quot;</span><br>                              options:(<span class="hljs-built_in">NSKeyValueObservingOptionOld</span>|<span class="hljs-built_in">NSKeyValueObservingOptionNew</span>)<br>                              context:<span class="hljs-literal">nil</span>];<br>    <br>    <span class="hljs-comment">// 监控缓冲加载情况属性</span><br>    [<span class="hljs-keyword">self</span>.meidaPlayerItem addObserver:<span class="hljs-keyword">self</span><br>                           forKeyPath:<span class="hljs-string">@&quot;loadedTimeRanges&quot;</span><br>                              options:(<span class="hljs-built_in">NSKeyValueObservingOptionOld</span>|<span class="hljs-built_in">NSKeyValueObservingOptionNew</span>)<br>                              context:<span class="hljs-literal">nil</span>];<br>    <br>    <span class="hljs-comment">// 监听缓冲不足够播放</span><br>    [<span class="hljs-keyword">self</span>.meidaPlayerItem addObserver:<span class="hljs-keyword">self</span><br>                           forKeyPath:<span class="hljs-string">@&quot;playbackBufferEmpty&quot;</span><br>                              options:<span class="hljs-built_in">NSKeyValueObservingOptionNew</span><br>                              context:<span class="hljs-literal">nil</span>];<br>    <br>    <span class="hljs-comment">// 监听缓冲足够播放</span><br>    [<span class="hljs-keyword">self</span>.meidaPlayerItem addObserver:<span class="hljs-keyword">self</span><br>                           forKeyPath:<span class="hljs-string">@&quot;playbackLikelyToKeepUp&quot;</span><br>                              options:<span class="hljs-built_in">NSKeyValueObservingOptionNew</span><br>                              context:<span class="hljs-literal">nil</span>];<br>    <br>    <span class="hljs-comment">// 获取是否播放结束</span><br>    [[<span class="hljs-built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="hljs-keyword">self</span><br>                                             selector:<span class="hljs-keyword">@selector</span>(playFinish:)<br>                                                 name:<span class="hljs-built_in">AVPlayerItemDidPlayToEndTimeNotification</span><br>                                               object:<span class="hljs-keyword">self</span>.meidaPlayerItem];<br>&#125;<br><br>- (<span class="hljs-keyword">void</span>)removeObserver &#123;<br>    [[<span class="hljs-built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="hljs-keyword">self</span>];<br>    <span class="hljs-keyword">@try</span> &#123;<br>        [<span class="hljs-keyword">self</span>.meidaPlayerItem removeObserver:<span class="hljs-keyword">self</span> forKeyPath:<span class="hljs-string">@&quot;loadedTimeRanges&quot;</span>];<br>        [<span class="hljs-keyword">self</span>.meidaPlayerItem removeObserver:<span class="hljs-keyword">self</span> forKeyPath:<span class="hljs-string">@&quot;playbackBufferEmpty&quot;</span>];<br>        [<span class="hljs-keyword">self</span>.meidaPlayerItem removeObserver:<span class="hljs-keyword">self</span> forKeyPath:<span class="hljs-string">@&quot;playbackLikelyToKeepUp&quot;</span>];<br>        [<span class="hljs-keyword">self</span>.meidaPlayerItem removeObserver:<span class="hljs-keyword">self</span> forKeyPath:<span class="hljs-string">@&quot;status&quot;</span>];<br>    &#125;<br>    <span class="hljs-keyword">@catch</span>(<span class="hljs-built_in">NSException</span> *exception) &#123;<br>        <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@&quot;%@&quot;</span>, exception);<br>    &#125; <br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> mark - 设置锁屏样式</span><br><br>- (<span class="hljs-keyword">void</span>)setupLockScreenPlayInfo:(<span class="hljs-built_in">UIImage</span> *)coverImage<br>                      imageSize:(<span class="hljs-built_in">CGSize</span>)size<br>                          title:(<span class="hljs-built_in">NSString</span> *)title<br>                         ahthor:(<span class="hljs-built_in">NSString</span> *)author<br>                          album:(<span class="hljs-built_in">NSString</span> *)album<br>                currentPlayTime:(<span class="hljs-built_in">CGFloat</span>)currentTime<br>                       duration:(<span class="hljs-built_in">CGFloat</span>)duration &#123;<br>    <br>    Class playingInfoCenter = <span class="hljs-built_in">NSClassFromString</span>(<span class="hljs-string">@&quot;MPNowPlayingInfoCenter&quot;</span>);<br>    <span class="hljs-keyword">if</span> (playingInfoCenter) &#123;<br>        <span class="hljs-built_in">NSMutableDictionary</span> *songInfo = [[<span class="hljs-built_in">NSMutableDictionary</span> alloc] init];<br>        <span class="hljs-built_in">MPMediaItemArtwork</span> *albumArt = [[<span class="hljs-built_in">MPMediaItemArtwork</span> alloc] initWithBoundsSize:size requestHandler:^<span class="hljs-built_in">UIImage</span> * _Nonnull(<span class="hljs-built_in">CGSize</span> size) &#123;<br>            <span class="hljs-keyword">return</span> coverImage;<br>        &#125;];<br>        [songInfo setObject:title forKey:<span class="hljs-built_in">MPMediaItemPropertyTitle</span>];<br>        [songInfo setObject:author forKey:<span class="hljs-built_in">MPMediaItemPropertyArtist</span>];<br>        [songInfo setObject:album forKey:<span class="hljs-built_in">MPMediaItemPropertyAlbumTitle</span>];<br>        [songInfo setObject:albumArt forKey:<span class="hljs-built_in">MPMediaItemPropertyArtwork</span>];<br>        [songInfo setObject:[<span class="hljs-built_in">NSNumber</span> numberWithDouble:currentTime] forKey:<span class="hljs-built_in">MPNowPlayingInfoPropertyElapsedPlaybackTime</span>];<br>        [songInfo setObject:[<span class="hljs-built_in">NSNumber</span> numberWithDouble:duration] forKey:<span class="hljs-built_in">MPMediaItemPropertyPlaybackDuration</span>];<br>        [[<span class="hljs-built_in">MPNowPlayingInfoCenter</span> defaultCenter] setNowPlayingInfo:songInfo];<br>    &#125;<br>&#125;<br><br>- (<span class="hljs-built_in">AVPlayerItem</span> *)createPlayerItemWithUrl:(<span class="hljs-built_in">NSString</span> *)url &#123;<br>    <span class="hljs-keyword">return</span> [<span class="hljs-built_in">AVPlayerItem</span> playerItemWithURL:[<span class="hljs-built_in">NSURL</span> URLWithString:url]];<br>&#125;<br><br><span class="hljs-keyword">@end</span><br></code></pre></td></tr></table></figure>
+<h3 id="提问"><a href="#提问" class="headerlink" title="提问"></a>提问</h3><p>本来相同使用AVQueuePlayer来进行列表播放的，但是当做单曲循环的时候遇到问题：通过通知监听播放完成，在通知的方法里进行具体操作，但是设置无效，直接播放的还是下一个文件。如果有人知道如何解决，帮忙回复一下。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/">Objective-C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/iOS/">iOS</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Objective-C/iOS/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/">自定义控件</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/">自定义控件</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/01/iOS%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E7%B1%BB%E4%B8%8B%E6%8B%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">iOS自定义控件：自定义分类下拉</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/01/iOS%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6-%E8%87%AA%E5%AE%9A%E4%B9%89Alter%E5%BC%B9%E7%AA%97/">
+                        <span class="hidden-mobile">iOS自定义控件：自定义Alter弹窗</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
