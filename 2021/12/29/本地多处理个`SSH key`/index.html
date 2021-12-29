@@ -18,7 +18,7 @@
   <meta name="author" content="">
   <meta name="keywords" content="">
   
-  <title>iOS 动画-CAAniamtion的属性和使用 - 今晚月色真美</title>
+  <title>今晚月色真美</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="iOS 动画-CAAniamtion的属性和使用">
+            <span class="h2" id="subtitle" title="">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2019-01-01 10:00" pubdate>
-        2019年1月1日 上午
+      <time datetime="2021-12-29 10:39" pubdate>
+        2021年12月29日 上午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      904 字
+      264 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      3
        分钟
     </span>
   
@@ -225,105 +225,39 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">iOS 动画-CAAniamtion的属性和使用</h1>
+            <h1 style="display: none"></h1>
             
             <div class="markdown-body">
-              <h2 id="CAAnimation"><a href="#CAAnimation" class="headerlink" title="CAAnimation"></a>CAAnimation</h2><p>CAAnimation是所有动画对象的父类，负责控制动画的持续时间和速度，是个抽象类，不能直接使用，应该使用它具体的子类。</p>
-<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><blockquote>
-<ul>
-<li><p>duration：动画的持续时间</p>
-</li>
-<li><p>repeatCount：动画的重复次数</p>
-</li>
-<li><p>repeatDuration：动画的重复时间</p>
-</li>
-<li><p>removedOnCompletion：默认为YES，代表动画执行完毕后就从图层上移除，图形会恢复到动画执行前的状态。如果想让图层保持显示动画执行后的状态，那就设置为NO，不过还要设置fillMode为kCAFillModeForwards</p>
-</li>
-<li><p>fillMode：决定当前对象在非active时间段的行为。比如动画开始之前,动画结束之后</p>
-</li>
-<li><p>beginTime：可以用来设置动画延迟执行时间，若想延迟2s，就设置为CACurrentMediaTime()+2，CACurrentMediaTime()为图层的当前时间</p>
-</li>
-<li><p>timingFunction：速度控制函数，控制动画运行的节奏</p>
-</li>
-<li><p>delegate：动画代理</p>
-</li>
-</ul>
-</blockquote>
-<h2 id="子类"><a href="#子类" class="headerlink" title="子类"></a>子类</h2><h3 id="1-CAPropertyAnimation"><a href="#1-CAPropertyAnimation" class="headerlink" title="1.CAPropertyAnimation"></a>1.CAPropertyAnimation</h3><p>是CAAnimation的子类，也是个抽象类，要想创建动画对象，应该使用它的两个子类：CABasicAnimation和CAKeyframeAnimation。</p>
-<blockquote>
-<ul>
-<li>keyPath 通过指定CALayer的一个属性名称为keyPath(NSString类型)，并且对CALayer的这个属性的值进行修改，达到相应的动画效果。比如，指定@”position”为keyPath，就修改CALayer的position属性的值，以达到平移的动画效果。</li>
-</ul>
-</blockquote>
-<h3 id="2-CABasicAnimation"><a href="#2-CABasicAnimation" class="headerlink" title="2.CABasicAnimation"></a>2.CABasicAnimation</h3><blockquote>
-<ul>
-<li><p>fromValue：keyPath相应属性的初始值。</p>
-</li>
-<li><p>toValue：keyPath相应属性的结束值。</p>
-</li>
-<li><p>随着动画的进行，在长度为duration的持续时间内，keyPath相应属性的值从fromValue渐渐地变为toValue。</p>
-</li>
-<li><p>如果fillMode=kCAFillModeForwards和removedOnComletion=NO，那么在动画执行完毕后，图层会保持显示动画执行后的状态。但在实质上，图层的属性值还是动画执行前的初始值，并没有真正被改变。比如，CALayer的position初始值为(0,0)，CABasicAnimation的fromValue为(10,10)，toValue为(100,100)，虽然动画执行完毕后图层保持在(100,100)这个位置，实质上图层的position还是为(0,0)。</p>
-</li>
-</ul>
-</blockquote>
-<h3 id="3-CAKeyframeAnimation"><a href="#3-CAKeyframeAnimation" class="headerlink" title="3.CAKeyframeAnimation"></a>3.CAKeyframeAnimation</h3><p>CApropertyAnimation的子类，跟CABasicAnimation的区别是：CABasicAnimation只能从一个数值(fromValue)变到另一个数值(toValue)，而CAKeyframeAnimation会使用一个NSArray保存这些数值。</p>
-<blockquote>
-<ul>
-<li><p>values：就是上述的NSArray对象。里面的元素称为”关键帧”(keyframe)。动画对象会在指定的时间(duration)内，依次显示values数组中的每一个关键帧。</p>
-</li>
-<li><p>path：可以设置一个CGPathRef\CGMutablePathRef,让层跟着路径移动。path只对CALayer的anchorPoint和position起作用。如果你设置了path，那么values将被忽略。</p>
-</li>
-<li><p>keyTimes：可以为对应的关键帧指定对应的时间点,其取值范围为0到1.0,keyTimes中的每一个时间值都对应values中的每一帧.当keyTimes没有设置的时候,各个关键帧的时间是平分的。</p>
-</li>
-<li><p>CABasicAnimation可看做是最多只有2个关键帧的CAKeyframeAnimation。</p>
-</li>
-</ul>
-</blockquote>
-<h3 id="4-CAAnimationGroup"><a href="#4-CAAnimationGroup" class="headerlink" title="4.CAAnimationGroup"></a>4.CAAnimationGroup</h3><p>CAAnimation的子类，可以保存一组动画对象，将CAAnimationGroup对象加入层后，组中所有动画对象可以同时并发运行。</p>
-<blockquote>
-<ul>
-<li><p>animations：用来保存一组动画对象的NSArray。</p>
-</li>
-<li><p>默认情况下，一组动画对象是同时运行的，也可以通过设置动画对象的beginTime属性来更改动画的开始时间。</p>
-</li>
-</ul>
-</blockquote>
-<h3 id="5-CATransition"><a href="#5-CATransition" class="headerlink" title="5.CATransition"></a>5.CATransition</h3><p>CAAnimation的子类，用于做转场动画，能够为层提供移出屏幕和移入屏幕的动画效果。iOS比Mac OS X的转场动画效果少一点。UINavigationController就是通过CATransition实现了将控制器的视图推入屏幕的动画效果。</p>
-<blockquote>
-<ul>
-<li><p>type：动画过渡类型。</p>
-</li>
-<li><p>subtype：动画过渡方向。</p>
-</li>
-<li><p>startProgress：动画起点(在整体动画的百分比)。</p>
-</li>
-<li><p>endProgress：动画终点(在整体动画的百分比)。</p>
-</li>
-</ul>
-</blockquote>
+              <h2 id=""><a href="#" class="headerlink" title=""></a></h2><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs subunit">title : 本地多处理个`SSH key`<br><br>date: 2021年12月29日11:14:54<br><br><span class="hljs-keyword">tags:</span> <br>-  git<br>- 开发技巧<br>categories:<br> - 开发技巧<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="一、创建方式"><a href="#一、创建方式" class="headerlink" title="一、创建方式"></a>一、创建方式</h4><p>创建默认<code>id_rsa</code>:<code>ssh-keygen -t rsa -C &#39;邮箱地址&#39;</code></p>
+<p>创建特殊需要的<code>ssh key</code>命名例如<code>test</code>，创建方式为<code>ssh-keygen -t rsa -C &#39;邮箱地址&#39; -f ~/.ssh/test</code></p>
+<h4 id="二、设置配置"><a href="#二、设置配置" class="headerlink" title="二、设置配置"></a>二、设置配置</h4><p>在目<code>~/.ssh</code>下创建<code>config</code>文件，里面填充内容实例：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-comment"># 默认 id_rsa</span><br>Host github.com<br>HostName github.com<br>PreferredAuthentications publickey<br>IdentityFile ~<span class="hljs-regexp">/.ssh/id</span>_rsa<br><br><span class="hljs-comment"># 特殊需要 key 名称为test</span><br>Host test.github.com<br>HostName github.com<br>PreferredAuthentications publickey<br>IdentityFile ~<span class="hljs-regexp">/.ssh/test</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="三、添加到github"><a href="#三、添加到github" class="headerlink" title="三、添加到github"></a>三、添加到<code>github</code></h4><p>此处就正常的在 github-&gt; settings-&gt;SSH And GPG keys中添加就好</p>
+<h4 id="四、使用"><a href="#四、使用" class="headerlink" title="四、使用"></a>四、使用</h4><h4 id="1-拉取代码"><a href="#1-拉取代码" class="headerlink" title="1. 拉取代码"></a>1. 拉取代码</h4><p>默认<code>id_rsa</code>: </p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby">git clone git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>仓库名称 <span class="hljs-comment">#例如：git<span class="hljs-doctag">@github</span>.com:name/name.github.io.git</span><br></code></pre></td></tr></table></figure>
+
+<p>特殊<code>test</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby">git clone git<span class="hljs-variable">@test</span>.github.<span class="hljs-symbol">com:</span>仓库名称 <span class="hljs-comment">#例如：git<span class="hljs-doctag">@test</span>.github.com:name/name.github.io.git</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-本地关联远程"><a href="#2-本地关联远程" class="headerlink" title="2. 本地关联远程"></a>2. 本地关联远程</h4><p>默认<code>id_rsa</code>: </p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby">git remote add origin git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>仓库名称 <span class="hljs-comment">#例如：git<span class="hljs-doctag">@github</span>.com:name/name.github.io.git</span><br></code></pre></td></tr></table></figure>
+
+<p>特殊<code>test</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby">git remote add origin git<span class="hljs-variable">@test</span>.github.<span class="hljs-symbol">com:</span>仓库名称 <span class="hljs-comment">#例如：git<span class="hljs-doctag">@test</span>.github.com:name/name.github.io.git</span><br></code></pre></td></tr></table></figure>
+
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/iOS/">iOS</a>
-                    
-                      <a class="hover-with-bg" href="/categories/iOS/%E5%8A%A8%E7%94%BB/">动画</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%8A%A8%E7%94%BB/">动画</a>
-                    
-                  </div>
                 
               </div>
               
@@ -332,18 +266,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/02/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B-NSOperation/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">iOS多线程-NSOperation</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2018/12/01/iOS%E5%8A%A8%E7%94%BB-CALayer%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E4%BD%BF%E7%94%A8(%E6%9C%AA%E5%AE%8C%E7%BB%93)/">
-                        <span class="hidden-mobile">iOS动画-CALayer的属性和使用(未完结)</span>
+                      <a href="/2021/10/11/Vue%20%E4%B9%8BElement%EF%BC%88%E9%A5%BF%E4%BA%86%E5%90%97%20Web%20%E6%A1%86%E6%9E%B6%EF%BC%89%E4%BD%BF%E7%94%A8-1/">
+                        <span class="hidden-mobile">Vue 之Element（饿了吗 Web 框架）使用-1</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
