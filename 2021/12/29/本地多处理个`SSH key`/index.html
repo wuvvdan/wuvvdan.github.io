@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      264 字
+      265 字
     </span>
   
 
@@ -228,10 +228,16 @@
             <h1 style="display: none"></h1>
             
             <div class="markdown-body">
-              <h2 id=""><a href="#" class="headerlink" title=""></a></h2><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs subunit">title : 本地多处理个`SSH key`<br><br>date: 2021年12月29日11:14:54<br><br><span class="hljs-keyword">tags:</span> <br>-  git<br>- 开发技巧<br>categories:<br> - 开发技巧<br></code></pre></td></tr></table></figure>
-
-
-
+              <hr>
+<p>title : 本地多处理个<code>SSH key</code></p>
+<p>date: 2021年12月29日11:14:54</p>
+<p>tags: </p>
+<ul>
+<li> git</li>
+<li>开发技巧<br>categories:</li>
+<li>开发技巧</li>
+</ul>
+<hr>
 <h4 id="一、创建方式"><a href="#一、创建方式" class="headerlink" title="一、创建方式"></a>一、创建方式</h4><p>创建默认<code>id_rsa</code>:<code>ssh-keygen -t rsa -C &#39;邮箱地址&#39;</code></p>
 <p>创建特殊需要的<code>ssh key</code>命名例如<code>test</code>，创建方式为<code>ssh-keygen -t rsa -C &#39;邮箱地址&#39; -f ~/.ssh/test</code></p>
 <h4 id="二、设置配置"><a href="#二、设置配置" class="headerlink" title="二、设置配置"></a>二、设置配置</h4><p>在目<code>~/.ssh</code>下创建<code>config</code>文件，里面填充内容实例：</p>
