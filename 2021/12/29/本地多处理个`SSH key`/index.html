@@ -18,7 +18,7 @@
   <meta name="author" content="">
   <meta name="keywords" content="">
   
-  <title>今晚月色真美</title>
+  <title>本地多处理个`SSH key` - 今晚月色真美</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="">
+            <span class="h2" id="subtitle" title="本地多处理个`SSH key`">
               
             </span>
 
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      265 字
+      238 字
     </span>
   
 
@@ -225,20 +225,10 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">本地多处理个`SSH key`</h1>
             
             <div class="markdown-body">
-              <hr>
-<p>title : 本地多处理个<code>SSH key</code></p>
-<p>date: 2021年12月29日11:14:54</p>
-<p>tags: </p>
-<ul>
-<li> git</li>
-<li>开发技巧<br>categories:</li>
-<li>开发技巧</li>
-</ul>
-<hr>
-<h4 id="一、创建方式"><a href="#一、创建方式" class="headerlink" title="一、创建方式"></a>一、创建方式</h4><p>创建默认<code>id_rsa</code>:<code>ssh-keygen -t rsa -C &#39;邮箱地址&#39;</code></p>
+              <h4 id="一、创建方式"><a href="#一、创建方式" class="headerlink" title="一、创建方式"></a>一、创建方式</h4><p>创建默认<code>id_rsa</code>:<code>ssh-keygen -t rsa -C &#39;邮箱地址&#39;</code></p>
 <p>创建特殊需要的<code>ssh key</code>命名例如<code>test</code>，创建方式为<code>ssh-keygen -t rsa -C &#39;邮箱地址&#39; -f ~/.ssh/test</code></p>
 <h4 id="二、设置配置"><a href="#二、设置配置" class="headerlink" title="二、设置配置"></a>二、设置配置</h4><p>在目<code>~/.ssh</code>下创建<code>config</code>文件，里面填充内容实例：</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-comment"># 默认 id_rsa</span><br>Host github.com<br>HostName github.com<br>PreferredAuthentications publickey<br>IdentityFile ~<span class="hljs-regexp">/.ssh/id</span>_rsa<br><br><span class="hljs-comment"># 特殊需要 key 名称为test</span><br>Host test.github.com<br>HostName github.com<br>PreferredAuthentications publickey<br>IdentityFile ~<span class="hljs-regexp">/.ssh/test</span><br></code></pre></td></tr></table></figure>
@@ -264,6 +254,22 @@
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/git/">git</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7/">开发技巧</a>
+                    
+                      <a class="hover-with-bg" href="/tags/git/">git</a>
+                    
+                  </div>
                 
               </div>
               
@@ -271,6 +277,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/01/10/Uni-App%E4%B8%8E%E5%8E%9F%E7%94%9F%E4%BA%A4%E4%BA%92%EF%BC%88iOS%E3%80%81Android%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Uni-App与原生交互（iOS、Android）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
